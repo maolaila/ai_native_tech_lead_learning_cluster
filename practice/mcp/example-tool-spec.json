@@ -1,0 +1,56 @@
+{
+  "name": "get_database_schema",
+  "description": "Return a bounded, read-only view of approved database schema metadata. Never returns table data or secrets.",
+  "risk": "read-only",
+  "allowedEnvironments": ["local", "staging", "production"],
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["environment"],
+    "properties": {
+      "environment": {
+        "type": "string",
+        "enum": ["local", "staging", "production"]
+      },
+      "schema": {
+        "type": "string",
+        "maxLength": 63,
+        "default": "public"
+      },
+      "tablePattern": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "includeIndexes": {
+        "type": "boolean",
+        "default": true
+      }
+    }
+  },
+  "outputContract": {
+    "status": "ok|error",
+    "source": "database-catalog",
+    "observedAt": "RFC3339 timestamp",
+    "schemaVersion": 1,
+    "tables": "bounded array",
+    "truncated": "boolean",
+    "nextCursor": "optional cursor"
+  },
+  "authorization": {
+    "production": "read-only database role; no SELECT on business rows",
+    "tenantIsolation": "required when metadata differs by tenant"
+  },
+  "controls": {
+    "timeoutMs": 3000,
+    "maxTables": 100,
+    "rateLimitPerMinute": 30,
+    "audit": true,
+    "redaction": ["column defaults that contain secrets"]
+  },
+  "errors": [
+    "INVALID_ARGUMENT",
+    "PERMISSION_DENIED",
+    "DEPENDENCY_UNAVAILABLE",
+    "TIMEOUT"
+  ]
+}

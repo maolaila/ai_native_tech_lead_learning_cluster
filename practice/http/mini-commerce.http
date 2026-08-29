@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:8080/api
+@token = replace-me
+@idempotencyKey = order-demo-001
+
+### Health
+GET http://localhost:8080/actuator/health
+
+### List products
+GET {{baseUrl}}/products?page=0&size=20&sort=createdAt,desc
+
+### Create product (admin)
+POST {{baseUrl}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Ergonomic Keyboard",
+  "price": 9800,
+  "currency": "JPY",
+  "stock": 10
+}
+
+### Create order
+POST {{baseUrl}}/orders
+Authorization: Bearer {{token}}
+Idempotency-Key: {{idempotencyKey}}
+Content-Type: application/json
+
+{
+  "items": [
+    {"productId": 1, "quantity": 1}
+  ]
+}
+
+### Retry same request: should return the same logical result
+POST {{baseUrl}}/orders
+Authorization: Bearer {{token}}
+Idempotency-Key: {{idempotencyKey}}
+Content-Type: application/json
+
+{
+  "items": [
+    {"productId": 1, "quantity": 1}
+  ]
+}
+
+### Same key, different body: should conflict
+POST {{baseUrl}}/orders
+Authorization: Bearer {{token}}
+Idempotency-Key: {{idempotencyKey}}
+Content-Type: application/json
+
+{
+  "items": [
+    {"productId": 1, "quantity": 2}
+  ]
+}
+
+### Read an order
+GET {{baseUrl}}/orders/1
+Authorization: Bearer {{token}}
+
+### Cancel an order
+POST {{baseUrl}}/orders/1/cancellation
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"reason":"user_request"}
