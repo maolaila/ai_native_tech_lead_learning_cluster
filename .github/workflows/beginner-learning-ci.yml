@@ -21,6 +21,7 @@ on:
       - "tools/update_beginner_mkdocs_nav.py"
       - "tools/check_learning_readability.py"
       - "tools/check_learning_references.py"
+      - "tools/build_docs_site.py"
       - ".github/workflows/beginner-learning-ci.yml"
 
 permissions:
@@ -81,7 +82,7 @@ jobs:
       - name: Build MkDocs site in strict mode
         run: |
           python3 -m pip install --disable-pip-version-check -r requirements-docs.txt
-          mkdocs build --strict
+          python3 tools/build_docs_site.py --strict --output /tmp/ai-native-learning-site
 
       - name: Reject whitespace errors
         run: git diff --check
