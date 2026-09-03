@@ -8,6 +8,7 @@ on:
     paths:
       - "mini-commerce/backend/**"
       - "tools/annotate_learning_code.py"
+      - "tools/fix_annotator_source.py"
       - "tools/check_learning_readability.py"
       - ".editorconfig"
       - ".github/workflows/repair-readable-learning-code.yml"
@@ -27,17 +28,20 @@ jobs:
 
     steps:
       - name: Checkout repair branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
           cache-dependency-path: mini-commerce/backend/pom.xml
+
+      - name: Repair annotator source if required
+        run: python3 tools/fix_annotator_source.py
 
       - name: Add Chinese learning comments
         run: python3 tools/annotate_learning_code.py
