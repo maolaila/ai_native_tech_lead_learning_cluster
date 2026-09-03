@@ -45,7 +45,7 @@ jobs:
   verify:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
@@ -94,8 +94,8 @@ jobs:
       - name: Check beginner learning materials
         run: python3 tools/check_beginner_learning_assets.py
 
-      - name: Compile and run unit and architecture tests
-        run: mvn -B -f mini-commerce/backend/pom.xml test
+      - name: Compile and run unit, architecture and PostgreSQL integration tests
+        run: mvn -B -f mini-commerce/backend/pom.xml verify
 
       - name: Check static architecture rules
         run: python3 mini-commerce/ai-engineering/eval/run_static_eval.py

@@ -3,8 +3,8 @@
 > 本文件由 `tools/generate_annotation_usage_index.py` 自动生成。
 > 注解作用的通俗解释见 [`SPRING-JAVA-ANNOTATIONS.md`](../SPRING-JAVA-ANNOTATIONS.md)。
 
-- 注解种类：68
-- 注解出现次数：564
+- 注解种类：69
+- 注解出现次数：569
 
 ## 使用方法
 
@@ -17,7 +17,7 @@
 
 出现 1 次。
 
-- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L23)：首次出现在第 23 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L32)：首次出现在第 32 行
 
 ## `@AnalyzeClasses`
 
@@ -117,9 +117,9 @@
 
 ## `@Container`
 
-出现 1 次。
+出现 3 次。
 
-- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L25)：首次出现在第 25 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L28)：首次出现在第 28 行
 
 ## `@DecimalMin`
 
@@ -133,11 +133,17 @@
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java`](../../backend/src/main/java/com/example/minicommerce/cart/api/CartController.java#L42)：首次出现在第 42 行
 
+## `@DirtiesContext`
+
+出现 1 次。
+
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L34)：首次出现在第 34 行
+
 ## `@DynamicPropertySource`
 
 出现 1 次。
 
-- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L32)：首次出现在第 32 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L50)：首次出现在第 50 行
 
 ## `@Email`
 
@@ -521,9 +527,9 @@
 
 ## `@SpringBootTest`
 
-出现 1 次。
+出现 2 次。
 
-- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L22)：首次出现在第 22 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L30)：首次出现在第 30 行
 
 ## `@Table`
 
@@ -555,9 +561,9 @@
 
 ## `@Testcontainers`
 
-出现 1 次。
+出现 2 次。
 
-- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L21)：首次出现在第 21 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L28)：首次出现在第 28 行
 
 ## `@Transactional`
 

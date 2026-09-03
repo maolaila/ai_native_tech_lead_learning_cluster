@@ -7,16 +7,16 @@
 
 - 文件数：405（不含本 MANIFEST）
 - Markdown 文件数：179
-- Markdown 总行数：40,327
-- Markdown 总字符数：920,424
-- 目录内容大小：3,246,221 bytes
+- Markdown 总行数：40,333
+- Markdown 总字符数：920,657
+- 目录内容大小：3,248,672 bytes
 
 ## 模块统计
 
 | 模块 | 文件 | Markdown 行数 | Markdown 字符 | 字节 |
 |---|---:|---:|---:|---:|
 | `(root)` | 8 | 22,737 | 287,467 | 488,468 |
-| `.github` | 9 | 0 | 0 | 44,874 |
+| `.github` | 9 | 0 | 0 | 44,900 |
 | `00_start` | 5 | 566 | 7,969 | 13,753 |
 | `01_foundations` | 5 | 395 | 5,869 | 9,691 |
 | `02_backend_spring` | 8 | 1,165 | 17,670 | 29,562 |
@@ -34,7 +34,7 @@
 | `14_capstone` | 10 | 434 | 7,989 | 13,049 |
 | `15_templates` | 15 | 727 | 10,199 | 13,939 |
 | `16_references` | 5 | 450 | 9,791 | 14,201 |
-| `mini-commerce` | 210 | 7,951 | 475,988 | 1,976,509 |
+| `mini-commerce` | 210 | 7,957 | 476,221 | 1,978,934 |
 | `practice` | 14 | 171 | 3,580 | 19,781 |
 | `tools` | 29 | 0 | 0 | 456,966 |
 
@@ -50,7 +50,7 @@
 ## SHA-256（不含本文件）
 
 - `705d83f8205ecf6f59dcdca024dfd7b4fe11f0b59ae78d667184ff18f59b9ae0`  `.editorconfig`
-- `ccc6bd1a0a12039df041393d4032f9a351deb1cc4471f527f2216294a2f89802`  `.github/workflows/beginner-learning-ci.yml`
+- `77fc0ecb82659ec4c4b8627f2b95a00ba5b0ec3cf7fffea3c06d38c37388404d`  `.github/workflows/beginner-learning-ci.yml`
 - `880be49fd9282b04ccbd3cf78c340b225210ea6e70344d8ad84e173460a38400`  `.github/workflows/generate-complete-mini-commerce.yml`
 - `815ab1491971344e1a9a82bdc8ac9307cefe738a0a858d40c7c41b4719807c34`  `.github/workflows/mini-commerce-ci.yml`
 - `741125e580e67d68442b12569192a58d92553c33ebca04fa10a6ad13ccdfed25`  `.github/workflows/repair-readable-learning-code.yml`
@@ -346,7 +346,7 @@
 - `080779cf3e70874b9ed407443f0f611dace22df3b9c1f8bdc5389cae7d0ba6e0`  `mini-commerce/backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java`
 - `a0ea66dc433cff3b2aed9fba1cfbf961477d99f9f009a7509672b15bb78184f6`  `mini-commerce/backend/src/test/java/com/example/minicommerce/payment/WebhookSignatureTest.java`
 - `6e991def1135adb4e6c95e7c70d2f0c14b923c397cb8254d957a46227e4698f0`  `mini-commerce/backend/src/test/java/com/example/minicommerce/shared/domain/MoneyTest.java`
-- `4ba7af892f5e3828cd2e4eeaf5d0a5d3a7746489c3cc9f79cef5965fc4904637`  `mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`
+- `a1dfcfd4156c67e2c23eeeaa7edacad124ca507ae4c6eaac326bb0be1f243d55`  `mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`
 - `10acdf5423ec4523dfcf223c1d4e55694aafe3883c86277facbb4e79785664f6`  `mini-commerce/backend/src/test/resources/application.yml`
 - `ff23f5fb3ebeb10cc2c6b7b4d1b42d3d62d3ad44b12087be765eba3414d523e0`  `mini-commerce/compose.yaml`
 - `2b1671119e8cb341dcfb6e76ca13316f08544c52ebd4d1567e9d857d6e911bc3`  `mini-commerce/docs/ADHD-FOCUSED-LEARNING-PLAN.md`
@@ -361,8 +361,8 @@
 - `fdf91bc3b25b2759fdff14ac785c125f193414f9eec273315d8c03fb67fe8c3d`  `mini-commerce/docs/architecture.md`
 - `724b5309db64e7dc688e8ad6edc28dba03c628d33f2321405611cb209b8c1c8f`  `mini-commerce/docs/deployment.md`
 - `1794dc987dbd9331f2e7c00b80dfcf719030a90ad68c99ebb24948edcd2a551d`  `mini-commerce/docs/domain-model.md`
-- `72739f1fe4c52d0cbafe2a007b384b607028138528b09ab44eed8c2a7e2c12c6`  `mini-commerce/docs/generated/annotation-usage-index.json`
-- `7b53937cd2c92fa2cb25626dc144923003244cb157229b2beeb3e0295078f311`  `mini-commerce/docs/generated/annotation-usage-index.md`
+- `9b006b6ba6ca1727482f00e2b4297f6f6a241975c3e6f9ab4a70e652627b8997`  `mini-commerce/docs/generated/annotation-usage-index.json`
+- `08274e2c715ec998be7d72b75576347a5e97793dd7e374417c9ccaeb556d821c`  `mini-commerce/docs/generated/annotation-usage-index.md`
 - `53c36a9ec89e125cff181d8e41dbea7287e6b00f5d48a75c5fabae9cf75e36c0`  `mini-commerce/docs/generated/beginner-learning-audit.md`
 - `0a8b9ac76ce01e2b6f7a060bec2b436753cc1968f3f7c2e28f8514110d29a818`  `mini-commerce/docs/generated/document-code-map.json`
 - `052635f3a310c9c4f6ca21f38308ab565537970044a9b7fce74176343e481faa`  `mini-commerce/docs/generated/document-code-map.md`
