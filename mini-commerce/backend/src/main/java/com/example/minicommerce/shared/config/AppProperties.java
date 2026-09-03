@@ -10,7 +10,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app")
 public record AppProperties(Jwt jwt, Payment payment, Cache cache, Outbox outbox) {
     public record Jwt(String issuer, String secret, Duration accessTtl, Duration refreshTtl) {}
+
     public record Payment(String webhookSecret, Duration connectTimeout, Duration readTimeout) {}
+
     public record Cache(Duration productTtl, Duration nullTtl, Duration ttlJitter) {}
-    public record Outbox(int batchSize, Duration lease, Duration publishTimeout, Duration pollDelay) {}
+
+    public record Outbox(
+            int batchSize, Duration lease, Duration publishTimeout, Duration pollDelay) {}
 }

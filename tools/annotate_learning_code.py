@@ -165,7 +165,7 @@ def class_javadoc(path: Path, class_name: str) -> str:
     docs_text = "、\n * ".join(f"{{@code {doc}}}" for doc in docs)
     return (
         "/**\n"
-        f" * {module_name}模块的{title}：{@code {class_name}}。\n"
+        f" * {module_name}模块的{title}：{{@code {class_name}}}。\n"
         " *\n"
         f" * <p><strong>作用：</strong>{purpose}</p>\n"
         f" * <p><strong>为什么：</strong>{rationale}</p>\n"
@@ -188,8 +188,20 @@ def add_class_javadoc(path: Path, text: str) -> tuple[str, bool]:
     insert_at = semicolon_positions[-1] if semicolon_positions else 0
 
     between = text[insert_at : declaration.start()]
-    if "/**" in between or "对应文档：" in text[: declaration.start()]:
+    if "对应文档：" in between:
         return text, False
+
+    if "/**" in between and "*/" in between:
+        module = detect_module(path)
+        docs = MODULE_DOCS.get(module, MODULE_DOCS["shared"])
+        docs_text = "、\n * ".join(f"{{@code {doc}}}" for doc in docs)
+        mapping = (
+            "\n *"
+            "\n * <p><strong>对应文档：</strong>\n"
+            f" * {docs_text}。</p>\n "
+        )
+        close_at = insert_at + between.rfind("*/")
+        return text[:close_at] + mapping + text[close_at:], True
 
     comment = class_javadoc(path, declaration.group("name"))
     return text[:insert_at] + "\n\n" + comment + text[insert_at:].lstrip("\n"), True

@@ -22,27 +22,48 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class RateLimitFilter extends OncePerRequestFilter {
     private final RateLimitService limits;
     private final ObjectMapper json;
-    public RateLimitFilter(RateLimitService limits, ObjectMapper json) { this.limits = limits; this.json = json; }
+
+    public RateLimitFilter(RateLimitService limits, ObjectMapper json) {
+        this.limits = limits;
+        this.json = json;
+    }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
         String path = request.getRequestURI();
         boolean login = path.equals("/api/auth/login") && request.getMethod().equals("POST");
         boolean createOrder = path.equals("/api/orders") && request.getMethod().equals("POST");
-        if (!login && !createOrder) { chain.doFilter(request, response); return; }
+        if (!login && !createOrder) {
+            chain.doFilter(request, response);
+            return;
+        }
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication() == null ? null
-            : SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String identity = principal instanceof UserPrincipal p ? "user:" + p.id() : "ip:" + request.getRemoteAddr();
+        Object principal =
+                SecurityContextHolder.getContext().getAuthentication() == null
+                        ? null
+                        : SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String identity =
+                principal instanceof UserPrincipal p
+                        ? "user:" + p.id()
+                        : "ip:" + request.getRemoteAddr();
         int limit = login ? 8 : 20;
-        boolean allowed = limits.allow("rate:" + path + ":" + identity, limit, Duration.ofMinutes(1), !login);
+        boolean allowed =
+                limits.allow("rate:" + path + ":" + identity, limit, Duration.ofMinutes(1), !login);
         if (!allowed) {
             response.setStatus(429);
             response.setHeader("Retry-After", "60");
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            json.writeValue(response.getOutputStream(), Map.of(
-                "code", ErrorCode.RATE_LIMITED.name(), "message", "请求过于频繁", "traceId", String.valueOf(MDC.get("traceId"))));
+            json.writeValue(
+                    response.getOutputStream(),
+                    Map.of(
+                            "code",
+                            ErrorCode.RATE_LIMITED.name(),
+                            "message",
+                            "请求过于频繁",
+                            "traceId",
+                            String.valueOf(MDC.get("traceId"))));
             return;
         }
         chain.doFilter(request, response);

@@ -11,17 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 通知模块的只读应用服务。
  *
- * <p><strong>作用：</strong>按当前用户查询最近通知，并把持久化实体映射成稳定的应用层读取模型。
- * API 层因此不需要知道 JPA Entity、Repository 方法名或表结构。</p>
+ * <p><strong>作用：</strong>按当前用户查询最近通知，并把持久化实体映射成稳定的应用层读取模型。 API 层因此不需要知道 JPA Entity、Repository
+ * 方法名或表结构。
  *
  * <p><strong>为什么增加这一层：</strong>Controller 直接访问 Repository 会把 HTTP 与数据库结构耦合在一起，
- * 也违反项目的模块分层规则。查询即使简单，也应该通过公开的应用能力暴露；以后增加已读过滤、分页或脱敏时，
- * 不需要改动 Controller 与持久化边界之间的依赖方向。</p>
+ * 也违反项目的模块分层规则。查询即使简单，也应该通过公开的应用能力暴露；以后增加已读过滤、分页或脱敏时， 不需要改动 Controller 与持久化边界之间的依赖方向。
  *
- * <p><strong>对应文档：</strong>
- * {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、
- * {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、
- * {@code 11_system_design/02_模块化单体与边界.md}。</p>
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code
+ * 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code 11_system_design/02_模块化单体与边界.md}。
  */
 @Service
 @Transactional(readOnly = true)

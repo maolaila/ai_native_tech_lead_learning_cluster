@@ -13,8 +13,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
 /**
- * 短期 Access Token 只承载身份和角色，不放密码、私密资料或可长期依赖的业务状态。
- * 对应文档：05_auth_security/01_Session_Cookie_Token.md。
+ * 短期 Access Token 只承载身份和角色，不放密码、私密资料或可长期依赖的业务状态。 对应文档：05_auth_security/01_Session_Cookie_Token.md。
  */
 @Service
 public class JwtService {
@@ -31,18 +30,22 @@ public class JwtService {
     public String issue(UserEntity user) {
         Instant now = clock.instant();
         return Jwts.builder()
-            .issuer(properties.jwt().issuer())
-            .subject(user.getEmail())
-            .claim("uid", user.getId())
-            .claim("role", user.getRole().name())
-            .issuedAt(Date.from(now))
-            .expiration(Date.from(now.plus(properties.jwt().accessTtl())))
-            .signWith(key)
-            .compact();
+                .issuer(properties.jwt().issuer())
+                .subject(user.getEmail())
+                .claim("uid", user.getId())
+                .claim("role", user.getRole().name())
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plus(properties.jwt().accessTtl())))
+                .signWith(key)
+                .compact();
     }
 
     public Claims parse(String token) {
-        return Jwts.parser().requireIssuer(properties.jwt().issuer()).verifyWith(key).build()
-            .parseSignedClaims(token).getPayload();
+        return Jwts.parser()
+                .requireIssuer(properties.jwt().issuer())
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

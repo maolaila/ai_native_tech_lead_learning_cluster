@@ -15,9 +15,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * Cache Aside：命中直接返回；Miss 查 PostgreSQL；不存在结果使用短 Null Cache；TTL 加抖动。
- * Redis 失败时商品读取可 Fail Open 回源，但下单永远绕过缓存重新读取权威价格。
- * 对应文档：06_redis/02_CacheAside_TTL与失效.md、06_redis/03_穿透_击穿_雪崩与一致性.md。
+ * Cache Aside：命中直接返回；Miss 查 PostgreSQL；不存在结果使用短 Null Cache；TTL 加抖动。 Redis 失败时商品读取可 Fail Open
+ * 回源，但下单永远绕过缓存重新读取权威价格。 对应文档：06_redis/02_CacheAside_TTL与失效.md、06_redis/03_穿透_击穿_雪崩与一致性.md。
  */
 @Service
 public class ProductCacheService {
@@ -28,8 +27,15 @@ public class ProductCacheService {
     private final AppProperties properties;
     private final RedisLockService locks;
 
-    public ProductCacheService(StringRedisTemplate redis, ObjectMapper json, AppProperties properties, RedisLockService locks) {
-        this.redis=redis; this.json=json; this.properties=properties; this.locks=locks;
+    public ProductCacheService(
+            StringRedisTemplate redis,
+            ObjectMapper json,
+            AppProperties properties,
+            RedisLockService locks) {
+        this.redis = redis;
+        this.json = json;
+        this.properties = properties;
+        this.locks = locks;
     }
 
     public Optional<ProductResponse> get(Long id, Supplier<Optional<ProductResponse>> loader) {
@@ -43,19 +49,32 @@ public class ProductCacheService {
                 cached = decode(redis.opsForValue().get(key));
                 if (cached != null) return cached;
                 Optional<ProductResponse> loaded = loader.get();
-                if (loaded.isPresent()) redis.opsForValue().set(key, json.writeValueAsString(loaded.get()), jittered(properties.cache().productTtl()));
+                if (loaded.isPresent())
+                    redis.opsForValue()
+                            .set(
+                                    key,
+                                    json.writeValueAsString(loaded.get()),
+                                    jittered(properties.cache().productTtl()));
                 else redis.opsForValue().set(key, NULL, properties.cache().nullTtl());
                 return loaded;
-            } finally { locks.release(lock); }
+            } finally {
+                locks.release(lock);
+            }
         } catch (RuntimeException | JsonProcessingException ex) {
-            log.warn("event=product_cache_failed productId={} reason={}", id, ex.getClass().getSimpleName());
+            log.warn(
+                    "event=product_cache_failed productId={} reason={}",
+                    id,
+                    ex.getClass().getSimpleName());
             return loader.get();
         }
     }
 
     public void evict(Long id) {
-        try { redis.delete("product:v1:" + id); }
-        catch (RuntimeException ex) { log.warn("event=product_cache_evict_failed productId={}", id); }
+        try {
+            redis.delete("product:v1:" + id);
+        } catch (RuntimeException ex) {
+            log.warn("event=product_cache_evict_failed productId={}", id);
+        }
     }
 
     /** null 表示真正的 Cache Miss；Optional.empty 表示 Null Cache 命中。 */

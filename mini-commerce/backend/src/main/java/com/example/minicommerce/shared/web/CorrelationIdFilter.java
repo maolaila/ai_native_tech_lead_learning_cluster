@@ -22,11 +22,12 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
     private static final String HEADER = "X-Request-Id";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
         String requestId = normalize(request.getHeader(HEADER));
         try (MDC.MDCCloseable ignored1 = MDC.putCloseable("requestId", requestId);
-             MDC.MDCCloseable ignored2 = MDC.putCloseable("traceId", requestId)) {
+                MDC.MDCCloseable ignored2 = MDC.putCloseable("traceId", requestId)) {
             response.setHeader(HEADER, requestId);
             chain.doFilter(request, response);
         }

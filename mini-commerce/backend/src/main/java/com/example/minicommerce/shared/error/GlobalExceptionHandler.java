@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 统一把异常转换成 RFC 9457 Problem Details，并附加业务 code 与 traceId。
- * 500 响应不向客户端暴露堆栈；完整异常只在服务端日志保留。
+ * 统一把异常转换成 RFC 9457 Problem Details，并附加业务 code 与 traceId。 500 响应不向客户端暴露堆栈；完整异常只在服务端日志保留。
+ *
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
+ * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,37 +35,63 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ProblemDetail> handleValidation(MethodArgumentNotValidException ex) {
-        List<Map<String, String>> violations = ex.getBindingResult().getFieldErrors().stream()
-            .map(e -> Map.of("field", e.getField(), "message", e.getDefaultMessage() == null ? "非法值" : e.getDefaultMessage()))
-            .toList();
-        ProblemDetail problem = base(HttpStatus.BAD_REQUEST, "请求参数校验失败", ErrorCode.VALIDATION_ERROR.name());
+        List<Map<String, String>> violations =
+                ex.getBindingResult().getFieldErrors().stream()
+                        .map(
+                                e ->
+                                        Map.of(
+                                                "field",
+                                                e.getField(),
+                                                "message",
+                                                e.getDefaultMessage() == null
+                                                        ? "非法值"
+                                                        : e.getDefaultMessage()))
+                        .toList();
+        ProblemDetail problem =
+                base(HttpStatus.BAD_REQUEST, "请求参数校验失败", ErrorCode.VALIDATION_ERROR.name());
         problem.setProperty("violations", violations);
         return ResponseEntity.badRequest().body(problem);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     ResponseEntity<ProblemDetail> handleConstraint(ConstraintViolationException ex) {
-        return ResponseEntity.badRequest().body(base(HttpStatus.BAD_REQUEST, ex.getMessage(), ErrorCode.VALIDATION_ERROR.name()));
+        return ResponseEntity.badRequest()
+                .body(
+                        base(
+                                HttpStatus.BAD_REQUEST,
+                                ex.getMessage(),
+                                ErrorCode.VALIDATION_ERROR.name()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ProblemDetail> handleDenied(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            .body(base(HttpStatus.FORBIDDEN, "没有执行该操作的权限", ErrorCode.ACCESS_DENIED.name()));
+                .body(base(HttpStatus.FORBIDDEN, "没有执行该操作的权限", ErrorCode.ACCESS_DENIED.name()));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     ResponseEntity<ProblemDetail> handleIntegrity(DataIntegrityViolationException ex) {
-        log.warn("event=data_integrity_conflict traceId={} root={}", traceId(), ex.getMostSpecificCause().getMessage());
+        log.warn(
+                "event=data_integrity_conflict traceId={} root={}",
+                traceId(),
+                ex.getMostSpecificCause().getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-            .body(base(HttpStatus.CONFLICT, "数据状态发生冲突，请刷新后重试", ErrorCode.IDEMPOTENCY_CONFLICT.name()));
+                .body(
+                        base(
+                                HttpStatus.CONFLICT,
+                                "数据状态发生冲突，请刷新后重试",
+                                ErrorCode.IDEMPOTENCY_CONFLICT.name()));
     }
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<ProblemDetail> handleUnknown(Exception ex) {
         log.error("event=unhandled_exception traceId={}", traceId(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(base(HttpStatus.INTERNAL_SERVER_ERROR, "服务暂时不可用", ErrorCode.INTERNAL_ERROR.name()));
+                .body(
+                        base(
+                                HttpStatus.INTERNAL_SERVER_ERROR,
+                                "服务暂时不可用",
+                                ErrorCode.INTERNAL_ERROR.name()));
     }
 
     private ProblemDetail base(HttpStatus status, String detail, String code) {

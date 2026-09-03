@@ -26,17 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 订单模块的 HTTP/API 适配层。
  *
- * <p><strong>作用：</strong>取得认证用户、请求体、路径参数和 {@code Idempotency-Key}，然后调用订单应用服务。
- * Controller 不计算金额、不扣库存，也不直接修改订单状态。</p>
+ * <p><strong>作用：</strong>取得认证用户、请求体、路径参数和 {@code Idempotency-Key}，然后调用订单应用服务。 Controller
+ * 不计算金额、不扣库存，也不直接修改订单状态。
  *
  * <p><strong>为什么拆成 Create、Command、Query 三个应用服务：</strong>创建订单具有较大的事务和幂等边界；
- * 取消等命令负责状态变化；查询只负责读取和对象级权限。分开后，每种用例的职责、事务和测试目标都更清楚。</p>
+ * 取消等命令负责状态变化；查询只负责读取和对象级权限。分开后，每种用例的职责、事务和测试目标都更清楚。
  *
- * <p><strong>对应文档：</strong>
- * {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、
- * {@code 02_backend_spring/04_API设计_校验_异常与错误码.md}、
- * {@code 02_backend_spring/06_订单模块案例.md}、
- * {@code 05_auth_security/02_RBAC与对象级权限.md}。</p>
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code
+ * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 02_backend_spring/06_订单模块案例.md}、 {@code
+ * 05_auth_security/02_RBAC与对象级权限.md}。
  */
 @RestController
 @RequestMapping("/api/orders")
@@ -61,7 +59,7 @@ public class OrderController {
     /**
      * 创建订单。
      *
-     * <p>网络超时不能证明服务端没有成功，因此写请求要求客户端提供幂等键；真正的请求指纹、并发竞争和结果复用在应用层处理。</p>
+     * <p>网络超时不能证明服务端没有成功，因此写请求要求客户端提供幂等键；真正的请求指纹、并发竞争和结果复用在应用层处理。
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -79,10 +77,7 @@ public class OrderController {
 
     @GetMapping
     public Page<OrderResponse> list(
-            @PageableDefault(
-                            size = 20,
-                            sort = "createdAt",
-                            direction = Sort.Direction.DESC)
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC)
                     Pageable pageable) {
         return queryService.list(currentUser.require(), pageable);
     }

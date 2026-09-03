@@ -33,10 +33,19 @@ public class AuthService {
     private final Clock clock;
     private final SecureRandom random = new SecureRandom();
 
-    public AuthService(UserRepository users, RefreshTokenRepository refreshTokens, PasswordEncoder passwords,
-                       JwtService jwt, AppProperties properties, Clock clock) {
-        this.users = users; this.refreshTokens = refreshTokens; this.passwords = passwords;
-        this.jwt = jwt; this.properties = properties; this.clock = clock;
+    public AuthService(
+            UserRepository users,
+            RefreshTokenRepository refreshTokens,
+            PasswordEncoder passwords,
+            JwtService jwt,
+            AppProperties properties,
+            Clock clock) {
+        this.users = users;
+        this.refreshTokens = refreshTokens;
+        this.passwords = passwords;
+        this.jwt = jwt;
+        this.properties = properties;
+        this.clock = clock;
     }
 
     @Transactional
@@ -45,15 +54,25 @@ public class AuthService {
         if (users.existsByEmailIgnoreCase(email)) {
             throw new BusinessException(ErrorCode.USER_ALREADY_EXISTS, "该邮箱已注册");
         }
-        UserEntity user = users.save(new UserEntity(email, request.displayName().trim(), passwords.encode(request.password()), UserRole.USER));
+        UserEntity user =
+                users.save(
+                        new UserEntity(
+                                email,
+                                request.displayName().trim(),
+                                passwords.encode(request.password()),
+                                UserRole.USER));
         return issue(user);
     }
 
     @Transactional
     public TokenResponse login(LoginRequest request) {
-        UserEntity user = users.findByEmailIgnoreCase(request.email().trim())
-            .filter(UserEntity::isEnabled)
-            .orElseThrow(() -> new BusinessException(ErrorCode.AUTHENTICATION_FAILED, "邮箱或密码错误"));
+        UserEntity user =
+                users.findByEmailIgnoreCase(request.email().trim())
+                        .filter(UserEntity::isEnabled)
+                        .orElseThrow(
+                                () ->
+                                        new BusinessException(
+                                                ErrorCode.AUTHENTICATION_FAILED, "邮箱或密码错误"));
         if (!passwords.matches(request.password(), user.getPasswordHash())) {
             throw new BusinessException(ErrorCode.AUTHENTICATION_FAILED, "邮箱或密码错误");
         }
@@ -63,37 +82,66 @@ public class AuthService {
     @Transactional
     public TokenResponse refresh(RefreshRequest request) {
         var now = clock.instant();
-        RefreshTokenEntity existing = refreshTokens.findByTokenHash(hash(request.refreshToken()))
-            .filter(token -> token.isValidAt(now))
-            .orElseThrow(() -> new BusinessException(ErrorCode.REFRESH_TOKEN_INVALID, "Refresh Token 无效或已过期"));
+        RefreshTokenEntity existing =
+                refreshTokens
+                        .findByTokenHash(hash(request.refreshToken()))
+                        .filter(token -> token.isValidAt(now))
+                        .orElseThrow(
+                                () ->
+                                        new BusinessException(
+                                                ErrorCode.REFRESH_TOKEN_INVALID,
+                                                "Refresh Token 无效或已过期"));
         existing.revoke(now);
-        UserEntity user = users.findById(existing.getUserId()).filter(UserEntity::isEnabled)
-            .orElseThrow(() -> new BusinessException(ErrorCode.REFRESH_TOKEN_INVALID, "用户不可用"));
+        UserEntity user =
+                users.findById(existing.getUserId())
+                        .filter(UserEntity::isEnabled)
+                        .orElseThrow(
+                                () ->
+                                        new BusinessException(
+                                                ErrorCode.REFRESH_TOKEN_INVALID, "用户不可用"));
         return issue(user);
     }
 
     @Transactional
     public void logout(LogoutRequest request) {
-        refreshTokens.findByTokenHash(hash(request.refreshToken())).ifPresent(t -> t.revoke(clock.instant()));
+        refreshTokens
+                .findByTokenHash(hash(request.refreshToken()))
+                .ifPresent(t -> t.revoke(clock.instant()));
     }
 
     private TokenResponse issue(UserEntity user) {
         String rawRefresh = newRefreshToken();
         var now = clock.instant();
-        refreshTokens.save(new RefreshTokenEntity(UUID.randomUUID(), user.getId(), hash(rawRefresh),
-            now.plus(properties.jwt().refreshTtl()), now));
-        return new TokenResponse(jwt.issue(user), rawRefresh, properties.jwt().accessTtl().toSeconds(),
-            user.getId(), user.getEmail(), user.getRole().name());
+        refreshTokens.save(
+                new RefreshTokenEntity(
+                        UUID.randomUUID(),
+                        user.getId(),
+                        hash(rawRefresh),
+                        now.plus(properties.jwt().refreshTtl()),
+                        now));
+        return new TokenResponse(
+                jwt.issue(user),
+                rawRefresh,
+                properties.jwt().accessTtl().toSeconds(),
+                user.getId(),
+                user.getEmail(),
+                user.getRole().name());
     }
 
     private String newRefreshToken() {
-        byte[] bytes = new byte[48]; random.nextBytes(bytes);
+        byte[] bytes = new byte[48];
+        random.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
     private String hash(String value) {
         try {
-            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(value.getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException e) { throw new IllegalStateException(e); }
+            return HexFormat.of()
+                    .formatHex(
+                            MessageDigest.getInstance("SHA-256")
+                                    .digest(value.getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

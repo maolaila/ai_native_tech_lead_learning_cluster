@@ -8,8 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
- * 统一取得认证主体；业务 Service 仍必须执行对象级权限检查，不能只依赖前端隐藏按钮或 USER 角色。
- * 对应文档：05_auth_security/02_RBAC与对象级权限.md。
+ * 统一取得认证主体；业务 Service 仍必须执行对象级权限检查，不能只依赖前端隐藏按钮或 USER 角色。 对应文档：05_auth_security/02_RBAC与对象级权限.md。
  */
 @Component
 public class CurrentUser {
@@ -20,5 +19,8 @@ public class CurrentUser {
         }
         return principal;
     }
-    public boolean isAdmin() { return require().role() == UserRole.ADMIN; }
+
+    public boolean isAdmin() {
+        return require().role() == UserRole.ADMIN;
+    }
 }

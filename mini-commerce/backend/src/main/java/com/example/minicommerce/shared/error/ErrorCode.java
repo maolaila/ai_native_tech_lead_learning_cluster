@@ -2,7 +2,12 @@ package com.example.minicommerce.shared.error;
 
 import org.springframework.http.HttpStatus;
 
-/** 业务错误码稳定供客户端和测试分支使用，中文 message 只用于人类阅读。 */
+/**
+ * 业务错误码稳定供客户端和测试分支使用，中文 message 只用于人类阅读。
+ *
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
+ * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。
+ */
 public enum ErrorCode {
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST),
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED),
@@ -31,6 +36,12 @@ public enum ErrorCode {
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final HttpStatus status;
-    ErrorCode(HttpStatus status) { this.status = status; }
-    public HttpStatus status() { return status; }
+
+    ErrorCode(HttpStatus status) {
+        this.status = status;
+    }
+
+    public HttpStatus status() {
+        return status;
+    }
 }

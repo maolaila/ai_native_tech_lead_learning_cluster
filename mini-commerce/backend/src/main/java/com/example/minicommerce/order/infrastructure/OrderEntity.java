@@ -1,10 +1,184 @@
 package com.example.minicommerce.order.infrastructure;
-import com.example.minicommerce.order.domain.OrderStatus;import com.example.minicommerce.shared.error.*;import jakarta.persistence.*;import java.math.BigDecimal;import java.time.Instant;import java.util.*;
-/** 状态转换集中在领域方法，数据库 CHECK 保护合法值，二者共同而非互相替代。 */
-@Entity@Table(name="orders",indexes={@Index(name="ix_orders_user_created",columnList="user_id,created_at"),@Index(name="ix_orders_status_created",columnList="status,created_at")})public class OrderEntity{@Id private UUID id;@Column(name="order_number",nullable=false,unique=true,length=40)private String orderNumber;@Column(name="user_id",nullable=false)private Long userId;@Enumerated(EnumType.STRING)@Column(nullable=false,length=30)private OrderStatus status;@Column(nullable=false,precision=19,scale=2)private BigDecimal subtotal;@Column(nullable=false,precision=19,scale=2)private BigDecimal discount;@Column(name="total_amount",nullable=false,precision=19,scale=2)private BigDecimal totalAmount;@Column(nullable=false,length=3)private String currency;@Column(name="user_coupon_id")private Long userCouponId;@Column(name="payment_id")private UUID paymentId;@Column(name="created_at",nullable=false)private Instant createdAt;@Column(name="updated_at",nullable=false)private Instant updatedAt;@Column(name="cancelled_at")private Instant cancelledAt;@Version@Column(nullable=false)private long version;protected OrderEntity(){}public OrderEntity(UUID id,String number,Long userId,BigDecimal subtotal,BigDecimal discount,BigDecimal total,String currency,Long userCouponId,Instant now){this.id=id;orderNumber=number;this.userId=userId;status=OrderStatus.PENDING_PAYMENT;this.subtotal=subtotal;this.discount=discount;totalAmount=total;this.currency=currency;this.userCouponId=userCouponId;createdAt=now;updatedAt=now;}public UUID getId(){return id;}public String getOrderNumber(){return orderNumber;}public Long getUserId(){return userId;}public OrderStatus getStatus(){return status;}public BigDecimal getSubtotal(){return subtotal;}public BigDecimal getDiscount(){return discount;}public BigDecimal getTotalAmount(){return totalAmount;}public String getCurrency(){return currency;}public Long getUserCouponId(){return userCouponId;}public UUID getPaymentId(){return paymentId;}public Instant getCreatedAt(){return createdAt;}public long getVersion(){return version;}
- public boolean cancel(Instant now){if(status==OrderStatus.CANCELLED)return false;if(status!=OrderStatus.PENDING_PAYMENT)throw new BusinessException(ErrorCode.ORDER_NOT_CANCELLABLE,"当前订单状态不允许取消",Map.of("status",status));status=OrderStatus.CANCELLED;cancelledAt=now;updatedAt=now;return true;}
- public boolean markPaid(UUID paymentId,Instant now){if(status==OrderStatus.PAID&&Objects.equals(this.paymentId,paymentId))return false;if(status!=OrderStatus.PENDING_PAYMENT)throw new BusinessException(ErrorCode.ORDER_NOT_PAYABLE,"当前订单状态不允许支付",Map.of("status",status));this.paymentId=paymentId;status=OrderStatus.PAID;updatedAt=now;return true;}
- public void requestRefund(Instant now){if(status==OrderStatus.REFUNDING)return;if(status!=OrderStatus.PAID&&status!=OrderStatus.FULFILLING)throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE,"当前订单状态不允许退款");status=OrderStatus.REFUNDING;updatedAt=now;}
- public void markRefunded(Instant now){if(status==OrderStatus.REFUNDED)return;if(status!=OrderStatus.REFUNDING)throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE,"订单未处于退款中");status=OrderStatus.REFUNDED;updatedAt=now;}
- public void refundFailed(Instant now){if(status==OrderStatus.REFUNDING){status=OrderStatus.PAID;updatedAt=now;}}
+
+import com.example.minicommerce.order.domain.OrderStatus;
+import com.example.minicommerce.shared.error.*;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+
+/**
+ * 状态转换集中在领域方法，数据库 CHECK 保护合法值，二者共同而非互相替代。
+ *
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
+ * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。
+ */
+@Entity
+@Table(
+        name = "orders",
+        indexes = {
+            @Index(name = "ix_orders_user_created", columnList = "user_id,created_at"),
+            @Index(name = "ix_orders_status_created", columnList = "status,created_at")
+        })
+public class OrderEntity {
+    @Id private UUID id;
+
+    @Column(name = "order_number", nullable = false, unique = true, length = 40)
+    private String orderNumber;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private OrderStatus status;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal subtotal;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal discount;
+
+    @Column(name = "total_amount", nullable = false, precision = 19, scale = 2)
+    private BigDecimal totalAmount;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
+
+    @Column(name = "user_coupon_id")
+    private Long userCouponId;
+
+    @Column(name = "payment_id")
+    private UUID paymentId;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
+
+    @Version
+    @Column(nullable = false)
+    private long version;
+
+    protected OrderEntity() {}
+
+    public OrderEntity(
+            UUID id,
+            String number,
+            Long userId,
+            BigDecimal subtotal,
+            BigDecimal discount,
+            BigDecimal total,
+            String currency,
+            Long userCouponId,
+            Instant now) {
+        this.id = id;
+        orderNumber = number;
+        this.userId = userId;
+        status = OrderStatus.PENDING_PAYMENT;
+        this.subtotal = subtotal;
+        this.discount = discount;
+        totalAmount = total;
+        this.currency = currency;
+        this.userCouponId = userCouponId;
+        createdAt = now;
+        updatedAt = now;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public Long getUserCouponId() {
+        return userCouponId;
+    }
+
+    public UUID getPaymentId() {
+        return paymentId;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public boolean cancel(Instant now) {
+        if (status == OrderStatus.CANCELLED) return false;
+        if (status != OrderStatus.PENDING_PAYMENT)
+            throw new BusinessException(
+                    ErrorCode.ORDER_NOT_CANCELLABLE, "当前订单状态不允许取消", Map.of("status", status));
+        status = OrderStatus.CANCELLED;
+        cancelledAt = now;
+        updatedAt = now;
+        return true;
+    }
+
+    public boolean markPaid(UUID paymentId, Instant now) {
+        if (status == OrderStatus.PAID && Objects.equals(this.paymentId, paymentId)) return false;
+        if (status != OrderStatus.PENDING_PAYMENT)
+            throw new BusinessException(
+                    ErrorCode.ORDER_NOT_PAYABLE, "当前订单状态不允许支付", Map.of("status", status));
+        this.paymentId = paymentId;
+        status = OrderStatus.PAID;
+        updatedAt = now;
+        return true;
+    }
+
+    public void requestRefund(Instant now) {
+        if (status == OrderStatus.REFUNDING) return;
+        if (status != OrderStatus.PAID && status != OrderStatus.FULFILLING)
+            throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE, "当前订单状态不允许退款");
+        status = OrderStatus.REFUNDING;
+        updatedAt = now;
+    }
+
+    public void markRefunded(Instant now) {
+        if (status == OrderStatus.REFUNDED) return;
+        if (status != OrderStatus.REFUNDING)
+            throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE, "订单未处于退款中");
+        status = OrderStatus.REFUNDED;
+        updatedAt = now;
+    }
+
+    public void refundFailed(Instant now) {
+        if (status == OrderStatus.REFUNDING) {
+            status = OrderStatus.PAID;
+            updatedAt = now;
+        }
+    }
 }

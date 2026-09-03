@@ -16,7 +16,9 @@ public record Money(BigDecimal amount, String currency) {
         amount = amount.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public static Money zero(String currency) { return new Money(BigDecimal.ZERO, currency); }
+    public static Money zero(String currency) {
+        return new Money(BigDecimal.ZERO, currency);
+    }
 
     public Money add(Money other) {
         requireSameCurrency(other);

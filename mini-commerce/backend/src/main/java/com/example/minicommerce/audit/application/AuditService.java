@@ -16,16 +16,34 @@ public class AuditService {
     private final AuditLogRepository repository;
     private final ObjectMapper json;
     private final Clock clock;
+
     public AuditService(AuditLogRepository repository, ObjectMapper json, Clock clock) {
-        this.repository=repository; this.json=json; this.clock=clock;
+        this.repository = repository;
+        this.json = json;
+        this.clock = clock;
     }
-    public void record(Long actorId, String action, String type, Object id, Object before, Object after) {
-        repository.save(new AuditLogEntity(actorId, action, type, String.valueOf(id), "SUCCESS", MDC.get("traceId"),
-            serialize(before), serialize(after), clock.instant()));
+
+    public void record(
+            Long actorId, String action, String type, Object id, Object before, Object after) {
+        repository.save(
+                new AuditLogEntity(
+                        actorId,
+                        action,
+                        type,
+                        String.valueOf(id),
+                        "SUCCESS",
+                        MDC.get("traceId"),
+                        serialize(before),
+                        serialize(after),
+                        clock.instant()));
     }
+
     private String serialize(Object value) {
         if (value == null) return null;
-        try { return json.writeValueAsString(value); }
-        catch (JsonProcessingException e) { return "{\"serializationError\":true}"; }
+        try {
+            return json.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            return "{\"serializationError\":true}";
+        }
     }
 }
