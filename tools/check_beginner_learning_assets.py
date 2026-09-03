@@ -19,7 +19,12 @@ class Requirement:
 REQUIREMENTS = (
     Requirement(
         "mini-commerce/docs/BEGINNER-START-HERE.md",
-        ("后端零基础", "Controller 是门口接待", "一次最多", "对应文档"),
+        (
+            "后端零基础",
+            "Controller 是门口接待",
+            "先读下面 5 个文件",
+            "对应的文档章节",
+        ),
     ),
     Requirement(
         "mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md",
@@ -111,7 +116,9 @@ def check_requirement(requirement: Requirement) -> list[str]:
     failures = []
     for phrase in requirement.phrases:
         if phrase not in text:
-            failures.append(f"`{requirement.path}` 缺少关键说明：`{phrase}`")
+            failures.append(
+                f"`{requirement.path}` 缺少关键说明：`{phrase}`"
+            )
     return failures
 
 
@@ -127,7 +134,11 @@ def check_markdown_links() -> list[str]:
         "mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md",
         "mini-commerce/docs/BEGINNER-FAQ.md",
     )
-    return [f"入口文件不存在：`{path}`" for path in expected if not (REPO_ROOT / path).exists()]
+    return [
+        f"入口文件不存在：`{path}`"
+        for path in expected
+        if not (REPO_ROOT / path).exists()
+    ]
 
 
 def write_report(failures: list[str]) -> None:
@@ -164,7 +175,9 @@ def main() -> None:
             print("-", failure)
         raise SystemExit(1)
 
-    print(f"beginner learning audit passed: {len(REQUIREMENTS)} requirements")
+    print(
+        f"beginner learning audit passed: {len(REQUIREMENTS)} requirements"
+    )
 
 
 if __name__ == "__main__":
