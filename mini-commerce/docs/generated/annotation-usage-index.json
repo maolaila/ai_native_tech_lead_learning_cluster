@@ -66,15 +66,11 @@
   "Bean": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 35
+      "line": 36
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 42
-    },
-    {
-      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 55
+      "line": 43
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
@@ -82,55 +78,59 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 61
+      "line": 57
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 66
+      "line": 62
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 72
+      "line": 67
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 77
+      "line": 73
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 82
+      "line": 78
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 88
+      "line": 83
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 97
+      "line": 89
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 105
+      "line": 95
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 112
+      "line": 101
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 120
+      "line": 106
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 127
+      "line": 113
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 137
+      "line": 118
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 148
+      "line": 124
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 135
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java",
@@ -146,7 +146,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
-      "line": 91
+      "line": 90
     }
   ],
   "BeforeEach": [
@@ -646,11 +646,11 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 25
+      "line": 26
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 28
+      "line": 29
     }
   ],
   "Component": [
@@ -728,11 +728,11 @@
   "Configuration": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 25
+      "line": 26
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
-      "line": 26
+      "line": 27
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java",
@@ -750,7 +750,7 @@
   "ConfigurationProperties": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 24
+      "line": 23
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/AppProperties.java",
@@ -760,11 +760,11 @@
   "ConfigurationPropertiesScan": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 24
+      "line": 23
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 25
+      "line": 24
     }
   ],
   "Container": [
@@ -818,11 +818,11 @@
   "EnableScheduling": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 26
+      "line": 25
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 27
+      "line": 26
     }
   ],
   "Entity": [
@@ -928,31 +928,31 @@
   "ExceptionHandler": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 37
-    },
-    {
-      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
       "line": 38
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 50
+      "line": 39
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 74
+      "line": 48
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 85
+      "line": 69
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 100
+      "line": 80
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 119
+      "line": 91
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 110
     }
   ],
   "GeneratedValue": [
@@ -1016,11 +1016,11 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 79
+      "line": 78
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 87
+      "line": 86
     }
   ],
   "Id": [
@@ -1160,11 +1160,11 @@
   "MappedSuperclass": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 20
+      "line": 21
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 21
+      "line": 22
     }
   ],
   "Modifying": [
@@ -1240,7 +1240,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 49
+      "line": 47
     }
   ],
   "NotEmpty": [
@@ -1342,7 +1342,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 90
+      "line": 89
     }
   ],
   "Param": [
@@ -1438,15 +1438,15 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 80
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
       "line": 81
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 82
-    },
-    {
-      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 100
+      "line": 96
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
@@ -1474,7 +1474,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 49
+      "line": 47
     }
   ],
   "PositiveOrZero": [
@@ -1522,7 +1522,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
-      "line": 99
+      "line": 95
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
@@ -1566,17 +1566,17 @@
   "PrePersist": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 34
+      "line": 35
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 36
+      "line": 37
     }
   ],
   "PreUpdate": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
-      "line": 46
+      "line": 47
     }
   ],
   "Profile": [
@@ -1834,17 +1834,17 @@
   "RestControllerAdvice": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 31
+      "line": 32
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 32
+      "line": 33
     }
   ],
   "Scheduled": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 26
+      "line": 25
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
@@ -1980,17 +1980,17 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
-      "line": 49
+      "line": 47
     }
   ],
   "SpringBootApplication": [
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 22
+      "line": 21
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
-      "line": 23
+      "line": 22
     }
   ],
   "SpringBootTest": [
@@ -2212,7 +2212,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
-      "line": 55
+      "line": 54
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
