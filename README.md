@@ -32,6 +32,38 @@
 
 遇到陌生词时，先查项目内注释和词典；项目内仍没有解释时，再查外部资料。
 
+## 在浏览器中阅读整套文档
+
+先安装文档依赖：
+
+```bash
+python -m pip install -r requirements-docs.txt
+```
+
+然后在仓库根目录运行：
+
+```bash
+python tools/build_docs_site.py --serve
+```
+
+浏览器打开：
+
+```text
+http://127.0.0.1:8000
+```
+
+停止预览时在终端按 `Ctrl + C`。
+
+本仓库的 Markdown 分散在多个根目录模块中，因此不要直接运行普通的 `mkdocs serve`。`build_docs_site.py` 会生成安全的临时配置，避免 MkDocs 把输出目录再次复制进文档目录。
+
+只构建静态站点、不启动服务器：
+
+```bash
+python tools/build_docs_site.py --strict
+```
+
+默认输出到仓库旁边的目录，不会污染源码目录。
+
 ## 两条进阶学习路径
 
 ### 按文档推进
@@ -59,6 +91,8 @@
 - [文档章节与代码逐项映射](mini-commerce/docs/generated/document-code-map.md)
 - [注解在源码中的使用位置](mini-commerce/docs/generated/annotation-usage-index.md)
 - [源码可读性审计](mini-commerce/docs/generated/readability-audit.md)
+- [后端小白资料审计](mini-commerce/docs/generated/beginner-learning-audit.md)
+- [学习资料内部引用审计](mini-commerce/docs/generated/learning-reference-audit.md)
 - [架构说明](mini-commerce/docs/architecture.md)
 - [领域不变量](mini-commerce/docs/domain-model.md)
 - [测试策略](mini-commerce/docs/testing-strategy.md)
@@ -67,7 +101,7 @@
 - [完整合并阅读版](FULL_BOOK.md)
 - [原文档导航](SUMMARY.md)
 
-## 一键启动
+## 一键启动业务工程
 
 ```bash
 cd mini-commerce
