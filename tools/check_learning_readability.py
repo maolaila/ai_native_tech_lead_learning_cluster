@@ -52,14 +52,16 @@ def main() -> int:
         if errors:
             failures[path.relative_to(REPO_ROOT).as_posix()] = errors
 
+    # 这些不是格式偏好，而是最容易被误写、最需要解释“为什么”的核心学习点。
     critical_requirements = {
         "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java": (
             "为什么有 {@code ux_cart_product} 唯一约束",
             "为什么不公开 {@code setQuantity}",
         ),
         "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java": (
-            "创建订单事务边界",
-            "先规范化订单项",
+            "创建订单的主业务流程",
+            "合并重复商品并校验数量",
+            "事务本身不会自动防止库存超卖",
         ),
         "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java": (
             "库存预留不能使用",
@@ -73,7 +75,9 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         for marker in required_markers:
             if marker not in text:
-                failures.setdefault(relative, []).append(f"缺少关键解释：{marker}")
+                failures.setdefault(relative, []).append(
+                    f"缺少关键解释：{marker}"
+                )
 
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     report_lines = [
@@ -102,7 +106,14 @@ def main() -> int:
 
     REPORT.write_text("\n".join(report_lines), encoding="utf-8")
     if failures:
-        print(f"readability audit failed: {len(failures)} files", file=sys.stderr)
+        print(
+            f"readability audit failed: {len(failures)} files",
+            file=sys.stderr,
+        )
+        for relative, errors in failures.items():
+            print(relative, file=sys.stderr)
+            for error in errors:
+                print(f"- {error}", file=sys.stderr)
         return 1
     print(f"readability audit passed: {len(java_files)} files")
     return 0
