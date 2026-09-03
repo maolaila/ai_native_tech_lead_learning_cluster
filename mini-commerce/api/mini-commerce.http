@@ -1,0 +1,34 @@
+@base = http://localhost:18080
+@access = paste-access-token
+
+### 登录（本地 Alice）
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{"email":"alice@example.com","password":"Password123!"}
+
+### 商品列表
+GET {{base}}/api/products?page=0&size=20
+
+### 加入购物车
+PUT {{base}}/api/cart/items/1
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{"quantity":1}
+
+### 创建订单：价格由服务端计算；重复请求应使用同一 Key
+POST {{base}}/api/orders
+Authorization: Bearer {{access}}
+Idempotency-Key: order-demo-001
+Content-Type: application/json
+
+{"items":[{"productId":1,"quantity":1}],"couponCode":"WELCOME10"}
+
+### 模拟支付。paymentToken=decline/unknown 可制造失败
+POST {{base}}/api/payments/orders/paste-order-uuid
+Authorization: Bearer {{access}}
+Idempotency-Key: payment-demo-001
+Content-Type: application/json
+
+{"paymentToken":"success"}

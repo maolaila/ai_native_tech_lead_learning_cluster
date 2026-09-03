@@ -1,0 +1,1 @@
+package com.example.minicommerce.order.infrastructure;import java.util.*;import org.springframework.data.jpa.repository.JpaRepository;public interface IdempotencyRecordRepository extends JpaRepository<IdempotencyRecordEntity,UUID>{Optional<IdempotencyRecordEntity> findByUserIdAndKey(Long userId,String key);}

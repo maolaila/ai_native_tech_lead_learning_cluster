@@ -1,0 +1,1 @@
+package com.example.minicommerce.order.infrastructure;import java.util.*;import org.springframework.data.jpa.repository.JpaRepository;public interface OrderItemRepository extends JpaRepository<OrderItemEntity,UUID>{List<OrderItemEntity> findByOrderIdOrderById(UUID orderId);}

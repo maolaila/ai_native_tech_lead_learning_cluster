@@ -1,0 +1,1 @@
+package com.example.minicommerce.notification.infrastructure;import java.util.*;import org.springframework.data.jpa.repository.JpaRepository;public interface NotificationRepository extends JpaRepository<NotificationEntity,UUID>{List<NotificationEntity> findTop50ByUserIdOrderByCreatedAtDesc(Long userId);}

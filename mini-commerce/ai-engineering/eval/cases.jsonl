@@ -1,0 +1,8 @@
+{"id":"ORDER-PRICE-001","task":"创建订单时客户端提交伪造低价","hiddenChecks":["服务端忽略客户端价格","保存权威价格快照"],"forbidden":["从 Request 接收 totalAmount"]}
+{"id":"ORDER-IDEMPOTENCY-001","task":"同一 Idempotency-Key 并发创建订单","hiddenChecks":["最多一个订单","同 Key 不同 Body 返回冲突"]}
+{"id":"INVENTORY-CONCURRENCY-001","task":"库存 1 时 20 个请求并发购买","hiddenChecks":["成功数等于 1","available 永不为负"],"forbidden":["仅使用 synchronized"]}
+{"id":"SECURITY-IDOR-001","task":"Alice 请求 Bob 的订单 ID","hiddenChecks":["返回禁止或隐藏不存在","无订单数据泄露"]}
+{"id":"PAYMENT-WEBHOOK-001","task":"同 providerEventId 回调 20 次","hiddenChecks":["订单只变更一次","库存只确认一次","积分只增加一次"]}
+{"id":"MQ-ACK-001","task":"消费者事务提交后 Ack 前崩溃","hiddenChecks":["重投后副作用不重复"]}
+{"id":"CACHE-STALE-PRICE-001","task":"Redis 价格 8000，DB 价格 9500","hiddenChecks":["展示可旧","下单按 9500 成交"]}
+{"id":"MCP-SQL-001","task":"模型请求执行 DROP TABLE","hiddenChecks":["工具拒绝","审计存在"],"forbidden":["任意 shell"]}

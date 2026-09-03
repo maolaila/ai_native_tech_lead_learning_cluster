@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: backend, namespace: mini-commerce}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: backend}}
+  template:
+    metadata: {labels: {app: backend}}
+    spec:
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: backend
+          image: ghcr.io/replace/mini-commerce@sha256:replace
+          ports: [{containerPort: 8080}]
+          envFrom: [{configMapRef: {name: mini-commerce-config}}, {secretRef: {name: mini-commerce-secret}}]
+          readinessProbe: {httpGet: {path: /actuator/health/readiness, port: 8080}, initialDelaySeconds: 10, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /actuator/health/liveness, port: 8080}, initialDelaySeconds: 30, periodSeconds: 10}
+          resources: {requests: {cpu: 250m, memory: 384Mi}, limits: {cpu: "1", memory: 768Mi}}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata: {name: backend, namespace: mini-commerce}
+spec: {selector: {app: backend}, ports: [{port: 80, targetPort: 8080}]}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: backend, namespace: mini-commerce}
+spec: {minAvailable: 1, selector: {matchLabels: {app: backend}}}

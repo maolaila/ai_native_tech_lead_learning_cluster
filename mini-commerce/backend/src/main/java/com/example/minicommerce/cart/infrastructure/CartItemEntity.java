@@ -1,0 +1,4 @@
+package com.example.minicommerce.cart.infrastructure;
+import com.example.minicommerce.shared.persistence.BaseEntity; import jakarta.persistence.*;
+@Entity @Table(name="cart_items",uniqueConstraints=@UniqueConstraint(name="ux_cart_product",columnNames={"cart_id","product_id"}))
+public class CartItemEntity extends BaseEntity{@Id @GeneratedValue(strategy=GenerationType.IDENTITY)private Long id;@Column(name="cart_id",nullable=false)private Long cartId;@Column(name="product_id",nullable=false)private Long productId;@Column(nullable=false)private int quantity;protected CartItemEntity(){}public CartItemEntity(Long c,Long p,int q){cartId=c;productId=p;quantity=q;}public Long getId(){return id;}public Long getCartId(){return cartId;}public Long getProductId(){return productId;}public int getQuantity(){return quantity;}public void changeQuantity(int q){if(q<=0)throw new IllegalArgumentException("quantity");quantity=q;}}

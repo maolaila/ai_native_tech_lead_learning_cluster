@@ -1,0 +1,3 @@
+package com.example.minicommerce.order.application;
+import static com.example.minicommerce.order.api.OrderDtos.*;import com.example.minicommerce.order.infrastructure.*;import java.util.*;
+public final class OrderMapper{private OrderMapper(){}public static OrderResponse view(OrderEntity o,List<OrderItemEntity>items){return new OrderResponse(o.getId(),o.getOrderNumber(),o.getUserId(),o.getStatus().name(),o.getSubtotal(),o.getDiscount(),o.getTotalAmount(),o.getCurrency(),items.stream().map(i->new OrderLineResponse(i.getProductId(),i.getProductName(),i.getSku(),i.getUnitPrice(),i.getQuantity(),i.getLineTotal())).toList(),o.getCreatedAt());}}

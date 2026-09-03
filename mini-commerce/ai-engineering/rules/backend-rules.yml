@@ -1,0 +1,31 @@
+rules:
+  - id: BE-ARCH-001
+    severity: blocking
+    scope: mini-commerce/backend/**
+    statement: Controller 不得直接依赖 Repository
+    rationale: HTTP 契约与持久化细节必须解耦
+    enforcement: ArchUnit ArchitectureTest
+  - id: DB-001
+    severity: blocking
+    statement: 所有 Schema 修改必须新增 Flyway Migration，已发布 Migration 不得改写
+    enforcement: CI migration checksum and review
+  - id: ORDER-001
+    severity: blocking
+    statement: 订单金额必须由服务端权威商品价格计算，订单项保存成交快照
+    enforcement: CreateOrderIT
+  - id: INVENTORY-001
+    severity: blocking
+    statement: 库存扣减必须使用数据库原子条件更新、行锁或版本条件；不得只用 JVM 锁
+    enforcement: InventoryConcurrencyIT
+  - id: MSG-001
+    severity: blocking
+    statement: 业务数据和待发布事件同事务写 Outbox，消费者副作用必须幂等
+    enforcement: DB constraints and integration tests
+  - id: SECURITY-001
+    severity: blocking
+    statement: 对象级资源必须检查 owner，前端隐藏按钮不是授权
+    enforcement: service policy and API tests
+  - id: MCP-001
+    severity: blocking
+    statement: MCP 不暴露任意 Shell 或生产写 SQL；所有工具参数化、限时、限结果并审计
+    enforcement: mcp-server/tests

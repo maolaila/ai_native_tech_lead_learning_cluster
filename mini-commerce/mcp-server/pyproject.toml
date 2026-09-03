@@ -1,0 +1,18 @@
+[project]
+name = "mini-commerce-mcp"
+version = "1.0.0"
+description = "Mini Commerce 只读知识与工程工具 MCP Server"
+requires-python = ">=3.11"
+dependencies = ["mcp==2.1.1", "pydantic>=2.12,<3", "psycopg[binary]>=3.2,<4"]
+[project.optional-dependencies]
+dev = ["pytest>=8.4,<9"]
+[project.scripts]
+mini-commerce-mcp = "mini_commerce_mcp.server:main"
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+[tool.hatch.build.targets.wheel]
+packages = ["src/mini_commerce_mcp"]
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

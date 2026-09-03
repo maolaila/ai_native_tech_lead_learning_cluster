@@ -1,0 +1,3 @@
+package com.example.minicommerce.order.application;
+import com.fasterxml.jackson.databind.ObjectMapper;import java.nio.charset.StandardCharsets;import java.security.*;import java.util.*;import java.util.HexFormat;import org.springframework.stereotype.Component;
+@Component public class RequestFingerprint{private final ObjectMapper json;public RequestFingerprint(ObjectMapper json){this.json=json;}public String order(SortedMap<Long,Integer> items,String coupon){try{byte[] data=json.writeValueAsBytes(Map.of("items",items,"coupon",coupon==null?"":coupon.trim().toUpperCase()));return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(data));}catch(Exception e){throw new IllegalStateException(e);}}}

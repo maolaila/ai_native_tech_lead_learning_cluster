@@ -1,0 +1,1 @@
+package com.example.minicommerce.notification.infrastructure;import org.springframework.data.jpa.repository.JpaRepository;public interface PointsLedgerRepository extends JpaRepository<PointsLedgerEntity,Long>{}

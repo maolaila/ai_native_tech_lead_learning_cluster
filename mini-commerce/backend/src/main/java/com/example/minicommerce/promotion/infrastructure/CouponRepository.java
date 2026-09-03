@@ -1,0 +1,1 @@
+package com.example.minicommerce.promotion.infrastructure;import java.util.Optional;import org.springframework.data.jpa.repository.JpaRepository;public interface CouponRepository extends JpaRepository<CouponEntity,Long>{Optional<CouponEntity> findByCodeIgnoreCase(String code);}
