@@ -290,10 +290,10 @@ resource "aws_secretsmanager_secret_version" "app" {
   secret_id = aws_secretsmanager_secret.app.id
 
   secret_string = jsonencode({
-    DATABASE_URL       = "jdbc:postgresql://${aws_db_instance.postgres.address}:5432/${var.db_name}"
-    DATABASE_USER      = var.db_username
-    DATABASE_PASSWORD  = var.db_password
-    JWT_SECRET_BASE64  = var.jwt_secret_base64
+    DATABASE_URL      = "jdbc:postgresql://${aws_db_instance.postgres.address}:5432/${var.db_name}"
+    DATABASE_USER     = var.db_username
+    DATABASE_PASSWORD = var.db_password
+    JWT_SECRET_BASE64 = var.jwt_secret_base64
   })
 }
 
