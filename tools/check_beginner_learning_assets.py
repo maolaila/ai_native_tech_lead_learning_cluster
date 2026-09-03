@@ -70,6 +70,14 @@ REQUIREMENTS = (
         ("后端小白入口", "BEGINNER-START-HERE.md", "通俗词典"),
     ),
     Requirement(
+        "FULL_BOOK.md",
+        (
+            "后端零基础：从这里开始",
+            "Spring 与 Java 注解小白词典",
+            "分章文件更新后，CI 会同步刷新本文件",
+        ),
+    ),
+    Requirement(
         "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
         ("@SpringBootApplication 可以先理解", "@ConfigurationPropertiesScan", "@EnableScheduling"),
     ),
@@ -148,7 +156,7 @@ def write_report(failures: list[str]) -> None:
         "",
         f"- 检查文件与代码位置：{len(REQUIREMENTS)}",
         f"- 不合格项：{len(failures)}",
-        "- 检查内容：小白入口、通俗语言、注解词典、术语词典、配置说明、ADHD 学习计划、源码就地说明和注解索引。",
+        "- 检查内容：小白入口、通俗语言、注解词典、术语词典、配置说明、ADHD 学习计划、合并版、源码就地说明和注解索引。",
         "",
         "## 结果",
         "",
