@@ -5,18 +5,18 @@
 
 ## 总体统计
 
-- 文件数：404（不含本 MANIFEST）
+- 文件数：405（不含本 MANIFEST）
 - Markdown 文件数：179
 - Markdown 总行数：40,327
 - Markdown 总字符数：920,424
-- 目录内容大小：3,234,888 bytes
+- 目录内容大小：3,246,221 bytes
 
 ## 模块统计
 
 | 模块 | 文件 | Markdown 行数 | Markdown 字符 | 字节 |
 |---|---:|---:|---:|---:|
 | `(root)` | 8 | 22,737 | 287,467 | 488,468 |
-| `.github` | 9 | 0 | 0 | 44,438 |
+| `.github` | 9 | 0 | 0 | 44,874 |
 | `00_start` | 5 | 566 | 7,969 | 13,753 |
 | `01_foundations` | 5 | 395 | 5,869 | 9,691 |
 | `02_backend_spring` | 8 | 1,165 | 17,670 | 29,562 |
@@ -34,7 +34,7 @@
 | `14_capstone` | 10 | 434 | 7,989 | 13,049 |
 | `15_templates` | 15 | 727 | 10,199 | 13,939 |
 | `16_references` | 5 | 450 | 9,791 | 14,201 |
-| `mini-commerce` | 209 | 7,951 | 475,988 | 1,965,612 |
+| `mini-commerce` | 210 | 7,951 | 475,988 | 1,976,509 |
 | `practice` | 14 | 171 | 3,580 | 19,781 |
 | `tools` | 29 | 0 | 0 | 456,966 |
 
@@ -50,7 +50,7 @@
 ## SHA-256（不含本文件）
 
 - `705d83f8205ecf6f59dcdca024dfd7b4fe11f0b59ae78d667184ff18f59b9ae0`  `.editorconfig`
-- `e496bf9bd8c5ea6f3ac27a03bb3c52a55bac605179ed9c428cea64df6bdb156d`  `.github/workflows/beginner-learning-ci.yml`
+- `ccc6bd1a0a12039df041393d4032f9a351deb1cc4471f527f2216294a2f89802`  `.github/workflows/beginner-learning-ci.yml`
 - `880be49fd9282b04ccbd3cf78c340b225210ea6e70344d8ad84e173460a38400`  `.github/workflows/generate-complete-mini-commerce.yml`
 - `815ab1491971344e1a9a82bdc8ac9307cefe738a0a858d40c7c41b4719807c34`  `.github/workflows/mini-commerce-ci.yml`
 - `741125e580e67d68442b12569192a58d92553c33ebca04fa10a6ad13ccdfed25`  `.github/workflows/repair-readable-learning-code.yml`
@@ -200,7 +200,7 @@
 - `dfd2136c079b511713b7e667da5612fd9ad3a13af2ae8e268728bfd9e203f4bf`  `README.md`
 - `cd41f101daa0644e2a2752bf8b796386b1f9421d3d4dbf7648e1c06b2fd41249`  `SUMMARY.md`
 - `fbc459fbec83761b100dc1d1e42cd7bea667c4a7d042ebace3701554cdaf9882`  `mini-commerce/.env.example`
-- `43a1003580fb232d238775fc1aa824f47d84256694a6d9fcdcb4c902895f2bc8`  `mini-commerce/.gitignore`
+- `8ebed7b531cd773880e5dc98f85cf27024853712377514dddb665501796f2c92`  `mini-commerce/.gitignore`
 - `43a14601b5387665af2e04390501bf448898ec26e191921d4db6c1b9da05a0c0`  `mini-commerce/BUILD-VERIFICATION.md`
 - `346c4d19e265967f01c71286acd7b6969c996998ea732d8265132b2c195d8b0c`  `mini-commerce/CI-FAILURE-bootstrap-v6.md`
 - `f99cd36a8a1897f8d55dd75f16049021d4d9c3f1f6760560de1e1ee245954730`  `mini-commerce/CI-FAILURE-bootstrap-v7.md`
@@ -213,7 +213,7 @@
 - `458de82a46b69b36a0df04c13eb59f11b39d9e8ae98d91b9f682c2ac973c2f9b`  `mini-commerce/Makefile`
 - `a86a2b7899be9088d89f93ecc9352448033edce46e508c8e5f928380a169f29b`  `mini-commerce/README.md`
 - `1e6d7f14df0c6f54d0c25a50263c69b63a3dec38e8264def4bf042bd87a3e406`  `mini-commerce/ai-engineering/eval/cases.jsonl`
-- `a00b86c5e101243b60a485317ca24e13b63aae016c9e6027ea25364b0cb2b396`  `mini-commerce/ai-engineering/eval/run_static_eval.py`
+- `dc9c50f027ee656f0b6a9182725a4e171b64853eca2c5b5350d83a4eb009e1fd`  `mini-commerce/ai-engineering/eval/run_static_eval.py`
 - `45351829f0c48f3aee35e12619bfce855f2a1c44a84b19e8fe37d7f6da416204`  `mini-commerce/ai-engineering/golden-paths/create-feature.md`
 - `54249b463b76b4c83dfcc1b343e732587da968d569c6b25d5fa10e4c615f5d6e`  `mini-commerce/ai-engineering/golden-paths/fix-production-bug.md`
 - `01ad458f2a6d4bd714ba22414ba09309a8ef073c1c416b50a080f94a6acef914`  `mini-commerce/ai-engineering/rules/backend-rules.yml`
@@ -376,11 +376,12 @@
 - `764ac877a06b3dc495278657d439dc8813765eefee4547dbdcdf8540bb52317c`  `mini-commerce/docs/security.md`
 - `8281ec631dfa234cfe08d7817e195bcfc06f659a350c56d7e2f75d488d0e0b6f`  `mini-commerce/docs/testing-strategy.md`
 - `fe29271c3ceab0bb64432f07e6662998899df6bb31912f734b70c282def13b3d`  `mini-commerce/infra/aws/README.md`
-- `09bb09fea41bf1cb8b87543ed5f99b56c1eeddde517cefd3d94e2ab62c19ea51`  `mini-commerce/infra/aws/terraform/main.tf`
-- `ea0fca227c1892cb397650d8659312b02c4876423146bf3872fb53bb43b47252`  `mini-commerce/infra/aws/terraform/outputs.tf`
+- `aba86e7e457d666d079c1d4612a771ec0f4068f559acb035dcb5d8c69d7df193`  `mini-commerce/infra/aws/terraform/.terraform.lock.hcl`
+- `ec1c0157b2d0c276540d8a30b131a2fb6082cfbcc8242161e08398d87236b745`  `mini-commerce/infra/aws/terraform/main.tf`
+- `a0e713f5d317b975ba064f412003ee13388e26302091df4046cd718d245ec477`  `mini-commerce/infra/aws/terraform/outputs.tf`
 - `dd2d0a1ac33cf308911cdc821728d9fa182d03ae6e0d90d2028105651e0f824f`  `mini-commerce/infra/aws/terraform/terraform.tfvars.example`
-- `eed504029129218d9e08588c2eb8ad46d4eeef801145bc5367f7f28ee6c20bd6`  `mini-commerce/infra/aws/terraform/variables.tf`
-- `b3147ca6a0a96a197abe4a5675dc41a0972701381d3b8d8e7a388ca0fea6de27`  `mini-commerce/infra/aws/terraform/versions.tf`
+- `4a6533e2b6425c237a41a3db015c9a9a77d6a5b67168ecd89abe27282126b946`  `mini-commerce/infra/aws/terraform/variables.tf`
+- `160fc5c55f4e06d8f10b12956090d4fc93f868004d9ac73ed0dd8e57df755ea6`  `mini-commerce/infra/aws/terraform/versions.tf`
 - `0740670d6cb71748c180b4ac736c9bf4843b6f20d7841a86bbe861989329dfaa`  `mini-commerce/infra/k8s/backend.yaml`
 - `faac41f7a770ec34120db882003fa8837c0b2a6023d9531017433ae9beca5c9e`  `mini-commerce/infra/k8s/configmap.yaml`
 - `c38bf5232a4487229f3e40de0bcd521512cf9d877583a63cf13cb42d08227637`  `mini-commerce/infra/k8s/namespace.yaml`
