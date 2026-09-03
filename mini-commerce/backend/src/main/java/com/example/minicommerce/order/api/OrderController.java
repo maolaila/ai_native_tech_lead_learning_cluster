@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 订单模块的 HTTP 请求入口。
  *
- * <p><strong>作用：</strong>取得当前用户、请求体、URL 参数和 {@code Idempotency-Key}，再把任务交给订单应用服务。
- * Controller 不计算金额、不扣库存，也不直接访问 Repository。
+ * <p><strong>作用：</strong>取得当前用户、请求体、URL 参数和 {@code Idempotency-Key}，再把任务交给订单应用服务。 Controller
+ * 不计算金额、不扣库存，也不直接访问 Repository。
  *
  * <p><strong>大白话：</strong>Controller 是门口接待。它负责把 HTTP 请求整理好，再交给真正的业务负责人处理。
  *
@@ -71,8 +71,7 @@ public class OrderController {
             @RequestHeader("Idempotency-Key") String idempotencyKey,
             // @RequestBody 把 JSON 转成 Java DTO；@Valid 先执行基础字段校验。
             @Valid @RequestBody CreateOrderRequest request) {
-        return createOrderService.create(
-                currentUser.require().id(), idempotencyKey, request);
+        return createOrderService.create(currentUser.require().id(), idempotencyKey, request);
     }
 
     /** 查询一张订单；应用层还会检查该订单是否属于当前用户。 */
@@ -87,10 +86,7 @@ public class OrderController {
     @GetMapping
     public Page<OrderResponse> list(
             // 没传分页参数时，默认每页 20 条并按 createdAt 倒序。
-            @PageableDefault(
-                            size = 20,
-                            sort = "createdAt",
-                            direction = Sort.Direction.DESC)
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC)
                     Pageable pageable) {
         return queryService.list(currentUser.require(), pageable);
     }

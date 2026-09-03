@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * <p><strong>作用：</strong>把 Controller 和业务层抛出的异常统一转换成 JSON 错误响应，并附加业务错误码和 {@code traceId}。
  *
- * <p><strong>大白话：</strong>各个 Controller 不需要重复写很多 {@code try/catch}。异常向上抛到这里，再由这里决定返回 400、403、409 或 500。
+ * <p><strong>大白话：</strong>各个 Controller 不需要重复写很多 {@code try/catch}。异常向上抛到这里，再由这里决定返回 400、403、409 或
+ * 500。
  *
  * <p><strong>为什么 500 不返回完整异常：</strong>堆栈、SQL 和内部类名可能泄露系统结构。客户端只收到安全提示，完整异常保留在服务端日志中。
  *
@@ -38,10 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     ResponseEntity<ProblemDetail> handleBusiness(BusinessException exception) {
         ProblemDetail problem =
-                base(
-                        exception.code().status(),
-                        exception.getMessage(),
-                        exception.code().name());
+                base(exception.code().status(), exception.getMessage(), exception.code().name());
         problem.setProperty("details", exception.details());
         return ResponseEntity.status(exception.code().status()).body(problem);
     }
@@ -62,10 +60,7 @@ public class GlobalExceptionHandler {
                                                         : error.getDefaultMessage()))
                         .toList();
         ProblemDetail problem =
-                base(
-                        HttpStatus.BAD_REQUEST,
-                        "请求参数校验失败",
-                        ErrorCode.VALIDATION_ERROR.name());
+                base(HttpStatus.BAD_REQUEST, "请求参数校验失败", ErrorCode.VALIDATION_ERROR.name());
         problem.setProperty("violations", violations);
         return ResponseEntity.badRequest().body(problem);
     }
@@ -85,11 +80,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ProblemDetail> handleDenied(AccessDeniedException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(
-                        base(
-                                HttpStatus.FORBIDDEN,
-                                "没有执行该操作的权限",
-                                ErrorCode.ACCESS_DENIED.name()));
+                .body(base(HttpStatus.FORBIDDEN, "没有执行该操作的权限", ErrorCode.ACCESS_DENIED.name()));
     }
 
     /**
@@ -130,8 +121,7 @@ public class GlobalExceptionHandler {
     /** 构造统一的 Problem Details 响应，避免每个异常处理方法重复拼装字段。 */
     private ProblemDetail base(HttpStatus status, String detail, String code) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
-        problem.setType(
-                URI.create("https://mini-commerce.local/problems/" + code.toLowerCase()));
+        problem.setType(URI.create("https://mini-commerce.local/problems/" + code.toLowerCase()));
         problem.setTitle(status.getReasonPhrase());
         problem.setProperty("code", code);
         problem.setProperty("traceId", traceId());

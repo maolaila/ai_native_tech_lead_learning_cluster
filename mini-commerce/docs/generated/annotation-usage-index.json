@@ -1,0 +1,2394 @@
+{
+  "ActiveProfiles": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 23
+    }
+  ],
+  "AnalyzeClasses": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/ArchitectureTest.java",
+      "line": 18
+    }
+  ],
+  "ArchTest": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/ArchitectureTest.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/ArchitectureTest.java",
+      "line": 31
+    }
+  ],
+  "Autowired": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 37
+    }
+  ],
+  "Bean": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 55
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 56
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 61
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 72
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 77
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 82
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 88
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 97
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 105
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 112
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 120
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 127
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 137
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 148
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java",
+      "line": 10
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 91
+    }
+  ],
+  "BeforeEach": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 41
+    }
+  ],
+  "Column": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 52
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 45
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 44
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 47
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 53
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 56
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 59
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 62
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 65
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 45
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 45
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 54
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 57
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 60
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 64
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 45
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 54
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 57
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 60
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 63
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 67
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 52
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 55
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 28
+    }
+  ],
+  "Component": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/observability/CommerceHealthIndicator.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/IdempotencyLock.java",
+      "line": 11
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/RequestFingerprint.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/FakePaymentGateway.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/WebhookSignature.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/ApiSecurityHandlers.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/CurrentUser.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/JwtAuthenticationFilter.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/transaction/AfterCommitExecutor.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/RateLimitFilter.java",
+      "line": 21
+    }
+  ],
+  "ConditionalOnProperty": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
+      "line": 35
+    }
+  ],
+  "Configuration": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java",
+      "line": 8
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 30
+    }
+  ],
+  "ConfigurationProperties": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/AppProperties.java",
+      "line": 30
+    }
+  ],
+  "ConfigurationPropertiesScan": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 25
+    }
+  ],
+  "Container": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 25
+    }
+  ],
+  "DecimalMin": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 31
+    }
+  ],
+  "DeleteMapping": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 42
+    }
+  ],
+  "DynamicPropertySource": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 32
+    }
+  ],
+  "Email": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 25
+    }
+  ],
+  "EnableMethodSecurity": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 32
+    }
+  ],
+  "EnableScheduling": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 27
+    }
+  ],
+  "Entity": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 16
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 11
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 16
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 16
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 18
+    }
+  ],
+  "Enumerated": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 45
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 35
+    }
+  ],
+  "ExceptionHandler": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 74
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 85
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 100
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 119
+    }
+  ],
+  "GeneratedValue": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 26
+    }
+  ],
+  "GetMapping": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 53
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/api/NotificationController.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 79
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 87
+    }
+  ],
+  "Id": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 16
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 26
+    }
+  ],
+  "Index": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 21
+    }
+  ],
+  "Lock": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 62
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 63
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java",
+      "line": 21
+    }
+  ],
+  "MappedSuperclass": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 21
+    }
+  ],
+  "Modifying": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 26
+    }
+  ],
+  "NotBlank": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 61
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 49
+    }
+  ],
+  "NotEmpty": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 23
+    }
+  ],
+  "NotNull": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 26
+    }
+  ],
+  "Order": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
+      "line": 20
+    }
+  ],
+  "Override": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/ApiSecurityHandlers.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/ApiSecurityHandlers.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/JwtAuthenticationFilter.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 32
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 47
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 52
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java",
+      "line": 57
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/transaction/AfterCommitExecutor.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/RateLimitFilter.java",
+      "line": 31
+    }
+  ],
+  "PageableDefault": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 90
+    }
+  ],
+  "Param": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 47
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 47
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 55
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 55
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java",
+      "line": 23
+    }
+  ],
+  "PathVariable": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 44
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 54
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 72
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 81
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 82
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 100
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 49
+    }
+  ],
+  "Pattern": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 25
+    }
+  ],
+  "Positive": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 48
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 49
+    }
+  ],
+  "PositiveOrZero": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 41
+    }
+  ],
+  "PostMapping": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 58
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 71
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 40
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 65
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 99
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 47
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 53
+    }
+  ],
+  "PreAuthorize": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 80
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 110
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 126
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java",
+      "line": 31
+    }
+  ],
+  "PrePersist": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 36
+    }
+  ],
+  "PreUpdate": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java",
+      "line": 46
+    }
+  ],
+  "Profile": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java",
+      "line": 25
+    }
+  ],
+  "PutMapping": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 64
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 34
+    }
+  ],
+  "Query": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java",
+      "line": 65
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java",
+      "line": 27
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java",
+      "line": 22
+    }
+  ],
+  "RabbitListener": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 54
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 57
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 81
+    }
+  ],
+  "Repository": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java",
+      "line": 15
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentWebhookRepository.java",
+      "line": 16
+    }
+  ],
+  "RequestBody": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 60
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 72
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 73
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 56
+    }
+  ],
+  "RequestHeader": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 70
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 71
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 55
+    }
+  ],
+  "RequestMapping": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 16
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/api/NotificationController.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 24
+    }
+  ],
+  "ResponseStatus": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 59
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 25
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 41
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 68
+    }
+  ],
+  "RestController": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 35
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 15
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/api/NotificationController.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 39
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 23
+    }
+  ],
+  "RestControllerAdvice": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 32
+    }
+  ],
+  "Scheduled": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java",
+      "line": 67
+    }
+  ],
+  "Service": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/application/AuditService.java",
+      "line": 14
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheService.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxService.java",
+      "line": 11
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/ProcessedMessageService.java",
+      "line": 13
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentOrchestrator.java",
+      "line": 14
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentTransactionService.java",
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentWebhookService.java",
+      "line": 15
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/application/CouponService.java",
+      "line": 12
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/application/RefundService.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/redis/RateLimitService.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/redis/RedisLockService.java",
+      "line": 11
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/JwtService.java",
+      "line": 18
+    }
+  ],
+  "Size": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java",
+      "line": 49
+    }
+  ],
+  "SpringBootApplication": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java",
+      "line": 23
+    }
+  ],
+  "SpringBootTest": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 22
+    }
+  ],
+  "Table": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 12
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 14
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 18
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 19
+    }
+  ],
+  "Test": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 64
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java",
+      "line": 78
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java",
+      "line": 44
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java",
+      "line": 52
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/payment/WebhookSignatureTest.java",
+      "line": 22
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/shared/domain/MoneyTest.java",
+      "line": 19
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/shared/domain/MoneyTest.java",
+      "line": 28
+    }
+  ],
+  "Testcontainers": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 21
+    }
+  ],
+  "Transactional": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java",
+      "line": 46
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java",
+      "line": 63
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java",
+      "line": 68
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java",
+      "line": 34
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 58
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 68
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 74
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 81
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 111
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java",
+      "line": 127
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java",
+      "line": 51
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java",
+      "line": 67
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java",
+      "line": 82
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java",
+      "line": 105
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java",
+      "line": 50
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java",
+      "line": 10
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java",
+      "line": 67
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java",
+      "line": 80
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java",
+      "line": 56
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java",
+      "line": 24
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 55
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 58
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java",
+      "line": 82
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
+      "line": 99
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
+      "line": 104
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java",
+      "line": 58
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java",
+      "line": 43
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentTransactionService.java",
+      "line": 61
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentTransactionService.java",
+      "line": 97
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentTransactionService.java",
+      "line": 102
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentTransactionService.java",
+      "line": 145
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/PaymentWebhookService.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/application/RefundService.java",
+      "line": 60
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/application/RefundService.java",
+      "line": 91
+    }
+  ],
+  "UniqueConstraint": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java",
+      "line": 20
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java",
+      "line": 33
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java",
+      "line": 14
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java",
+      "line": 17
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 21
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java",
+      "line": 22
+    }
+  ],
+  "Valid": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java",
+      "line": 38
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 60
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductController.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 26
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 31
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 36
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/identity/api/AuthController.java",
+      "line": 42
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/api/InventoryController.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 72
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java",
+      "line": 73
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/api/PaymentController.java",
+      "line": 43
+    }
+  ],
+  "Value": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/AppProperties.java",
+      "line": 23
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/AppProperties.java",
+      "line": 23
+    }
+  ],
+  "Version": [
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java",
+      "line": 49
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java",
+      "line": 29
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java",
+      "line": 63
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java",
+      "line": 66
+    },
+    {
+      "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java",
+      "line": 42
+    }
+  ]
+}

@@ -47,8 +47,7 @@ public record AppProperties(Jwt jwt, Payment payment, Cache cache, Outbox outbox
      * @param connectTimeout 最多等多久建立网络连接
      * @param readTimeout 连接建立后最多等多久收到响应
      */
-    public record Payment(
-            String webhookSecret, Duration connectTimeout, Duration readTimeout) {}
+    public record Payment(String webhookSecret, Duration connectTimeout, Duration readTimeout) {}
 
     /**
      * 商品缓存配置。

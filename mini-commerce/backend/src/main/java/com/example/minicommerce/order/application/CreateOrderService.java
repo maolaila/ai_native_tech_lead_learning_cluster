@@ -102,26 +102,22 @@ public class CreateOrderService {
      * <p><strong>重要提醒：</strong>事务本身不会自动防止库存超卖。库存模块还需要数据库条件 UPDATE；幂等还需要锁、请求指纹和唯一约束。
      */
     @Transactional
-    public OrderResponse create(
-            Long userId, String idempotencyKey, CreateOrderRequest request) {
+    public OrderResponse create(Long userId, String idempotencyKey, CreateOrderRequest request) {
 
         // 第 1 步：幂等键是写请求的业务编号。网络超时后客户端重试时，系统据此复用原结果。
         if (idempotencyKey == null || idempotencyKey.isBlank()) {
             throw new BusinessException(
-                    ErrorCode.IDEMPOTENCY_KEY_REQUIRED,
-                    "创建订单必须提供 Idempotency-Key");
+                    ErrorCode.IDEMPOTENCY_KEY_REQUIRED, "创建订单必须提供 Idempotency-Key");
         }
         if (idempotencyKey.length() > 128) {
-            throw new BusinessException(
-                    ErrorCode.VALIDATION_ERROR, "Idempotency-Key 过长");
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR, "Idempotency-Key 过长");
         }
 
         // 第 2 步：合并重复商品，并用 TreeMap 固定商品处理顺序，降低多商品并发时的死锁概率。
         SortedMap<Long, Integer> quantities = normalize(request);
 
         // 第 3 步：根据请求关键内容计算指纹。相同 Key 不能代表两种不同请求。
-        String requestHash =
-                fingerprints.order(quantities, request.couponCode());
+        String requestHash = fingerprints.order(quantities, request.couponCode());
 
         // 第 4 步：同一用户、同一幂等键的并发请求先串行处理，避免同时创建两张订单。
         lock.acquire(userId + ":" + idempotencyKey);
@@ -132,13 +128,10 @@ public class CreateOrderService {
         if (prior.isPresent()) {
             IdempotencyRecordEntity record = prior.get();
             if (!record.getRequestHash().equals(requestHash)) {
-                throw new BusinessException(
-                        ErrorCode.IDEMPOTENCY_CONFLICT,
-                        "同一幂等键不能用于不同请求");
+                throw new BusinessException(ErrorCode.IDEMPOTENCY_CONFLICT, "同一幂等键不能用于不同请求");
             }
             if ("COMPLETED".equals(record.getStatus())) {
-                return query.view(
-                        orders.findById(record.getResourceId()).orElseThrow());
+                return query.view(orders.findById(record.getResourceId()).orElseThrow());
             }
         }
 
@@ -147,8 +140,7 @@ public class CreateOrderService {
         // 第 6 步：先保存“正在处理”的幂等记录。数据库唯一约束仍是并发下的最后防线。
         IdempotencyRecordEntity idempotencyRecord =
                 idempotency.save(
-                        new IdempotencyRecordEntity(
-                                userId, idempotencyKey, requestHash, now));
+                        new IdempotencyRecordEntity(userId, idempotencyKey, requestHash, now));
 
         // 第 7 步：重新读取数据库中的可售商品。这里不能只相信商品展示缓存。
         Map<Long, ProductEntity> foundProducts =
@@ -163,12 +155,10 @@ public class CreateOrderService {
         }
 
         // 第 8 步：一张订单只允许一种币种，避免金额相加时含义不明确。
-        String currency =
-                foundProducts.values().iterator().next().getCurrency();
+        String currency = foundProducts.values().iterator().next().getCurrency();
         if (foundProducts.values().stream()
                 .anyMatch(product -> !currency.equals(product.getCurrency()))) {
-            throw new BusinessException(
-                    ErrorCode.VALIDATION_ERROR, "一个订单不能混用多币种");
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR, "一个订单不能混用多币种");
         }
 
         // 第 9 步：后端根据数据库价格计算小计。前端不能提交最终成交价。
@@ -179,35 +169,28 @@ public class CreateOrderService {
                                         foundProducts
                                                 .get(entry.getKey())
                                                 .getPrice()
-                                                .multiply(
-                                                        BigDecimal.valueOf(
-                                                                entry.getValue())))
+                                                .multiply(BigDecimal.valueOf(entry.getValue())))
                         .reduce(BigDecimal.ZERO, BigDecimal::add)
                         .setScale(2, RoundingMode.HALF_UP);
 
         UUID orderId = UUID.randomUUID();
 
         // 第 10 步：校验并占用优惠券。失败会抛异常，整个下单事务一起回滚。
-        var reservedCoupon =
-                coupons.reserve(
-                        request.couponCode(), userId, subtotal, orderId);
+        var reservedCoupon = coupons.reserve(request.couponCode(), userId, subtotal, orderId);
 
         // 第 11 步：原子预留库存。任何一个商品库存不足，整个事务回滚。
         inventory.reserve(quantities);
 
         // 第 12 步：计算最终金额，并保证结果不小于 0。
         BigDecimal total =
-                subtotal
-                        .subtract(reservedCoupon.discount())
+                subtotal.subtract(reservedCoupon.discount())
                         .max(BigDecimal.ZERO)
                         .setScale(2, RoundingMode.HALF_UP);
 
         // 对外展示的订单号使用日期和 UUID 前缀；真正主键仍是完整 UUID。
         String orderNumber =
                 "MC-"
-                        + DateTimeFormatter.BASIC_ISO_DATE
-                                .withZone(ZoneOffset.UTC)
-                                .format(now)
+                        + DateTimeFormatter.BASIC_ISO_DATE.withZone(ZoneOffset.UTC).format(now)
                         + "-"
                         + orderId.toString().substring(0, 8).toUpperCase();
 
@@ -230,8 +213,7 @@ public class CreateOrderService {
                 quantities.entrySet().stream()
                         .map(
                                 entry -> {
-                                    ProductEntity product =
-                                            foundProducts.get(entry.getKey());
+                                    ProductEntity product = foundProducts.get(entry.getKey());
                                     return new OrderItemEntity(
                                             orderId,
                                             product.getId(),
@@ -279,22 +261,17 @@ public class CreateOrderService {
     /**
      * 合并重复商品并校验数量。
      *
-     * <p>例如同一商品出现数量 1 和数量 2，会合并为数量 3。TreeMap 还会按商品 ID 排序，
-     * 让并发订单以尽量一致的顺序触碰库存行，从而降低死锁概率。
+     * <p>例如同一商品出现数量 1 和数量 2，会合并为数量 3。TreeMap 还会按商品 ID 排序， 让并发订单以尽量一致的顺序触碰库存行，从而降低死锁概率。
      */
     private SortedMap<Long, Integer> normalize(CreateOrderRequest request) {
         if (request.items() == null || request.items().isEmpty()) {
-            throw new BusinessException(
-                    ErrorCode.ORDER_EMPTY, "订单不能为空");
+            throw new BusinessException(ErrorCode.ORDER_EMPTY, "订单不能为空");
         }
 
         SortedMap<Long, Integer> result = new TreeMap<>();
         for (OrderLineRequest line : request.items()) {
-            if (line == null
-                    || line.productId() == null
-                    || line.quantity() <= 0) {
-                throw new BusinessException(
-                        ErrorCode.VALIDATION_ERROR, "商品和数量非法");
+            if (line == null || line.productId() == null || line.quantity() <= 0) {
+                throw new BusinessException(ErrorCode.VALIDATION_ERROR, "商品和数量非法");
             }
             result.merge(line.productId(), line.quantity(), Math::addExact);
         }

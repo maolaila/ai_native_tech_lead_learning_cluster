@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component;
 /**
  * 把 PostgreSQL Outbox 表中的待发送事件可靠地发布到 RabbitMQ。
  *
- * <p><strong>大白话：</strong>业务事务先把事件写进一张“待寄信清单”。这个后台组件定期领取清单中的事件，发送给 RabbitMQ，
- * 收到 Broker 确认后再把事件标记为已发布。
+ * <p><strong>大白话：</strong>业务事务先把事件写进一张“待寄信清单”。这个后台组件定期领取清单中的事件，发送给 RabbitMQ， 收到 Broker
+ * 确认后再把事件标记为已发布。
  *
- * <p><strong>为什么不能发送后立刻假设成功：</strong>网络可能中断，所以需要 Publisher Confirm。
- * 即使 RabbitMQ 已收到消息，程序也可能在标记数据库前宕机，因此同一事件仍可能再次发送，Consumer 必须幂等。
+ * <p><strong>为什么不能发送后立刻假设成功：</strong>网络可能中断，所以需要 Publisher Confirm。 即使 RabbitMQ
+ * 已收到消息，程序也可能在标记数据库前宕机，因此同一事件仍可能再次发送，Consumer 必须幂等。
  *
  * <p><strong>对应文档：</strong> {@code 07_rabbitmq/03_Confirm_Ack_Retry_DLQ.md}、 {@code
  * 07_rabbitmq/04_幂等与Outbox.md}、 {@code mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md}。
@@ -67,10 +67,7 @@ public class OutboxPublisher {
     @Scheduled(fixedDelayString = "${app.outbox.poll-delay:500ms}")
     public void poll() {
         repository
-                .claim(
-                        worker,
-                        properties.outbox().batchSize(),
-                        properties.outbox().lease())
+                .claim(worker, properties.outbox().batchSize(), properties.outbox().lease())
                 .forEach(this::publish);
     }
 
@@ -86,17 +83,11 @@ public class OutboxPublisher {
 
             Message message =
                     new Message(
-                            event.payload().getBytes(StandardCharsets.UTF_8),
-                            messageProperties);
-            CorrelationData correlation =
-                    new CorrelationData(event.eventId().toString());
+                            event.payload().getBytes(StandardCharsets.UTF_8), messageProperties);
+            CorrelationData correlation = new CorrelationData(event.eventId().toString());
 
             // EVENTS 是 Exchange，eventType 同时作为 Routing Key。
-            rabbit.send(
-                    RabbitTopology.EVENTS,
-                    event.eventType(),
-                    message,
-                    correlation);
+            rabbit.send(RabbitTopology.EVENTS, event.eventType(), message, correlation);
 
             // 最多等待配置的 publishTimeout；不能无限占住发布线程。
             CorrelationData.Confirm confirm =
@@ -120,8 +111,7 @@ public class OutboxPublisher {
                     event.eventId(),
                     event.attemptCount(),
                     exception.toString());
-            repository.failed(
-                    event.eventId(), event.attemptCount(), exception.toString());
+            repository.failed(event.eventId(), event.attemptCount(), exception.toString());
             metrics.counter("commerce.outbox.failed").increment();
         }
     }

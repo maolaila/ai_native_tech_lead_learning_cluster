@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 处理“订单已支付”事件的两个独立消费者：创建通知和增加积分。
  *
- * <p><strong>为什么是两个 Queue：</strong>通知和积分都要收到同一个事件。两个独立 Queue 各保存一份消息；
- * 同一个 Queue 上放多个 Consumer 通常是为了分摊工作，一条消息只会交给其中一个 Consumer。
+ * <p><strong>为什么是两个 Queue：</strong>通知和积分都要收到同一个事件。两个独立 Queue 各保存一份消息； 同一个 Queue 上放多个 Consumer
+ * 通常是为了分摊工作，一条消息只会交给其中一个 Consumer。
  *
- * <p><strong>为什么必须幂等：</strong>Consumer 可能已经提交数据库，但在发送 Ack 前宕机。RabbitMQ 会再次投递同一消息，
- * 所以代码先按 {@code eventId} 领取处理权，已经处理过就直接返回。
+ * <p><strong>为什么必须幂等：</strong>Consumer 可能已经提交数据库，但在发送 Ack 前宕机。RabbitMQ 会再次投递同一消息， 所以代码先按 {@code
+ * eventId} 领取处理权，已经处理过就直接返回。
  *
  * <p><strong>对应文档：</strong> {@code 07_rabbitmq/01_同步异步与事件边界.md}、 {@code
  * 07_rabbitmq/04_幂等与Outbox.md}、 {@code mini-commerce/docs/BACKEND-TERMS-PLAIN-CHINESE.md}。
@@ -51,8 +51,8 @@ public class OrderPaidConsumers {
     /**
      * 创建站内通知。
      *
-     * <p>{@code @RabbitListener} 让 Spring 在通知队列有消息时自动调用本方法。
-     * {@code @Transactional} 让“消息去重记录”和“保存通知”一起提交或一起回滚。
+     * <p>{@code @RabbitListener} 让 Spring 在通知队列有消息时自动调用本方法。 {@code @Transactional}
+     * 让“消息去重记录”和“保存通知”一起提交或一起回滚。
      */
     @RabbitListener(queues = RabbitTopology.NOTIFICATION_Q)
     @Transactional
@@ -91,8 +91,7 @@ public class OrderPaidConsumers {
         BigDecimal total = event.payload().get("total").decimalValue();
 
         // 当前演示规则：每满 100 元积 1 分。真实业务应把规则写成明确、可测试的领域策略。
-        int earnedPoints =
-                total.divideToIntegralValue(BigDecimal.valueOf(100)).intValue();
+        int earnedPoints = total.divideToIntegralValue(BigDecimal.valueOf(100)).intValue();
 
         points.save(
                 new PointsLedgerEntity(

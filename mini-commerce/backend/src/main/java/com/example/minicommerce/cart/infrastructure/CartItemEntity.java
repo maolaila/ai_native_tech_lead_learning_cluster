@@ -14,15 +14,15 @@ import jakarta.persistence.UniqueConstraint;
  *
  * <p><strong>作用：</strong>保存“某个购物车中的某个商品及其数量”这一持久化事实。这个类只负责 ORM 映射与本实体的最小数据约束，不负责商品计价、库存判断或订单创建。
  *
- * <p><strong>为什么把购物车和购物车项拆成两张表：</strong>一个购物车可以包含多个商品，这是典型的一对多关系。使用关联表能够建立外键、唯一约束和索引，
- * 也比把商品 ID 列表塞进一个字符串字段更容易查询和维护。
+ * <p><strong>为什么把购物车和购物车项拆成两张表：</strong>一个购物车可以包含多个商品，这是典型的一对多关系。使用关联表能够建立外键、唯一约束和索引， 也比把商品 ID
+ * 列表塞进一个字符串字段更容易查询和维护。
  *
  * <p><strong>为什么有 {@code ux_cart_product} 唯一约束：</strong>同一购物车中的同一商品只能有一条明细。
  * 用户再次加入同一商品时应修改数量，而不是插入第二条重复记录。最终约束放在数据库，才能抵御并发请求绕过应用层的“先查再插”。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
- * 04_database_postgresql/01_关系模型_SQL与表关系.md}、 {@code 04_database_postgresql/02_约束_范式与数据建模.md}、 {@code
- * mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
+ * 04_database_postgresql/01_关系模型_SQL与表关系.md}、 {@code 04_database_postgresql/02_约束_范式与数据建模.md}、
+ * {@code mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
  */
 // @Entity：告诉 JPA，这个 Java 类需要和数据库表建立映射。
 @Entity

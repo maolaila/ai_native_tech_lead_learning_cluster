@@ -16,8 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * <p><strong>对应文档：</strong> {@code 00_start/02_长期项目_Mini_Commerce.md}、 {@code
  * 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code 08_runtime_deployment/04_进程_资源与优雅关闭.md}。
  *
- * <p><strong>小白补充：</strong>常见注解的通俗解释见 {@code
- * mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
+ * <p><strong>小白补充：</strong>常见注解的通俗解释见 {@code mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
  */
 // @SpringBootApplication 可以先理解成“从这里启动 Spring Boot，并启用常用自动配置”。
 @SpringBootApplication

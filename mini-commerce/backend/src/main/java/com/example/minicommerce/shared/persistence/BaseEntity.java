@@ -15,7 +15,8 @@ import java.time.Instant;
  * 支付成功时间、订单取消时间等业务时刻仍应使用各自明确字段，不能全部混成一个 {@code updatedAt}。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
- * 04_database_postgresql/01_关系模型_SQL与表关系.md}、 {@code mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
+ * 04_database_postgresql/01_关系模型_SQL与表关系.md}、 {@code
+ * mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md}。
  */
 // @MappedSuperclass：这个父类本身不单独对应一张表，但字段会被子 Entity 映射到各自表中。
 @MappedSuperclass

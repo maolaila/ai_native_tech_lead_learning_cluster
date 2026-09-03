@@ -13,8 +13,8 @@ import org.springframework.data.repository.query.Param;
  *
  * <p><strong>作用：</strong>提供库存查询、预留、释放和确认成交所需的数据库操作。
  *
- * <p><strong>为什么这里使用原生 SQL：</strong>库存并发正确性依赖“检查库存是否足够”和“扣减库存”在同一条 UPDATE 中完成。
- * 直接写 SQL 能清楚看到数据库最终执行的条件，也便于用受影响行数判断成功或失败。
+ * <p><strong>为什么这里使用原生 SQL：</strong>库存并发正确性依赖“检查库存是否足够”和“扣减库存”在同一条 UPDATE 中完成。 直接写 SQL
+ * 能清楚看到数据库最终执行的条件，也便于用受影响行数判断成功或失败。
  *
  * <p><strong>对应文档：</strong> {@code 04_database_postgresql/04_事务与Spring边界.md}、 {@code
  * 04_database_postgresql/05_并发_锁与库存超卖.md}、 {@code 04_database_postgresql/06_隔离_MVCC与死锁.md}、 {@code

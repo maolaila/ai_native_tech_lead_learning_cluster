@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *
  * <p><strong>大白话：</strong>这里像 API 大门的门禁规则。请求先经过门禁，再进入 Controller。
  *
- * <p><strong>为什么当前关闭 CSRF：</strong>本项目 API 使用请求头中的 Bearer Token，不依赖浏览器自动携带的登录 Cookie。
- * 如果以后改成 Session Cookie，必须重新评估并启用 CSRF Token，不能照抄当前配置。
+ * <p><strong>为什么当前关闭 CSRF：</strong>本项目 API 使用请求头中的 Bearer Token，不依赖浏览器自动携带的登录 Cookie。 如果以后改成
+ * Session Cookie，必须重新评估并启用 CSRF Token，不能照抄当前配置。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/01_Session_Cookie_Token.md}、 {@code
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 05_auth_security/03_Web常见攻击.md}、 {@code
@@ -50,8 +50,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 // STATELESS 表示服务端不保存 HTTP Session，每次请求都要携带并验证 Token。
                 .sessionManagement(
-                        session ->
-                                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 未登录返回 401；已经登录但无权限返回 403。统一由 handlers 输出 JSON。
                 .exceptionHandling(
                         exceptions ->
