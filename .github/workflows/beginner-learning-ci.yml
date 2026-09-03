@@ -20,6 +20,7 @@ on:
       - "tools/check_beginner_learning_assets.py"
       - "tools/update_beginner_mkdocs_nav.py"
       - "tools/check_learning_readability.py"
+      - "tools/check_learning_references.py"
       - ".github/workflows/beginner-learning-ci.yml"
 
 permissions:
