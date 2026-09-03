@@ -1,0 +1,11 @@
+.env
+.idea/
+.vscode/
+**/target/
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+*.log
+.DS_Store
+build-evidence/
+mcp-audit/

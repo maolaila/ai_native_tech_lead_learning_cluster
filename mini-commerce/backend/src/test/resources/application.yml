@@ -1,0 +1,7 @@
+spring:
+  task:
+    scheduling:
+      enabled: false
+app:
+  outbox:
+    publisher-enabled: false

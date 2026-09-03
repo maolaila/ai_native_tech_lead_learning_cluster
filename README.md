@@ -1,95 +1,119 @@
-# AI-Native Tech Lead / Architect 学习文件集群
+# AI-Native Tech Lead / Architect 学习文件集群 + 完整工程
 
-> **所属模块：** 总入口
-> **本文用途：** 说明如何按顺序阅读、实践、验收，并把资深工程经验沉淀为新人和 AI 可执行的工程体系。
+本仓库包含两类互相对应的资产：
 
----
+1. 根目录 `00_start`～`16_references`：完整学习文档集群；
+2. [`mini-commerce/`](mini-commerce/README.md)：同一真实业务上下文中的完整工程源码。
 
-这套资料以你提供的学习路线为唯一主轴：**不要求你变成 DBA、SRE、后端、安全和测试的全职专家，而是要求你具备从业务到生产运行的完整闭环设计能力。**
+> 原始纯文档版本保存在分支 `backup/docs-only-2026-09-03`。当前版本不删除文档，而是在文档旁加入完整工程。
 
-整个知识库围绕一个长期项目 `Mini Commerce` 展开。每学一个技术，就把它加入同一个项目；不再创建一堆互不相干的 Hello World。
+## 后端小白入口
 
-## 1. 你应该怎样使用
+第一次系统学习后端，不要直接打开所有 Entity 或配置文件。按下面顺序开始：
+
+1. [后端零基础：从这里开始](mini-commerce/docs/BEGINNER-START-HERE.md)
+2. [一次创建订单请求：从 HTTP 到数据库](mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md)
+3. [Spring 与 Java 注解小白词典](mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md)
+4. [后端专有名词通俗词典](mini-commerce/docs/BACKEND-TERMS-PLAIN-CHINESE.md)
+5. [Java 后端阅读语法速查](mini-commerce/docs/JAVA-SYNTAX-FOR-BACKEND-BEGINNERS.md)
+6. [Spring 配置从零开始](mini-commerce/docs/CONFIGURATION-FROM-ZERO.md)
+7. [ADHD 友好的项目学习计划](mini-commerce/docs/ADHD-FOCUSED-LEARNING-PLAN.md)
+8. [后端小白常见问题](mini-commerce/docs/BEGINNER-FAQ.md)
+
+这些材料使用固定方式解释知识点：
 
 ```text
-读当前模块 README
-    ↓
-读“概念与为什么”
-    ↓
-不用文档复述心智模型
-    ↓
-完成最小实现
-    ↓
-故意制造错误、并发或依赖故障
-    ↓
-用测试、日志、指标、数据状态验证
-    ↓
-完成验收清单和学习复盘
+它是什么
+→ 用大白话怎样理解
+→ 解决什么问题
+→ 在本项目哪里使用
+→ 最容易犯什么错误
 ```
 
-不要连续读几十篇文档而不操作。每个知识点都必须拿出至少四类证据：
+遇到陌生词时，先查项目内注释和词典；项目内仍没有解释时，再查外部资料。
 
-- **行为证据**：功能按业务规则工作；
-- **数据证据**：数据库、缓存或队列状态正确；
-- **自动化证据**：测试可重复执行；
-- **故障证据**：失败时能观察、定位和恢复。
+## 在浏览器中阅读整套文档
 
-## 2. 推荐起点
+先安装文档依赖：
 
-1. [`00_start/01_总路线与使用方法.md`](00_start/01_总路线与使用方法.md)
-2. [`00_start/02_长期项目_Mini_Commerce.md`](00_start/02_长期项目_Mini_Commerce.md)
-3. [`00_start/03_48周执行计划.md`](00_start/03_48周执行计划.md)
-4. [`00_start/04_环境与版本基线.md`](00_start/04_环境与版本基线.md)
-5. [`01_foundations/README.md`](01_foundations/README.md)
+```bash
+python -m pip install -r requirements-docs.txt
+```
 
-## 3. 统一掌握等级
+然后在仓库根目录运行：
 
-### L1：理解
+```bash
+python tools/build_docs_site.py --serve
+```
 
-能说明它是什么、为何存在、何时使用、基本如何工作。
+浏览器打开：
 
-### L2：能使用
+```text
+http://127.0.0.1:8000
+```
 
-能配置、实现、测试、调试，并解决常见失败。
+停止预览时在终端按 `Ctrl + C`。
 
-### L3：能设计和 Review
+本仓库的 Markdown 分散在多个根目录模块中，因此不要直接运行普通的 `mkdocs serve`。`build_docs_site.py` 会生成安全的临时配置，避免 MkDocs 把输出目录再次复制进文档目录。
 
-能判断是否需要、方案风险、验证方式、回滚方式，以及新人或 AI 最可能犯的错误。
+只构建静态站点、不启动服务器：
 
-你的目标：
+```bash
+python tools/build_docs_site.py --strict
+```
 
-| 领域 | 目标 |
-|---|---:|
-| 前端与前端架构 | L3 |
-| 后端与数据库 | L2～L3 |
-| 测试 | L3 |
-| Redis、消息队列、Linux、Docker、云、安全 | L2 |
-| CI/CD、可观测性 | L2～L3 |
-| 系统设计、AI Engineering、MCP | L3 |
+默认输出到仓库旁边的目录，不会污染源码目录。
 
-## 4. AI 的正确位置
+## 两条进阶学习路径
 
-可以大量使用 Codex、Claude Code 或其他 Coding Agent，但每次必须回答：
+### 按文档推进
 
-1. 改动跨越了哪些模块和层？
-2. 数据从哪里进入、如何保存、如何离开？
-3. 哪些路径会失败或重复？
-4. 哪些测试证明业务正确，而不只是代码能编译？
-5. 上线后如何观察？
-6. 数据库和应用如何回滚或前滚？
-7. 哪些内容是 AI 的假设？
+从 [`00_start/01_总路线与使用方法.md`](00_start/01_总路线与使用方法.md) 开始，每读完一个主题，到 `mini-commerce` 查找对应实现、测试、故障实验和运行配置。
 
-答不上来，就意味着“AI 会了，你没有掌握”。
+### 按业务链阅读源码
 
-## 5. 文件类型
+```text
+注册/登录
+→ 商品和库存
+→ 购物车
+→ 创建订单（权威计价、库存预留、优惠券、快照、幂等、Outbox）
+→ 模拟支付 / 重复 Webhook / 退款
+→ RabbitMQ 通知与积分
+→ Redis 缓存和限流
+→ Docker / CI/CD / 可观测性 / AWS
+→ Rules / Golden Path / MCP / Eval
+```
 
-每个核心模块通常含：
+## 关键入口
 
-- `README.md`：学习目标和顺序；
-- 原理文件：概念、为什么、好处和代价；
-- 案例文件：用订单、库存、优惠券等业务解释；
-- 实操文件：命令、步骤、故障注入；
-- 验收文件：可观察的过关标准；
-- 模板：可直接用于团队和 AI 工作流。
+- [完整工程说明](mini-commerce/README.md)
+- [完整源码阅读路线](mini-commerce/docs/CODE-READING-GUIDE.md)
+- [文档章节与代码逐项映射](mini-commerce/docs/generated/document-code-map.md)
+- [注解在源码中的使用位置](mini-commerce/docs/generated/annotation-usage-index.md)
+- [源码可读性审计](mini-commerce/docs/generated/readability-audit.md)
+- [后端小白资料审计](mini-commerce/docs/generated/beginner-learning-audit.md)
+- [学习资料内部引用审计](mini-commerce/docs/generated/learning-reference-audit.md)
+- [架构说明](mini-commerce/docs/architecture.md)
+- [领域不变量](mini-commerce/docs/domain-model.md)
+- [测试策略](mini-commerce/docs/testing-strategy.md)
+- [安全边界](mini-commerce/docs/security.md)
+- [部署与回滚](mini-commerce/docs/deployment.md)
+- [完整合并阅读版](FULL_BOOK.md)
+- [原文档导航](SUMMARY.md)
 
-完整导航见 [`SUMMARY.md`](SUMMARY.md)，合并阅读版见 [`FULL_BOOK.md`](FULL_BOOK.md)。
+## 一键启动业务工程
+
+```bash
+cd mini-commerce
+cp .env.example .env
+docker compose --profile app up -d --build
+./scripts/smoke.sh
+```
+
+可选可观测性：
+
+```bash
+docker compose --profile app --profile observability up -d --build
+```
+
+前端不是本项目的学习重点，因此使用 HTTP 请求集和最小 API 闭环；后端、数据库、Redis、RabbitMQ、测试、运行、云、MCP 与 Eval 均提供实际工程文件。

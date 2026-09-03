@@ -1,0 +1,139 @@
+name: validate-and-promote-mini-commerce-v2
+
+on:
+  push:
+    branches: [feat/complete-mini-commerce]
+    paths:
+      - '.github/workflows/validate-and-promote-mini-commerce-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-complete-mini-commerce
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/complete-mini-commerce
+          fetch-depth: 0
+
+      - name: Synchronize feature branch
+        run: |
+          git fetch origin main feat/complete-mini-commerce
+          git reset --hard origin/feat/complete-mini-commerce
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: mini-commerce/mcp-server/pyproject.toml
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.13.2'
+
+      - name: Generate and apply audited release fixes
+        run: |
+          python tools/generate_complete_mini_commerce_v2.py
+          python tools/apply_final_fixes_v2.py
+          python tools/apply_release_fixes_v2.py
+          terraform fmt -recursive mini-commerce/infra/aws/terraform
+
+      - name: Static integrity and mapping checks
+        run: |
+          python tools/generate_complete_mini_commerce_v2.py --check
+          python mini-commerce/tools/check_learning_references.py
+          python mini-commerce/ai-engineering/eval/run_static_eval.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('mini-commerce').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+              print('valid-json', path)
+          PY
+
+      - name: MCP security and tool-contract tests
+        working-directory: mini-commerce/mcp-server
+        run: |
+          python -m pip install -e '.[dev]'
+          pytest -q
+
+      - name: Java compile, unit, architecture and PostgreSQL integration tests
+        working-directory: mini-commerce/backend
+        run: mvn -B -ntp verify
+
+      - name: Compose validation and image builds
+        run: |
+          docker compose -f mini-commerce/compose.yaml config >/tmp/mini-commerce-compose.yml
+          docker build -t mini-commerce-backend:${GITHUB_SHA} mini-commerce/backend
+          docker build -t mini-commerce-mcp:${GITHUB_SHA} mini-commerce/mcp-server
+
+      - name: Terraform validation
+        working-directory: mini-commerce/infra/aws/terraform
+        run: |
+          terraform fmt -check -recursive
+          terraform init -backend=false
+          terraform validate
+
+      - name: Record successful evidence
+        run: |
+          find mini-commerce -type d \( -name __pycache__ -o -name .pytest_cache \) -prune -exec rm -rf {} + || true
+          cat > mini-commerce/VALIDATION-REPORT.md <<EOF
+          # 完整工程验证报告
+
+          此报告由 GitHub Actions 工作流 \`validate-and-promote-mini-commerce-v2\` 生成。
+
+          - Workflow run：${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          - 输入提交：${GITHUB_SHA}
+          - Java 21 + Maven \`verify\`：通过
+          - Testcontainers PostgreSQL + Flyway + 并发/回滚测试：通过
+          - ArchUnit 模块边界：通过
+          - MCP SDK 2.1.1 + 安全与工具契约 pytest：通过
+          - Docker Compose 解析、后端与 MCP 镜像构建：通过
+          - Terraform fmt/init/validate：通过
+          - 文档章节映射、JSON 和 AI 静态 Eval：通过
+
+          只有以上所有步骤成功，下一步才允许把该提交快进到 \`main\`。
+          EOF
+
+      - name: Commit validated generated assets to feature branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md MANIFEST.md mini-commerce
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat: add validated complete Mini Commerce learning project'
+          fi
+          git push origin HEAD:feat/complete-mini-commerce
+
+      - name: Replace main by fast-forward only after all gates pass
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor origin/main HEAD
+          git push origin HEAD:main
+
+      - name: Upload test and coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mini-commerce-release-evidence-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            mini-commerce/VALIDATION-REPORT.md
+            mini-commerce/backend/target/surefire-reports/**
+            mini-commerce/backend/target/failsafe-reports/**
+            mini-commerce/backend/target/site/jacoco/**

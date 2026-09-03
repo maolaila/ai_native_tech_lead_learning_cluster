@@ -1,0 +1,8 @@
+aws_region       = "ap-northeast-1"
+environment      = "learning"
+owner            = "your-name"
+container_image  = "ghcr.io/example/mini-commerce@sha256:replace-with-verified-digest"
+db_password      = "replace-with-at-least-16-characters"
+jwt_secret_base64 = "replace-with-strong-base64-secret"
+enable_nat_gateway = false
+enable_elasticache = false

@@ -1,0 +1,114 @@
+name: mini-commerce-ci
+
+on:
+  push:
+    branches: [main, feat/complete-mini-commerce]
+    paths:
+      - 'mini-commerce/**'
+      - 'tools/generate_complete_mini_commerce_v2.py'
+      - 'tools/scaffold/**'
+      - '.github/workflows/mini-commerce-ci.yml'
+  pull_request:
+    paths:
+      - 'mini-commerce/**'
+      - 'tools/generate_complete_mini_commerce_v2.py'
+      - 'tools/scaffold/**'
+      - '.github/workflows/mini-commerce-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mini-commerce-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Validate generated project and document links
+        run: |
+          python tools/generate_complete_mini_commerce_v2.py --check
+          python mini-commerce/tools/check_learning_references.py
+          python mini-commerce/ai-engineering/eval/run_static_eval.py
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('mini-commerce').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+              print('valid', path)
+          PY
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Compile, unit test, PostgreSQL integration test and architecture test
+        working-directory: mini-commerce/backend
+        run: mvn -B -ntp verify
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-evidence
+          if-no-files-found: warn
+          path: |
+            mini-commerce/backend/target/surefire-reports/**
+            mini-commerce/backend/target/failsafe-reports/**
+            mini-commerce/backend/target/site/jacoco/**
+
+  mcp-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13', cache: pip, cache-dependency-path: mini-commerce/mcp-server/pyproject.toml}
+      - name: Install pinned MCP SDK and tests
+        working-directory: mini-commerce/mcp-server
+        run: python -m pip install -e '.[dev]'
+      - name: Run MCP path, SQL, command allowlist and prompt-injection tests
+        working-directory: mini-commerce/mcp-server
+        run: pytest -q
+
+  container-and-compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose topology
+        working-directory: mini-commerce
+        run: docker compose config >/tmp/compose.rendered.yml
+      - name: Build backend image
+        run: docker build -t mini-commerce-backend:ci mini-commerce/backend
+      - name: Build MCP image
+        run: docker build -t mini-commerce-mcp:ci mini-commerce/mcp-server
+
+  terraform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: {terraform_version: '1.13.2'}
+      - name: Terraform formatting
+        working-directory: mini-commerce/infra/aws/terraform
+        run: terraform fmt -check -recursive
+      - name: Terraform init without backend
+        working-directory: mini-commerce/infra/aws/terraform
+        run: terraform init -backend=false
+      - name: Terraform validate
+        working-directory: mini-commerce/infra/aws/terraform
+        run: terraform validate

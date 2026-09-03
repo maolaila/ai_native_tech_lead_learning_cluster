@@ -1,0 +1,35 @@
+spring:
+  task:
+    scheduling:
+      enabled: false
+  rabbitmq:
+    listener:
+      simple:
+        auto-startup: false
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+app:
+  jwt:
+    issuer: mini-commerce-test
+    secret: Y2hhbmdlLW1lLWNoYW5nZS1tZS1jaGFuZ2UtbWUtMzItYnl0ZXMtbWluaW11bQ==
+    access-ttl: 15m
+    refresh-ttl: 1d
+  payment:
+    webhook-secret: test-webhook-secret
+    connect-timeout: 100ms
+    read-timeout: 200ms
+  cache:
+    product-ttl: 1m
+    null-ttl: 5s
+    ttl-jitter: 5s
+  outbox:
+    batch-size: 10
+    lease: 5s
+    publish-timeout: 1s
+    poll-delay: 1h
+management:
+  tracing:
+    sampling:
+      probability: 0

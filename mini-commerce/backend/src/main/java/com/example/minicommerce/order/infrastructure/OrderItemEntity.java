@@ -1,0 +1,89 @@
+package com.example.minicommerce.order.infrastructure;
+
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.UUID;
+
+/**
+ * 保存成交时名称、SKU 和价格快照；商品后续改名改价不能篡改历史事实。
+ *
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
+ * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。
+ */
+@Entity
+@Table(
+        name = "order_items",
+        uniqueConstraints =
+                @UniqueConstraint(
+                        name = "ux_order_product",
+                        columnNames = {"order_id", "product_id"}))
+public class OrderItemEntity {
+    @Id private UUID id;
+
+    @Column(name = "order_id", nullable = false)
+    private UUID orderId;
+
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @Column(name = "product_name_snapshot", nullable = false, length = 200)
+    private String productName;
+
+    @Column(name = "sku_snapshot", nullable = false, length = 64)
+    private String sku;
+
+    @Column(name = "unit_price_snapshot", nullable = false, precision = 19, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(nullable = false)
+    private int quantity;
+
+    @Column(name = "line_total", nullable = false, precision = 19, scale = 2)
+    private BigDecimal lineTotal;
+
+    protected OrderItemEntity() {}
+
+    public OrderItemEntity(
+            UUID orderId, Long productId, String name, String sku, BigDecimal price, int quantity) {
+        id = UUID.randomUUID();
+        this.orderId = orderId;
+        this.productId = productId;
+        productName = name;
+        this.sku = sku;
+        unitPrice = price;
+        this.quantity = quantity;
+        lineTotal = price.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public BigDecimal getLineTotal() {
+        return lineTotal;
+    }
+}

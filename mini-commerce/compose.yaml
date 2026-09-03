@@ -1,0 +1,155 @@
+name: mini-commerce
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-commerce}
+      POSTGRES_USER: ${POSTGRES_USER:-commerce_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-commerce-local}
+      TZ: UTC
+    ports: ["${POSTGRES_PORT:-15432}:5432"]
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-commerce_app} -d ${POSTGRES_DB:-commerce}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+    networks: [commerce]
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    ports: ["${REDIS_PORT:-16379}:6379"]
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+    networks: [commerce]
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-commerce}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-commerce-local}
+    ports:
+      - "${RABBITMQ_AMQP_PORT:-15672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15673}:15672"
+    volumes: [rabbitmq-data:/var/lib/rabbitmq]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    networks: [commerce]
+
+  backend:
+    profiles: [app]
+    build: {context: ./backend}
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-commerce}
+      DATABASE_USER: ${POSTGRES_USER:-commerce_app}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-commerce-local}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-commerce}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-commerce-local}
+      JWT_SECRET_BASE64: ${JWT_SECRET_BASE64:-Y2hhbmdlLW1lLWNoYW5nZS1tZS1jaGFuZ2UtbWUtMzItYnl0ZXMtbWluaW11bQ==}
+      PAYMENT_WEBHOOK_SECRET: ${PAYMENT_WEBHOOK_SECRET:-local-webhook-secret-change-me}
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://otel-collector:4318/v1/traces
+    ports: ["${BACKEND_PORT:-18080}:8080"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health/readiness"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+    networks: [commerce]
+
+  mcp-server:
+    profiles: [app]
+    build: {context: ./mcp-server}
+    environment:
+      MCP_TRANSPORT: streamable-http
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8081
+      MCP_STATIC_TOKEN: ${MCP_STATIC_TOKEN:-local-mcp-readonly-token}
+      MCP_PUBLIC_URL: http://localhost:${MCP_PORT:-18081}/mcp
+      REPOSITORY_ROOT: /workspace
+      DATABASE_READONLY_URL: postgresql://${POSTGRES_USER:-commerce_app}:${POSTGRES_PASSWORD:-commerce-local}@postgres:5432/${POSTGRES_DB:-commerce}
+      MCP_AUDIT_PATH: /audit/mcp-audit.jsonl
+    ports: ["${MCP_PORT:-18081}:8081"]
+    volumes:
+      - ..:/workspace:ro
+      - mcp-audit:/audit
+    depends_on:
+      postgres: {condition: service_healthy}
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    networks: [commerce]
+
+  prometheus:
+    profiles: [observability]
+    image: prom/prometheus:v3.5.0
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.retention.time=7d"]
+    ports: ["${PROMETHEUS_PORT:-19090}:9090"]
+    volumes:
+      - ./infra/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/observability/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    networks: [commerce]
+
+  grafana:
+    profiles: [observability]
+    image: grafana/grafana:12.1.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin-local
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports: ["${GRAFANA_PORT:-13000}:3000"]
+    volumes:
+      - ./infra/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on: [prometheus, tempo]
+    networks: [commerce]
+
+  tempo:
+    profiles: [observability]
+    image: grafana/tempo:2.8.2
+    command: ["-config.file=/etc/tempo.yml"]
+    volumes:
+      - ./infra/observability/tempo.yml:/etc/tempo.yml:ro
+      - tempo-data:/var/tempo
+    networks: [commerce]
+
+  otel-collector:
+    profiles: [observability]
+    image: otel/opentelemetry-collector-contrib:0.133.0
+    command: ["--config=/etc/otelcol.yml"]
+    volumes: [./infra/observability/otel-collector.yml:/etc/otelcol.yml:ro]
+    depends_on: [tempo]
+    networks: [commerce]
+
+networks: {commerce: {driver: bridge}}
+volumes:
+  postgres-data: {}
+  redis-data: {}
+  rabbitmq-data: {}
+  prometheus-data: {}
+  grafana-data: {}
+  tempo-data: {}
+  mcp-audit: {}

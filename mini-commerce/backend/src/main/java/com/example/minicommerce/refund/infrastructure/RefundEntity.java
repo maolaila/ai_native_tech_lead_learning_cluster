@@ -1,0 +1,122 @@
+package com.example.minicommerce.refund.infrastructure;
+
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
+/**
+ * refund模块的基础设施适配层：{@code RefundEntity}。
+ *
+ * <p><strong>作用：</strong>负责 JPA、SQL、Redis、RabbitMQ 或外部系统等技术实现，并把技术细节隔离在业务边界之外。
+ *
+ * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ *
+ * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
+ * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。
+ */
+@Entity
+@Table(
+        name = "refunds",
+        uniqueConstraints =
+                @UniqueConstraint(
+                        name = "ux_refund_payment_key",
+                        columnNames = {"payment_id", "idempotency_key"}))
+public class RefundEntity {
+    @Id private UUID id;
+
+    @Column(name = "payment_id", nullable = false)
+    private UUID paymentId;
+
+    @Column(name = "order_id", nullable = false)
+    private UUID orderId;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "idempotency_key", nullable = false, length = 128)
+    private String key;
+
+    @Column(nullable = false, length = 20)
+    private String status;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal amount;
+
+    @Column(name = "provider_reference", length = 100)
+    private String providerReference;
+
+    @Column(name = "last_error", length = 500)
+    private String lastError;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    protected RefundEntity() {}
+
+    public RefundEntity(
+            UUID paymentId, UUID orderId, Long userId, String key, BigDecimal amount, Instant now) {
+        id = UUID.randomUUID();
+        this.paymentId = paymentId;
+        this.orderId = orderId;
+        this.userId = userId;
+        this.key = key;
+        this.amount = amount;
+        status = "INITIATED";
+        createdAt = now;
+        updatedAt = now;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public UUID getPaymentId() {
+        return paymentId;
+    }
+
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getProviderReference() {
+        return providerReference;
+    }
+
+    public String getLastError() {
+        return lastError;
+    }
+
+    public void success(String ref, Instant now) {
+        status = "SUCCEEDED";
+        providerReference = ref;
+        updatedAt = now;
+    }
+
+    public void unknown(String e, Instant now) {
+        status = "UNKNOWN";
+        lastError = e;
+        updatedAt = now;
+    }
+
+    public void failed(String e, Instant now) {
+        status = "FAILED";
+        lastError = e;
+        updatedAt = now;
+    }
+}

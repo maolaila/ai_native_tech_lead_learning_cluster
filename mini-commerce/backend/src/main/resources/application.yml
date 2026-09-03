@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: mini-commerce
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:15432/commerce}
+    username: ${DATABASE_USER:commerce_app}
+    password: ${DATABASE_PASSWORD:commerce-local}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:12}
+      minimum-idle: ${DB_POOL_MIN:2}
+      connection-timeout: 1500ms
+      validation-timeout: 1000ms
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:16379}
+      timeout: 500ms
+      connect-timeout: 500ms
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:15672}
+    username: ${RABBITMQ_USER:commerce}
+    password: ${RABBITMQ_PASSWORD:commerce-local}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: auto
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 500ms
+          multiplier: 2
+          max-interval: 5s
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+  forward-headers-strategy: framework
+
+app:
+  jwt:
+    issuer: mini-commerce
+    # 这里只是本地默认值。生产必须由 Secret Manager 注入，并定期轮换。
+    secret: ${JWT_SECRET_BASE64:Y2hhbmdlLW1lLWNoYW5nZS1tZS1jaGFuZ2UtbWUtMzItYnl0ZXMtbWluaW11bQ==}
+    access-ttl: 15m
+    refresh-ttl: 14d
+  payment:
+    webhook-secret: ${PAYMENT_WEBHOOK_SECRET:local-webhook-secret-change-me}
+    connect-timeout: 500ms
+    read-timeout: 2s
+  cache:
+    product-ttl: 5m
+    null-ttl: 30s
+    ttl-jitter: 30s
+  outbox:
+    batch-size: 50
+    lease: 30s
+    publish-timeout: 3s
+    poll-delay: 500ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics,loggers,threaddump
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when_authorized
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLE_PROBABILITY:1.0}
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
+  observations:
+    key-values:
+      service: mini-commerce
+
+logging:
+  pattern:
+    console: "%d{ISO8601} level=%-5level service=mini-commerce traceId=%X{traceId:-} requestId=%X{requestId:-} userId=%X{userId:-} orderId=%X{orderId:-} logger=%logger{36} msg=%msg%n"

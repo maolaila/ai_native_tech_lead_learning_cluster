@@ -1,0 +1,201 @@
+name: validate-and-promote-mini-commerce-v3
+
+on:
+  push:
+    branches: [feat/complete-mini-commerce]
+    paths:
+      - '.github/workflows/validate-and-promote-mini-commerce-v3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-complete-mini-commerce
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/complete-mini-commerce
+          fetch-depth: 0
+
+      - name: Synchronize feature branch
+        run: |
+          git fetch origin main feat/complete-mini-commerce
+          git reset --hard origin/feat/complete-mini-commerce
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: mini-commerce/mcp-server/pyproject.toml
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.13.2'
+
+      - name: Generate complete project and apply all reviewed fixes
+        id: generate
+        shell: bash
+        run: |
+          set -o pipefail
+          {
+            python tools/generate_complete_mini_commerce_v2.py
+            python tools/apply_final_fixes_v2.py
+            python tools/apply_release_fixes_v2.py
+            python tools/apply_completeness_fixes_v3.py
+            python tools/refine_document_mapping_v3.py
+            terraform fmt -recursive mini-commerce/infra/aws/terraform
+            python tools/finalize_delivery_v3.py
+          } 2>&1 | tee /tmp/generate.log
+
+      - name: Static integrity, document mapping and AI Eval
+        id: static
+        shell: bash
+        run: |
+          set -o pipefail
+          {
+            python tools/generate_complete_mini_commerce_v2.py --check
+            python mini-commerce/tools/check_learning_references.py
+            python mini-commerce/ai-engineering/eval/run_static_eval.py
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('mini-commerce').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+              print('valid-json', path)
+          PY
+          } 2>&1 | tee /tmp/static.log
+
+      - name: MCP security and tool-contract tests
+        id: mcp
+        shell: bash
+        working-directory: mini-commerce/mcp-server
+        run: |
+          set -o pipefail
+          {
+            python -m pip install -e '.[dev]'
+            pytest -q
+          } 2>&1 | tee /tmp/mcp.log
+
+      - name: Java compile, unit, architecture and PostgreSQL integration tests
+        id: java
+        shell: bash
+        working-directory: mini-commerce/backend
+        run: |
+          set -o pipefail
+          mvn -B -ntp verify 2>&1 | tee /tmp/maven.log
+
+      - name: Compose validation and runtime image builds
+        id: containers
+        shell: bash
+        run: |
+          set -o pipefail
+          {
+            docker compose -f mini-commerce/compose.yaml config >/tmp/mini-commerce-compose.yml
+            docker build -t mini-commerce-backend:${GITHUB_SHA} mini-commerce/backend
+            docker build -t mini-commerce-mcp:${GITHUB_SHA} mini-commerce/mcp-server
+          } 2>&1 | tee /tmp/containers.log
+
+      - name: AWS Terraform formatting and validation
+        id: terraform
+        shell: bash
+        working-directory: mini-commerce/infra/aws/terraform
+        run: |
+          set -o pipefail
+          {
+            terraform fmt -check -recursive
+            terraform init -backend=false
+            terraform validate
+          } 2>&1 | tee /tmp/terraform.log
+
+      - name: Write successful validation evidence
+        run: |
+          find mini-commerce -type d \( -name __pycache__ -o -name .pytest_cache \) -prune -exec rm -rf {} + || true
+          cat > mini-commerce/VALIDATION-REPORT.md <<EOF
+          # 完整工程验证报告
+
+          本报告由 GitHub Actions 工作流 \`validate-and-promote-mini-commerce-v3\` 生成。
+
+          - Workflow：${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          - 输入提交：${GITHUB_SHA}
+          - Java 21 + Maven compile/unit/ArchUnit：通过
+          - Testcontainers PostgreSQL + Flyway + 事务/并发/对象权限测试：通过
+          - MCP SDK 2.1.1 + 路径/SQL/命令白名单/Prompt Injection 测试：通过
+          - Docker Compose 解析、后端与 MCP 镜像构建：通过
+          - Terraform fmt/init/validate：通过
+          - 文档章节映射、JSON 与 AI 静态 Eval：通过
+
+          该文件只会在全部步骤成功后生成；随后同一提交才允许快进到 \`main\`。
+          EOF
+          rm -f mini-commerce/CI-FAILURE-v3.md
+
+      - name: Commit validated project to feature branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md MANIFEST.md mini-commerce
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat: publish complete validated Mini Commerce project'
+          fi
+          git push origin HEAD:feat/complete-mini-commerce
+
+      - name: Fast-forward main only after all gates pass
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor origin/main HEAD
+          git push origin HEAD:main
+
+      - name: Persist a failure report on the feature branch
+        if: failure()
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          mkdir -p mini-commerce
+          {
+            echo '# CI 失败报告（main 未更新）'
+            echo
+            echo "- Workflow: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo '- 结论：至少一个发布门禁失败，工作流没有执行 main 快进。'
+            for file in /tmp/generate.log /tmp/static.log /tmp/mcp.log /tmp/maven.log /tmp/containers.log /tmp/terraform.log; do
+              if test -f "$file"; then
+                echo
+                echo "## $(basename "$file") 最后 200 行"
+                echo '```text'
+                tail -n 200 "$file"
+                echo '```'
+              fi
+            done
+          } > mini-commerce/CI-FAILURE-v3.md
+          git add mini-commerce/CI-FAILURE-v3.md
+          git commit -m 'ci: record failed complete-project validation' || true
+          git pull --rebase origin feat/complete-mini-commerce || true
+          git push origin HEAD:feat/complete-mini-commerce || true
+
+      - name: Upload all available evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mini-commerce-v3-evidence-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            mini-commerce/VALIDATION-REPORT.md
+            mini-commerce/CI-FAILURE-v3.md
+            mini-commerce/backend/target/surefire-reports/**
+            mini-commerce/backend/target/failsafe-reports/**
+            mini-commerce/backend/target/site/jacoco/**
+            /tmp/*.log

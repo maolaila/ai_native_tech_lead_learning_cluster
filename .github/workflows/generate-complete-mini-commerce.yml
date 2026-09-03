@@ -1,0 +1,42 @@
+name: generate-complete-mini-commerce
+
+on:
+  push:
+    branches: [feat/complete-mini-commerce]
+    paths:
+      - 'tools/generate_complete_mini_commerce_v2.py'
+      - 'tools/scaffold/**'
+      - '.github/workflows/generate-complete-mini-commerce.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-complete-mini-commerce
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/complete-mini-commerce
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Generate the complete browsable project
+        run: python tools/generate_complete_mini_commerce_v2.py
+      - name: Commit generated sources
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md mini-commerce
+          if git diff --cached --quiet; then
+            echo 'Generated project is already current.'
+          else
+            git commit -m 'feat: add complete Mini Commerce learning project'
+            git push origin HEAD:feat/complete-mini-commerce
+          fi
