@@ -12,12 +12,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 /**
  * PostgreSQL 集成测试的共同基础类。
  *
- * <p><strong>作用：</strong>为继承它的测试类启动真实 PostgreSQL 容器，并把动态 JDBC 地址交给 Spring Boot。
- * 这样测试验证的是 PostgreSQL、Flyway、JPA 和真实事务，而不是只验证内存数据库。
+ * <p><strong>作用：</strong>为继承它的测试类启动真实 PostgreSQL 容器，并把动态 JDBC 地址交给 Spring Boot。 这样测试验证的是
+ * PostgreSQL、Flyway、JPA 和真实事务，而不是只验证内存数据库。
  *
- * <p><strong>为什么加入 {@link DirtiesContext}：</strong>{@link Container} 的静态容器按测试类启动和停止，
- * 但 Spring 默认会在不同测试类之间复用应用上下文。如果第一个容器停止后仍复用旧连接池，第二个测试就会继续访问已经关闭的旧端口。
- * 每个集成测试类结束后关闭对应 Spring 上下文，可以让下一类测试使用自己的新容器地址，避免“容器已经换了，连接池仍指向旧端口”。
+ * <p><strong>为什么加入 {@link DirtiesContext}：</strong>{@link Container} 的静态容器按测试类启动和停止， 但 Spring
+ * 默认会在不同测试类之间复用应用上下文。如果第一个容器停止后仍复用旧连接池，第二个测试就会继续访问已经关闭的旧端口。 每个集成测试类结束后关闭对应 Spring
+ * 上下文，可以让下一类测试使用自己的新容器地址，避免“容器已经换了，连接池仍指向旧端口”。
  *
  * <p><strong>本地没有 Docker 时：</strong>{@code disabledWithoutDocker = true} 会明确跳过这些容器测试，
  * 不会把“没有运行”误报成“已经通过”。

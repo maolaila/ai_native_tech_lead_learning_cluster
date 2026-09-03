@@ -2,7 +2,7 @@
   "ActiveProfiles": [
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
-      "line": 23
+      "line": 32
     }
   ],
   "AnalyzeClasses": [
@@ -770,7 +770,15 @@
   "Container": [
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
-      "line": 25
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 37
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 38
     }
   ],
   "DecimalMin": [
@@ -789,10 +797,16 @@
       "line": 42
     }
   ],
+  "DirtiesContext": [
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 34
+    }
+  ],
   "DynamicPropertySource": [
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
-      "line": 32
+      "line": 50
     }
   ],
   "Email": [
@@ -1996,7 +2010,11 @@
   "SpringBootTest": [
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
-      "line": 22
+      "line": 30
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 31
     }
   ],
   "Table": [
@@ -2114,7 +2132,11 @@
   "Testcontainers": [
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
-      "line": 21
+      "line": 28
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java",
+      "line": 29
     }
   ],
   "Transactional": [
