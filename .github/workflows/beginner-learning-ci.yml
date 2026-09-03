@@ -10,6 +10,8 @@ on:
     paths:
       - "README.md"
       - "SUMMARY.md"
+      - "FULL_BOOK.md"
+      - "MANIFEST.md"
       - "mkdocs.yml"
       - "02_backend_spring/**"
       - "16_references/**"
@@ -22,6 +24,7 @@ on:
       - "tools/check_learning_readability.py"
       - "tools/check_learning_references.py"
       - "tools/build_docs_site.py"
+      - "tools/rebuild_full_book_and_manifest.py"
       - ".github/workflows/beginner-learning-ci.yml"
 
 permissions:
@@ -58,11 +61,17 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-docs.txt
 
+      - name: Install documentation dependencies
+        run: python3 -m pip install --disable-pip-version-check -r requirements-docs.txt
+
       - name: Keep beginner navigation in sync
         run: python3 tools/update_beginner_mkdocs_nav.py
 
       - name: Generate annotation usage index
         run: python3 tools/generate_annotation_usage_index.py
+
+      - name: Rebuild merged learning book
+        run: python3 tools/rebuild_full_book_and_manifest.py --full-book
 
       - name: Format every Java source file
         run: mvn -B -f mini-commerce/backend/pom.xml spotless:apply
@@ -80,14 +89,15 @@ jobs:
         run: python3 tools/check_learning_references.py
 
       - name: Build MkDocs site in strict mode
-        run: |
-          python3 -m pip install --disable-pip-version-check -r requirements-docs.txt
-          python3 tools/build_docs_site.py --strict --output /tmp/ai-native-learning-site
+        run: python3 tools/build_docs_site.py --strict --output /tmp/ai-native-learning-site
+
+      - name: Rebuild repository manifest
+        run: python3 tools/rebuild_full_book_and_manifest.py --manifest
 
       - name: Reject whitespace errors
         run: git diff --check
 
-      - name: Commit generated indexes, navigation and formatting
+      - name: Commit generated books, indexes, navigation and formatting
         shell: bash
         run: |
           if git diff --quiet; then
@@ -100,10 +110,12 @@ jobs:
           git add \
             README.md \
             SUMMARY.md \
+            FULL_BOOK.md \
+            MANIFEST.md \
             mkdocs.yml \
             mini-commerce/README.md \
             mini-commerce/docs \
             mini-commerce/backend \
             tools
-          git commit -m "docs: publish beginner-friendly indexes and formatted source"
+          git commit -m "docs: synchronize beginner guides, full book and manifest"
           git push origin HEAD:${GITHUB_REF_NAME}
