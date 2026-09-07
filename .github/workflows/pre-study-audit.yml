@@ -37,6 +37,7 @@ jobs:
           cache: maven
           cache-dependency-path: mini-commerce/backend/pom.xml
       - run: docker info >/dev/null
+      - run: mvn -B -ntp -f mini-commerce/backend/pom.xml spotless:apply
       - run: mvn -B -ntp -f mini-commerce/backend/pom.xml verify
       - uses: actions/upload-artifact@v4
         if: always()
