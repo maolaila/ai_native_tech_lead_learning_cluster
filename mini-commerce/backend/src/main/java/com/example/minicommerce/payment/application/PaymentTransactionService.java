@@ -36,6 +36,7 @@ public class PaymentTransactionService {
     private final OutboxService outbox;
     private final AuditService audit;
     private final Clock clock;
+    private final IdempotencyLock idempotencyLock;
 
     public PaymentTransactionService(
             PaymentAttemptRepository p,
@@ -46,7 +47,8 @@ public class PaymentTransactionService {
             CouponService c,
             OutboxService out,
             AuditService a,
-            Clock clock) {
+            Clock clock,
+            IdempotencyLock idempotencyLock) {
         payments = p;
         orders = o;
         items = i;
@@ -56,6 +58,7 @@ public class PaymentTransactionService {
         outbox = out;
         audit = a;
         this.clock = clock;
+        this.idempotencyLock = idempotencyLock;
     }
 
     @Transactional
@@ -64,6 +67,11 @@ public class PaymentTransactionService {
         if (key == null || key.isBlank())
             throw new BusinessException(
                     ErrorCode.IDEMPOTENCY_KEY_REQUIRED, "支付必须提供 Idempotency-Key");
+        if (key.length() > 128 || paymentToken == null || paymentToken.isBlank()) {
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR, "支付参数非法，幂等键最长 128 字符");
+        }
+        // 同一用户的相同键先串行；数据库唯一约束是最后防线，不是正常重试流程。
+        idempotencyLock.acquire("payment:" + actor.id() + ":" + key);
         String hash = hash(orderId + ":" + paymentToken);
         Optional<PaymentAttemptEntity> prior =
                 payments.findByUserIdAndIdempotencyKey(actor.id(), key);
@@ -80,6 +88,10 @@ public class PaymentTransactionService {
         query.authorize(order, actor);
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT)
             throw new BusinessException(ErrorCode.ORDER_NOT_PAYABLE, "订单不可支付");
+        if (payments.existsByOrderIdAndStatusNot(orderId, PaymentStatus.DECLINED)) {
+            throw new BusinessException(
+                    ErrorCode.PAYMENT_IN_PROGRESS, "订单已有支付记录，请使用原幂等键查询或等待核对，不能用新键重复扣款");
+        }
         PaymentAttemptEntity p =
                 payments.saveAndFlush(
                         new PaymentAttemptEntity(

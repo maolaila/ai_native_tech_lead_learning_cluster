@@ -95,11 +95,7 @@ public class GlobalExceptionHandler {
                 traceId(),
                 exception.getMostSpecificCause().getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(
-                        base(
-                                HttpStatus.CONFLICT,
-                                "数据状态发生冲突，请刷新后重试",
-                                ErrorCode.IDEMPOTENCY_CONFLICT.name()));
+                .body(base(HttpStatus.CONFLICT, "数据状态发生冲突，请刷新后重试", ErrorCode.DATA_CONFLICT.name()));
     }
 
     /**
@@ -107,6 +103,61 @@ public class GlobalExceptionHandler {
      *
      * <p>这不代表可以忽略未知异常。这里会记录完整服务端日志，并向客户端返回不泄露内部细节的 500。
      */
+    @ExceptionHandler({
+        org.springframework.http.converter.HttpMessageNotReadableException.class,
+        org.springframework.web.bind.ServletRequestBindingException.class,
+        org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
+        org.springframework.web.method.annotation.HandlerMethodValidationException.class
+    })
+    ResponseEntity<ProblemDetail> handleMalformedRequest(Exception exception) {
+        return ResponseEntity.badRequest()
+                .body(
+                        base(
+                                HttpStatus.BAD_REQUEST,
+                                "请求格式错误，请检查 JSON、必填请求头以及路径参数类型",
+                                ErrorCode.VALIDATION_ERROR.name()));
+    }
+
+    @ExceptionHandler(org.springframework.web.ErrorResponseException.class)
+    ResponseEntity<ProblemDetail> handleHttpError(
+            org.springframework.web.ErrorResponseException exception) {
+        HttpStatus status = HttpStatus.valueOf(exception.getStatusCode().value());
+        return ResponseEntity.status(status)
+                .body(base(status, status.getReasonPhrase(), "HTTP_" + status.value()));
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
+    ResponseEntity<ProblemDetail> handleMethod(
+            org.springframework.web.HttpRequestMethodNotSupportedException exception) {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+                .headers(exception.getHeaders())
+                .body(base(HttpStatus.METHOD_NOT_ALLOWED, "此地址不支持该 HTTP 方法", "HTTP_405"));
+    }
+
+    @ExceptionHandler(org.springframework.web.HttpMediaTypeNotSupportedException.class)
+    ResponseEntity<ProblemDetail> handleMedia(
+            org.springframework.web.HttpMediaTypeNotSupportedException exception) {
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .headers(exception.getHeaders())
+                .body(base(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "不支持该 Content-Type", "HTTP_415"));
+    }
+
+    @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+    ResponseEntity<ProblemDetail> handleMissingResource(Exception exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(base(HttpStatus.NOT_FOUND, "资源不存在", "HTTP_404"));
+    }
+
+    @ExceptionHandler(org.springframework.dao.OptimisticLockingFailureException.class)
+    ResponseEntity<ProblemDetail> handleVersionConflict(Exception exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(
+                        base(
+                                HttpStatus.CONFLICT,
+                                "数据已被其他请求修改，请重新读取后确认操作",
+                                ErrorCode.DATA_CONFLICT.name()));
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<ProblemDetail> handleUnknown(Exception exception) {
         log.error("event=unhandled_exception traceId={}", traceId(), exception);
@@ -125,6 +176,7 @@ public class GlobalExceptionHandler {
         problem.setTitle(status.getReasonPhrase());
         problem.setProperty("code", code);
         problem.setProperty("traceId", traceId());
+        problem.setProperty("requestId", MDC.get("requestId"));
         return problem;
     }
 

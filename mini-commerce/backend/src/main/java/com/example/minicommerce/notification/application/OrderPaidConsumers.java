@@ -55,7 +55,7 @@ public class OrderPaidConsumers {
      * 让“消息去重记录”和“保存通知”一起提交或一起回滚。
      */
     @RabbitListener(queues = RabbitTopology.NOTIFICATION_Q)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void notifyUser(String rawMessage) throws Exception {
         EventEnvelope event = json.readValue(rawMessage, EventEnvelope.class);
 
@@ -79,7 +79,7 @@ public class OrderPaidConsumers {
      * <p>积分有独立的 Consumer 名称和去重范围，因此通知成功不会错误地让积分消息被当成已处理。
      */
     @RabbitListener(queues = RabbitTopology.POINTS_Q)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void addPoints(String rawMessage) throws Exception {
         EventEnvelope event = json.readValue(rawMessage, EventEnvelope.class);
 

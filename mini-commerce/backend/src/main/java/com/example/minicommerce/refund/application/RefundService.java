@@ -1,130 +1,44 @@
 package com.example.minicommerce.refund.application;
 
-import com.example.minicommerce.messaging.application.OutboxService;
-import com.example.minicommerce.order.application.OrderQueryService;
-import com.example.minicommerce.order.infrastructure.*;
-import com.example.minicommerce.payment.application.*;
-import com.example.minicommerce.payment.infrastructure.*;
-import com.example.minicommerce.refund.infrastructure.*;
-import com.example.minicommerce.shared.error.*;
+import com.example.minicommerce.payment.application.PaymentGateway;
 import com.example.minicommerce.shared.security.UserPrincipal;
-import java.time.Clock;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * refund模块的应用用例编排层：{@code RefundService}。
+ * 退款流程的三段式编排：短事务登记 → 事务外请求提供方 → 短事务保存结果。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>为什么拆成两个 Bean：</strong>同一个对象直接调用自己的 @Transactional 方法不会经过 Spring 代理。 本类调用独立的
+ * RefundTransactionService，让事务真正生效，而不是只在方法上贴注解。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p>本项目只演示付款后的全额退款，不连接真实资金系统；UNKNOWN 必须核对，不能假定失败后再退款。
  *
- * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
- * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。
+ * <p><strong>对应文档：</strong>{@code 04_database_postgresql/04_事务与Spring边界.md}、 {@code
+ * mini-commerce/docs/testing-strategy.md}。
  */
 @Service
 public class RefundService {
-    private final RefundRepository refunds;
-    private final PaymentAttemptRepository payments;
-    private final OrderRepository orders;
-    private final OrderQueryService query;
+    private final RefundTransactionService transactions;
     private final PaymentGateway gateway;
-    private final OutboxService outbox;
-    private final Clock clock;
 
-    public RefundService(
-            RefundRepository r,
-            PaymentAttemptRepository p,
-            OrderRepository o,
-            OrderQueryService q,
-            PaymentGateway g,
-            OutboxService out,
-            Clock c) {
-        refunds = r;
-        payments = p;
-        orders = o;
-        query = q;
-        gateway = g;
-        outbox = out;
-        clock = c;
+    public RefundService(RefundTransactionService transactions, PaymentGateway gateway) {
+        this.transactions = transactions;
+        this.gateway = gateway;
     }
 
     public RefundView refund(UUID paymentId, UserPrincipal actor, String key) {
-        RefundView begun = begin(paymentId, actor, key);
-        if (!"INITIATED".equals(begun.status())) return begun;
-        PaymentGateway.GatewayResult result = gateway.refund(paymentId, begun.amount());
-        return finish(begun.refundId(), result);
-    }
-
-    @Transactional
-    public RefundView begin(UUID paymentId, UserPrincipal actor, String key) {
-        if (key == null || key.isBlank())
-            throw new BusinessException(
-                    ErrorCode.IDEMPOTENCY_KEY_REQUIRED, "退款必须提供 Idempotency-Key");
-        Optional<RefundEntity> prior = refunds.findByPaymentIdAndKey(paymentId, key);
-        if (prior.isPresent()) return view(prior.get());
-        PaymentAttemptEntity payment =
-                payments.findForUpdate(paymentId)
-                        .orElseThrow(
-                                () ->
-                                        new BusinessException(
-                                                ErrorCode.ORDER_NOT_REFUNDABLE, "支付不存在"));
-        if (!payment.getUserId().equals(actor.id()) && !actor.role().name().equals("ADMIN"))
-            throw new BusinessException(ErrorCode.ACCESS_DENIED, "不能退款他人的订单");
-        if (payment.getStatus() != com.example.minicommerce.payment.domain.PaymentStatus.SUCCEEDED)
-            throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE, "支付未成功");
-        OrderEntity order = orders.findForUpdate(payment.getOrderId()).orElseThrow();
-        query.authorize(order, actor);
-        order.requestRefund(clock.instant());
-        return view(
-                refunds.save(
-                        new RefundEntity(
-                                paymentId,
-                                order.getId(),
-                                actor.id(),
-                                key,
-                                payment.getAmount(),
-                                clock.instant())));
-    }
-
-    @Transactional
-    public RefundView finish(UUID id, PaymentGateway.GatewayResult result) {
-        RefundEntity refund = refunds.findForUpdate(id).orElseThrow();
-        OrderEntity order = orders.findForUpdate(refund.getOrderId()).orElseThrow();
-        if ("SUCCEEDED".equals(refund.getStatus()) || "FAILED".equals(refund.getStatus()))
-            return view(refund);
-        if (result.success()) {
-            refund.success(result.reference(), clock.instant());
-            order.markRefunded(clock.instant());
-            outbox.append(
-                    "ORDER",
-                    order.getId().toString(),
-                    "order.refunded.v1",
-                    Map.of(
-                            "orderId",
-                            order.getId(),
-                            "userId",
-                            order.getUserId(),
-                            "amount",
-                            refund.getAmount()));
-        } else if (result.unknown()) refund.unknown(result.error(), clock.instant());
-        else {
-            refund.failed(result.error(), clock.instant());
-            order.refundFailed(clock.instant());
+        RefundView refund = transactions.begin(paymentId, actor, key);
+        if (!"INITIATED".equals(refund.status())) return refund;
+        if (!transactions.claim(refund.refundId())) return transactions.get(refund.refundId());
+        PaymentGateway.GatewayResult result;
+        try {
+            // refundId 是本次退款的稳定业务编号，重试时必须交给提供方去重。
+            result = gateway.refund(refund.refundId(), paymentId, refund.amount());
+        } catch (RuntimeException transportFailure) {
+            result = PaymentGateway.GatewayResult.unknown("退款调用结果未知，需要核对原退款编号");
         }
-        return view(refund);
-    }
-
-    private static RefundView view(RefundEntity r) {
-        return new RefundView(
-                r.getId(),
-                r.getPaymentId(),
-                r.getOrderId(),
-                r.getStatus(),
-                r.getAmount(),
-                r.getProviderReference(),
-                r.getLastError());
+        return transactions.finish(refund.refundId(), result);
     }
 
     public record RefundView(
@@ -132,7 +46,7 @@ public class RefundService {
             UUID paymentId,
             UUID orderId,
             String status,
-            java.math.BigDecimal amount,
+            BigDecimal amount,
             String providerReference,
             String error) {}
 }

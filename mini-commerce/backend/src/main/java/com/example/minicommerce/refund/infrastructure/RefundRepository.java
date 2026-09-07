@@ -18,6 +18,8 @@ import org.springframework.data.repository.query.Param;
 public interface RefundRepository extends JpaRepository<RefundEntity, UUID> {
     Optional<RefundEntity> findByPaymentIdAndKey(UUID paymentId, String key);
 
+    boolean existsByPaymentIdAndStatusNot(UUID paymentId, String status);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select r from RefundEntity r where r.id=:id")
     Optional<RefundEntity> findForUpdate(@Param("id") UUID id);

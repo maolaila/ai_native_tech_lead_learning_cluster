@@ -1,11 +1,11 @@
 package com.example.minicommerce;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
 
 import com.example.minicommerce.catalog.infrastructure.*;
 import com.example.minicommerce.identity.domain.UserRole;
@@ -24,13 +24,12 @@ import java.util.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * 开学前回归测试：断言数据库里的最终事实，而不只断言方法返回值。
- * 对应文档：mini-commerce/docs/testing-strategy.md。
+ * 开学前回归测试：断言数据库里的最终事实，而不只断言方法返回值。 对应文档：mini-commerce/docs/testing-strategy.md。
  * 不给测试方法加事务，防止测试自身的事务掩盖业务入口缺少事务的问题。
  */
 @AutoConfigureMockMvc
@@ -51,9 +50,21 @@ class LearningReadinessIT extends AbstractPostgresIT {
 
     @BeforeEach
     void prepareIndependentData() {
-        var account = users.save(new UserEntity(UUID.randomUUID() + "@example.com", "buyer", "hash", UserRole.USER));
+        var account =
+                users.save(
+                        new UserEntity(
+                                UUID.randomUUID() + "@example.com",
+                                "buyer",
+                                "hash",
+                                UserRole.USER));
         buyer = UserPrincipal.from(account);
-        var product = new ProductEntity("SKU-" + UUID.randomUUID(), "验收商品", "test", new BigDecimal("200.00"), "CNY");
+        var product =
+                new ProductEntity(
+                        "SKU-" + UUID.randomUUID(),
+                        "验收商品",
+                        "test",
+                        new BigDecimal("200.00"),
+                        "CNY");
         product.publish();
         product = products.saveAndFlush(product);
         productId = product.getId();
@@ -63,13 +74,21 @@ class LearningReadinessIT extends AbstractPostgresIT {
     }
 
     private OrderResponse create(String key) {
-        return createOrders.create(buyer.id(), key, new CreateOrderRequest(List.of(new OrderLineRequest(productId, 1)), null));
+        return createOrders.create(
+                buyer.id(),
+                key,
+                new CreateOrderRequest(List.of(new OrderLineRequest(productId, 1)), null));
     }
 
     @Test
     void repeatedOrderReturnsSameOrderAndDoesNotReserveStockTwice() {
         var first = create("same-order-key");
-        assertThat(jdbc.queryForObject("select status from idempotency_records where user_id=? and idempotency_key=?", String.class, buyer.id(), "same-order-key"))
+        assertThat(
+                        jdbc.queryForObject(
+                                "select status from idempotency_records where user_id=? and idempotency_key=?",
+                                String.class,
+                                buyer.id(),
+                                "same-order-key"))
                 .isEqualTo("COMPLETED");
         assertThat(create("same-order-key").id()).isEqualTo(first.id());
         assertThat(inventory.findById(productId).orElseThrow().getReserved()).isEqualTo(1);
@@ -79,9 +98,18 @@ class LearningReadinessIT extends AbstractPostgresIT {
     void successfulPaymentIsPersistedAndCanBeReplayed() {
         var order = create("pay-order");
         var payment = paymentFlow.pay(order.id(), buyer, "payment-key", "success");
-        assertThat(jdbc.queryForObject("select status from payment_attempts where id=?", String.class, payment.paymentId())).isEqualTo("SUCCEEDED");
-        assertThat(jdbc.queryForObject("select status from orders where id=?", String.class, order.id())).isEqualTo("PAID");
-        assertThat(paymentFlow.pay(order.id(), buyer, "payment-key", "success").paymentId()).isEqualTo(payment.paymentId());
+        assertThat(
+                        jdbc.queryForObject(
+                                "select status from payment_attempts where id=?",
+                                String.class,
+                                payment.paymentId()))
+                .isEqualTo("SUCCEEDED");
+        assertThat(
+                        jdbc.queryForObject(
+                                "select status from orders where id=?", String.class, order.id()))
+                .isEqualTo("PAID");
+        assertThat(paymentFlow.pay(order.id(), buyer, "payment-key", "success").paymentId())
+                .isEqualTo(payment.paymentId());
         assertThat(inventory.findById(productId).orElseThrow().getReserved()).isZero();
     }
 
@@ -89,7 +117,10 @@ class LearningReadinessIT extends AbstractPostgresIT {
     void oneOrderCannotStartTwoUnresolvedPayments() {
         var order = create("pending-pay-order");
         paymentTransactions.createOrGet(order.id(), buyer, "first-payment", "success");
-        assertThatThrownBy(() -> paymentTransactions.createOrGet(order.id(), buyer, "second-payment", "success"))
+        assertThatThrownBy(
+                        () ->
+                                paymentTransactions.createOrGet(
+                                        order.id(), buyer, "second-payment", "success"))
                 .isInstanceOf(BusinessException.class);
     }
 
@@ -97,7 +128,8 @@ class LearningReadinessIT extends AbstractPostgresIT {
     void cancellationCannotRaceWithAnUnresolvedPayment() {
         var order = create("cancel-pay-order");
         paymentTransactions.createOrGet(order.id(), buyer, "pending-payment", "success");
-        assertThatThrownBy(() -> commands.cancel(order.id(), buyer)).isInstanceOf(BusinessException.class);
+        assertThatThrownBy(() -> commands.cancel(order.id(), buyer))
+                .isInstanceOf(BusinessException.class);
         assertThat(inventory.findById(productId).orElseThrow().getReserved()).isEqualTo(1);
     }
 
@@ -107,17 +139,32 @@ class LearningReadinessIT extends AbstractPostgresIT {
         var payment = paymentFlow.pay(order.id(), buyer, "refund-payment", "success");
         var refund = refunds.refund(payment.paymentId(), buyer, "refund-key");
         assertThat(refund.status()).isEqualTo("SUCCEEDED");
-        assertThat(jdbc.queryForObject("select status from orders where id=?", String.class, order.id())).isEqualTo("REFUNDED");
-        assertThat(refunds.refund(payment.paymentId(), buyer, "refund-key").refundId()).isEqualTo(refund.refundId());
+        assertThat(
+                        jdbc.queryForObject(
+                                "select status from orders where id=?", String.class, order.id()))
+                .isEqualTo("REFUNDED");
+        assertThat(refunds.refund(payment.paymentId(), buyer, "refund-key").refundId())
+                .isEqualTo(refund.refundId());
     }
 
     @Test
     void requestErrorsAreClientErrorsNotInternalErrors() throws Exception {
-        http.perform(post("/api/orders").with(user(buyer)).contentType("application/json")
-                .content("{\"items\":[{\"productId\":" + productId + ",\"quantity\":1}]}"))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("VALIDATION_ERROR"));
-        http.perform(post("/api/orders").with(user(buyer)).header("Idempotency-Key", "bad-json")
-                .contentType("application/json").content("{"))
+        http.perform(
+                        post("/api/orders")
+                                .with(user(buyer))
+                                .contentType("application/json")
+                                .content(
+                                        "{\"items\":[{\"productId\":"
+                                                + productId
+                                                + ",\"quantity\":1}]}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"));
+        http.perform(
+                        post("/api/orders")
+                                .with(user(buyer))
+                                .header("Idempotency-Key", "bad-json")
+                                .contentType("application/json")
+                                .content("{"))
                 .andExpect(status().isBadRequest());
         http.perform(get("/api/orders/not-a-uuid").with(user(buyer)))
                 .andExpect(status().isBadRequest());
@@ -125,7 +172,13 @@ class LearningReadinessIT extends AbstractPostgresIT {
 
     @Test
     void quantityOverflowIsRejectedAsValidationFailure() {
-        var request = new CreateOrderRequest(List.of(new OrderLineRequest(productId, Integer.MAX_VALUE), new OrderLineRequest(productId, 1)), null);
-        assertThatThrownBy(() -> createOrders.create(buyer.id(), "overflow", request)).isInstanceOf(BusinessException.class);
+        var request =
+                new CreateOrderRequest(
+                        List.of(
+                                new OrderLineRequest(productId, Integer.MAX_VALUE),
+                                new OrderLineRequest(productId, 1)),
+                        null);
+        assertThatThrownBy(() -> createOrders.create(buyer.id(), "overflow", request))
+                .isInstanceOf(BusinessException.class);
     }
 }

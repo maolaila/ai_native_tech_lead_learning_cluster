@@ -19,7 +19,7 @@ public class FakePaymentGateway implements PaymentGateway {
         return GatewayResult.success("fake_" + id.toString().replace("-", "").substring(0, 18));
     }
 
-    public GatewayResult refund(UUID id, BigDecimal amount) {
+    public GatewayResult refund(UUID id, UUID paymentId, BigDecimal amount) {
         return GatewayResult.success("refund_" + id.toString().substring(0, 8));
     }
 }

@@ -187,12 +187,15 @@ public class CreateOrderService {
                         .max(BigDecimal.ZERO)
                         .setScale(2, RoundingMode.HALF_UP);
 
-        // 对外展示的订单号使用日期和 UUID 前缀；真正主键仍是完整 UUID。
+        // 对外订单号使用日期与 24 位十六进制 UUID 前缀；避免原 8 位前缀的较高碰撞概率。数据库仍有唯一约束。
         String orderNumber =
                 "MC-"
                         + DateTimeFormatter.BASIC_ISO_DATE.withZone(ZoneOffset.UTC).format(now)
                         + "-"
-                        + orderId.toString().substring(0, 8).toUpperCase();
+                        + orderId.toString()
+                                .replace("-", "")
+                                .substring(0, 24)
+                                .toUpperCase(java.util.Locale.ROOT);
 
         // 第 13 步：保存订单主记录。
         OrderEntity order =
@@ -264,16 +267,23 @@ public class CreateOrderService {
      * <p>例如同一商品出现数量 1 和数量 2，会合并为数量 3。TreeMap 还会按商品 ID 排序， 让并发订单以尽量一致的顺序触碰库存行，从而降低死锁概率。
      */
     private SortedMap<Long, Integer> normalize(CreateOrderRequest request) {
-        if (request.items() == null || request.items().isEmpty()) {
+        if (request == null || request.items() == null || request.items().isEmpty()) {
             throw new BusinessException(ErrorCode.ORDER_EMPTY, "订单不能为空");
         }
 
         SortedMap<Long, Integer> result = new TreeMap<>();
         for (OrderLineRequest line : request.items()) {
-            if (line == null || line.productId() == null || line.quantity() <= 0) {
+            if (line == null
+                    || line.productId() == null
+                    || line.productId() <= 0
+                    || line.quantity() <= 0) {
                 throw new BusinessException(ErrorCode.VALIDATION_ERROR, "商品和数量非法");
             }
-            result.merge(line.productId(), line.quantity(), Math::addExact);
+            try {
+                result.merge(line.productId(), line.quantity(), Math::addExact);
+            } catch (ArithmeticException overflow) {
+                throw new BusinessException(ErrorCode.VALIDATION_ERROR, "同一商品的合计数量过大");
+            }
         }
         return result;
     }

@@ -40,6 +40,7 @@ public class ProductEntity extends BaseEntity {
     private BigDecimal price;
 
     @Column(nullable = false, length = 3)
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.CHAR)
     private String currency;
 
     @Enumerated(EnumType.STRING)

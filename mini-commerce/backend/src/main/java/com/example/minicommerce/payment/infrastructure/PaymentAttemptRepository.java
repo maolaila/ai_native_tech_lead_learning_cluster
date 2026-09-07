@@ -19,6 +19,10 @@ import org.springframework.data.repository.query.Param;
 public interface PaymentAttemptRepository extends JpaRepository<PaymentAttemptEntity, UUID> {
     Optional<PaymentAttemptEntity> findByUserIdAndIdempotencyKey(Long userId, String key);
 
+    // 在订单行锁保护下查询；UNKNOWN 不是失败，不能另开一笔支付。
+    boolean existsByOrderIdAndStatusNot(
+            UUID orderId, com.example.minicommerce.payment.domain.PaymentStatus status);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from PaymentAttemptEntity p where p.id=:id")
     Optional<PaymentAttemptEntity> findForUpdate(@Param("id") UUID id);

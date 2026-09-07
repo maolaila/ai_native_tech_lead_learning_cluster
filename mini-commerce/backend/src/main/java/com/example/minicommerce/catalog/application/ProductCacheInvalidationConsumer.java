@@ -31,7 +31,7 @@ public class ProductCacheInvalidationConsumer {
     }
 
     @RabbitListener(queues = RabbitTopology.CACHE_Q)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void invalidate(String raw) throws Exception {
         EventEnvelope e = json.readValue(raw, EventEnvelope.class);
         if (!processed.claim("cache-product-changed", e.eventId())) return;

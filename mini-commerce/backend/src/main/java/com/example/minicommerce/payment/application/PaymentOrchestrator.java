@@ -25,8 +25,13 @@ public class PaymentOrchestrator {
         PaymentView p = tx.createOrGet(orderId, actor, key, token);
         if (!"INITIATED".equals(p.status()) && !"PROCESSING".equals(p.status())) return p;
         if (!tx.claim(p.paymentId())) return tx.get(p.paymentId(), actor);
-        PaymentGateway.GatewayResult result =
-                gateway.charge(p.paymentId(), p.amount(), p.currency(), token);
+        PaymentGateway.GatewayResult result;
+        try {
+            // 数据库事务已结束。提供方必须以 paymentId 去重；网络超时不证明未扣款。
+            result = gateway.charge(p.paymentId(), p.amount(), p.currency(), token);
+        } catch (RuntimeException transportFailure) {
+            result = PaymentGateway.GatewayResult.unknown("支付调用结果未知，需要使用原支付编号核对");
+        }
         return tx.apply(p.paymentId(), result);
     }
 }

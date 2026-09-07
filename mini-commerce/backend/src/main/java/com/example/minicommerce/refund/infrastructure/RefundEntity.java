@@ -102,6 +102,13 @@ public class RefundEntity {
         return lastError;
     }
 
+    public boolean claim(Instant now) {
+        if (!"INITIATED".equals(status)) return false;
+        status = "PROCESSING";
+        updatedAt = now;
+        return true;
+    }
+
     public void success(String ref, Instant now) {
         status = "SUCCEEDED";
         providerReference = ref;

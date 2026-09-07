@@ -43,6 +43,7 @@ public class OrderEntity {
     private BigDecimal totalAmount;
 
     @Column(nullable = false, length = 3)
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.CHAR)
     private String currency;
 
     @Column(name = "user_coupon_id")
@@ -160,8 +161,8 @@ public class OrderEntity {
     }
 
     public void requestRefund(Instant now) {
-        if (status == OrderStatus.REFUNDING) return;
-        if (status != OrderStatus.PAID && status != OrderStatus.FULFILLING)
+        // 教学闭环只允许付款后、履约前全额退款；退货和履约补偿属于后续练习。
+        if (status != OrderStatus.PAID)
             throw new BusinessException(ErrorCode.ORDER_NOT_REFUNDABLE, "当前订单状态不允许退款");
         status = OrderStatus.REFUNDING;
         updatedAt = now;

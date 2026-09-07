@@ -46,6 +46,7 @@ public class PaymentAttemptEntity {
     private BigDecimal amount;
 
     @Column(nullable = false, length = 3)
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.CHAR)
     private String currency;
 
     @Column(name = "provider_reference", length = 100)

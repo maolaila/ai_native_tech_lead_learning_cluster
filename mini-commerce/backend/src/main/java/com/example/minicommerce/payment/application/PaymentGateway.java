@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface PaymentGateway {
     GatewayResult charge(UUID paymentId, BigDecimal amount, String currency, String paymentToken);
 
-    GatewayResult refund(UUID paymentId, BigDecimal amount);
+    GatewayResult refund(UUID refundId, UUID paymentId, BigDecimal amount);
 
     record GatewayResult(boolean success, boolean unknown, String reference, String error) {
         public static GatewayResult success(String ref) {

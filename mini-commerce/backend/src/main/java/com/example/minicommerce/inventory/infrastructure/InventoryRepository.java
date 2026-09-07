@@ -29,7 +29,9 @@ public interface InventoryRepository extends JpaRepository<InventoryEntity, Long
      * <p>只有 {@code available >= qty} 时 UPDATE 才会成功。返回 1 表示更新了一行；返回 0 表示商品不存在或可用库存不足。
      */
     // @Modifying：下面的 @Query 会修改数据，不是普通 SELECT。
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    // 先 flush 保存已有修改，但不能 clear 整个持久化上下文：那会让订单、支付、幂等记录都脱离 JPA 管理。
+    // 原生 SQL 不会同步已加载的 InventoryEntity；调用链不要在更新前加载并继续复用旧库存实体。
+    @Modifying(flushAutomatically = true)
     // @Query：明确写出数据库执行的 SQL。nativeQuery = true 表示这里是 PostgreSQL 原生 SQL。
     @Query(
             value =
@@ -39,7 +41,7 @@ public interface InventoryRepository extends JpaRepository<InventoryEntity, Long
     int reserve(@Param("id") Long id, @Param("qty") int qty);
 
     /** 取消订单时，把已预留数量归还到可用库存；条件防止 reserved 被减成负数。 */
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Modifying(flushAutomatically = true)
     @Query(
             value =
                     "update inventory set available=available+:qty,reserved=reserved-:qty,version=version+1,updated_at=now() where product_id=:id and reserved>=:qty",
@@ -47,7 +49,7 @@ public interface InventoryRepository extends JpaRepository<InventoryEntity, Long
     int release(@Param("id") Long id, @Param("qty") int qty);
 
     /** 支付成功后确认成交。下单时 available 已经减少，所以这里仅减少 reserved。 */
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Modifying(flushAutomatically = true)
     @Query(
             value =
                     "update inventory set reserved=reserved-:qty,version=version+1,updated_at=now() where product_id=:id and reserved>=:qty",

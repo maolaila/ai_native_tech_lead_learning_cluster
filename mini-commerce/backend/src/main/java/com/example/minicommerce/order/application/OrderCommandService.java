@@ -35,6 +35,7 @@ public class OrderCommandService {
     private final OrderQueryService query;
     private final AuditService audit;
     private final Clock clock;
+    private final com.example.minicommerce.payment.infrastructure.PaymentAttemptRepository payments;
 
     public OrderCommandService(
             OrderRepository o,
@@ -44,7 +45,8 @@ public class OrderCommandService {
             OutboxService out,
             OrderQueryService q,
             AuditService a,
-            Clock clock) {
+            Clock clock,
+            com.example.minicommerce.payment.infrastructure.PaymentAttemptRepository payments) {
         orders = o;
         items = i;
         inventory = inv;
@@ -53,6 +55,7 @@ public class OrderCommandService {
         query = q;
         audit = a;
         this.clock = clock;
+        this.payments = payments;
     }
 
     @Transactional
@@ -63,6 +66,12 @@ public class OrderCommandService {
                                 () -> new BusinessException(ErrorCode.ORDER_NOT_FOUND, "订单不存在"));
         query.authorize(order, actor);
         List<OrderItemEntity> lines = items.findByOrderIdOrderById(id);
+        // 与创建支付意图使用同一把订单行锁，防止取消释放库存与外部扣款同时发生。
+        if (order.getStatus() == com.example.minicommerce.order.domain.OrderStatus.PENDING_PAYMENT
+                && payments.existsByOrderIdAndStatusNot(
+                        id, com.example.minicommerce.payment.domain.PaymentStatus.DECLINED)) {
+            throw new BusinessException(ErrorCode.PAYMENT_IN_PROGRESS, "支付正在处理或结果未知，核对完成前不能取消");
+        }
         String before = order.getStatus().name();
         if (!order.cancel(clock.instant())) return OrderMapper.view(order, lines);
         Map<Long, Integer> qty =

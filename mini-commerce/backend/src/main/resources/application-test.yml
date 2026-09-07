@@ -1,7 +1,4 @@
 spring:
-  task:
-    scheduling:
-      enabled: false
   rabbitmq:
     listener:
       simple:
@@ -25,6 +22,7 @@ app:
     null-ttl: 5s
     ttl-jitter: 5s
   outbox:
+    publisher-enabled: false
     batch-size: 10
     lease: 5s
     publish-timeout: 1s

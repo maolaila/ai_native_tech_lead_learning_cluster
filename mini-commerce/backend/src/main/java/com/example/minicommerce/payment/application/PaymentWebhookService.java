@@ -30,7 +30,7 @@ public class PaymentWebhookService {
         this.tx = tx;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void handle(String body, String signature) throws Exception {
         signatures.verify(body, signature);
         WebhookPayload p = json.readValue(body, WebhookPayload.class);

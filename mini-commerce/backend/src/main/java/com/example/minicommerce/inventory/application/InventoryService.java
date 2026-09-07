@@ -4,6 +4,7 @@ import com.example.minicommerce.inventory.infrastructure.*;
 import com.example.minicommerce.shared.error.*;
 import java.util.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,6 +19,8 @@ public class InventoryService {
         this.repository = repository;
     }
 
+    // MANDATORY：必须加入调用方已经开启的业务事务，不能把库存单独提交。
+    @Transactional(propagation = Propagation.MANDATORY)
     public void initialize(Long productId, int stock) {
         repository.save(new InventoryEntity(productId, stock));
     }
@@ -27,6 +30,8 @@ public class InventoryService {
      *
      * <p>Repository 使用带条件的原子 UPDATE；受影响行数为 0 就表示库存不足。 即使多个事务同时到达，数据库也只会让满足条件的更新成功。
      */
+    // MANDATORY：必须加入调用方已经开启的业务事务，不能把库存单独提交。
+    @Transactional(propagation = Propagation.MANDATORY)
     public void reserve(Map<Long, Integer> quantities) {
         quantities.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
@@ -41,6 +46,8 @@ public class InventoryService {
     }
 
     /** 学习说明：取消订单时把 reserved 数量恢复为 available。 调用方必须先通过订单状态机保证取消只发生一次，并与订单状态修改处于同一事务。 */
+    // MANDATORY：必须加入调用方已经开启的业务事务，不能把库存单独提交。
+    @Transactional(propagation = Propagation.MANDATORY)
     public void release(Map<Long, Integer> quantities) {
         quantities.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
@@ -53,6 +60,8 @@ public class InventoryService {
     }
 
     /** 学习说明：支付成功后只减少 reserved，不再减少 available，因为下单时已经完成预留。 这样可以清楚区分“可售”“已预留”和“已成交”三个业务事实。 */
+    // MANDATORY：必须加入调用方已经开启的业务事务，不能把库存单独提交。
+    @Transactional(propagation = Propagation.MANDATORY)
     public void confirmSale(Map<Long, Integer> quantities) {
         quantities.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
