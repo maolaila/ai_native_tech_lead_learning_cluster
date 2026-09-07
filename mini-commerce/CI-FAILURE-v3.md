@@ -1,3 +1,5 @@
+> 历史故障记录，不代表当前版本状态。当前验收范围见 [正式学习说明](docs/LEARNING-READINESS.md)，运行结果以当前提交的 CI 为准。
+
 # CI 失败报告（main 未更新）
 
 - Workflow: https://github.com/maolaila/ai_native_tech_lead_learning_cluster/actions/runs/33722176519

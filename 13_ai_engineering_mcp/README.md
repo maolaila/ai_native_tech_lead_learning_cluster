@@ -1,5 +1,7 @@
 # 模块 13：AI Engineering、Rules、Golden Path 与 MCP
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](../mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 13 AI Engineering
 > **本文用途：** 把资深工程经验转化为新人和 Coding Agent 能稳定执行、自动验证且权限受控的软件生产体系。
 > **前置知识：** 完成前 12 个模块

@@ -152,7 +152,7 @@ def build_full_book() -> None:
         "> 本文件由 `tools/rebuild_full_book_and_manifest.py` 根据 `SUMMARY.md` 自动生成，便于全文搜索和连续阅读。",
         "> 实际学习仍建议按后端小白入口或模块导航完成代码、测试和故障实验。",
         "",
-        f"> 共合并 {len(documents)} 个 Markdown 文件。分章文件更新后，CI 会同步刷新本文件。",
+        f"> 共合并 {len(documents)} 个 Markdown 文件。分章文件更新后，运行 tools/sync_learning_assets.py 同步刷新本文件；CI 校验结果。",
         "",
         "---",
         "",

@@ -1,12 +1,7 @@
-# 构建验证状态
+# 构建验证状态该如何判断
 
-生成器静态校验已完成：
+文件数、Java 文件数和迁移列表见自动更新的 DELIVERY-MANIFEST.json；清单是来源完整性信息，不是测试结果。
 
-- 工程文件：190；
-- Java 主源码：113；
-- Java 测试：7；
-- Flyway Migration：3；
-- Python MCP 源码已通过 `py_compile`；
-- 文档章节映射已生成。
+以当前提交的 GitHub Actions 为准：mini-commerce-ci 运行 Java/Testcontainers、MCP 测试、真实 Compose HTTP Smoke 和 Terraform 静态校验；学习资料门禁运行格式、索引一致性、相对链接和严格模式文档构建。
 
-Java 编译、Testcontainers PostgreSQL 并发测试、MCP pytest 和 Docker Compose 校验由仓库 `mini-commerce-ci` 工作流执行。CI 没有成功前，不应把本文件理解为“所有运行时验证已通过”。
+[正式学习说明](docs/LEARNING-READINESS.md) 记录本次复现的问题、阶段性证据以及未验证范围。不得把跳过 Docker 的测试、静态分析或镜像构建成功表述成完整运行成功。

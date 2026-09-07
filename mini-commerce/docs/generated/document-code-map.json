@@ -1,6 +1,5 @@
 {
-  "generatedAt": "2026-09-03T05:58:02.150183+00:00",
-  "sourceCount": 1281,
+  "sourceCount": 1296,
   "entries": [
     {
       "sourceId": "SRC-ba1e21a94fc6",
@@ -453,9 +452,9 @@
       ]
     },
     {
-      "sourceId": "SRC-799e348994cc",
+      "sourceId": "SRC-0643a7ac7475",
       "source": "00_start/04_环境与版本基线.md",
-      "line": 39,
+      "line": 38,
       "title": "三、为什么基础设施优先用 Compose",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -1048,9 +1047,9 @@
       ]
     },
     {
-      "sourceId": "SRC-08885f7b8eda",
+      "sourceId": "SRC-4502b550408d",
       "source": "01_foundations/README.md",
-      "line": 10,
+      "line": 12,
       "title": "学习文件",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
@@ -1059,9 +1058,9 @@
       ]
     },
     {
-      "sourceId": "SRC-3d77dafc5f02",
+      "sourceId": "SRC-e27809f2917b",
       "source": "01_foundations/README.md",
-      "line": 17,
+      "line": 19,
       "title": "结束后能够",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
@@ -1084,9 +1083,9 @@
       ]
     },
     {
-      "sourceId": "SRC-2185ada2472d",
+      "sourceId": "SRC-8b48e7f111a6",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 10,
+      "line": 12,
       "title": "一、一次请求",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1098,9 +1097,9 @@
       ]
     },
     {
-      "sourceId": "SRC-88b8492f3012",
+      "sourceId": "SRC-25d687998e2a",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 26,
+      "line": 44,
       "title": "二、IoC",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1112,9 +1111,9 @@
       ]
     },
     {
-      "sourceId": "SRC-49fc0ea52913",
+      "sourceId": "SRC-5ea8d3898236",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 51,
+      "line": 75,
       "title": "三、DI",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1126,9 +1125,9 @@
       ]
     },
     {
-      "sourceId": "SRC-117df14bf247",
+      "sourceId": "SRC-f1e4ae1812d8",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 65,
+      "line": 96,
       "title": "四、Bean 与注解",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1140,9 +1139,9 @@
       ]
     },
     {
-      "sourceId": "SRC-6031f95b318f",
+      "sourceId": "SRC-a9e8ee40fb82",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 80,
+      "line": 115,
       "title": "五、不是所有类都应由 Spring 管理",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1154,9 +1153,9 @@
       ]
     },
     {
-      "sourceId": "SRC-5f1f19b0a661",
+      "sourceId": "SRC-4e40154f96d0",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 92,
+      "line": 129,
       "title": "六、接口不要机械创建",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1168,9 +1167,9 @@
       ]
     },
     {
-      "sourceId": "SRC-3ba7b6e509e9",
+      "sourceId": "SRC-6c8e8b8a1b80",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 104,
+      "line": 143,
       "title": "七、单例 Bean 的并发风险",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1182,9 +1181,9 @@
       ]
     },
     {
-      "sourceId": "SRC-b22f9d182011",
+      "sourceId": "SRC-9ce9cf3f39d6",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 117,
+      "line": 160,
       "title": "八、代理陷阱",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1196,10 +1195,10 @@
       ]
     },
     {
-      "sourceId": "SRC-073697af8b1f",
+      "sourceId": "SRC-b365874cbf6d",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 130,
-      "title": "九、实验",
+      "line": 182,
+      "title": "九、本项目中的对应位置",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1210,10 +1209,24 @@
       ]
     },
     {
-      "sourceId": "SRC-8c1b37b682b5",
+      "sourceId": "SRC-cded7d1444ef",
       "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
-      "line": 138,
-      "title": "十、自测",
+      "line": 195,
+      "title": "十、实验",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java",
+        "mini-commerce/api/mini-commerce.http",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-efb341e07384",
+      "source": "02_backend_spring/01_请求生命周期与IoC_DI.md",
+      "line": 212,
+      "title": "十一、自测",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1358,10 +1371,10 @@
       ]
     },
     {
-      "sourceId": "SRC-37b30626436a",
+      "sourceId": "SRC-36c4e8b20a14",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 10,
-      "title": "一、四类模型",
+      "line": 12,
+      "title": "一、先用一个比喻区分",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1370,9 +1383,21 @@
       ]
     },
     {
-      "sourceId": "SRC-318029a1f9ef",
+      "sourceId": "SRC-79cb4af63f98",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 12,
+      "line": 23,
+      "title": "二、四类模型",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-a0ff1034219e",
+      "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
+      "line": 25,
       "title": "Request DTO",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1382,9 +1407,9 @@
       ]
     },
     {
-      "sourceId": "SRC-9fb64a31364d",
+      "sourceId": "SRC-3e5f3b185de4",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 24,
+      "line": 46,
       "title": "Response DTO",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1394,9 +1419,9 @@
       ]
     },
     {
-      "sourceId": "SRC-3fe7aeacf3d8",
+      "sourceId": "SRC-f3fb791f9917",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 28,
+      "line": 52,
       "title": "Entity",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1406,9 +1431,9 @@
       ]
     },
     {
-      "sourceId": "SRC-64d071054f42",
+      "sourceId": "SRC-a29d6688d379",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 32,
+      "line": 73,
       "title": "Domain Model",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1418,10 +1443,10 @@
       ]
     },
     {
-      "sourceId": "SRC-50fcca3c94f1",
+      "sourceId": "SRC-58ff2b5da0be",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 38,
-      "title": "二、直接返回 Entity 的风险",
+      "line": 88,
+      "title": "三、直接返回 Entity 的风险",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1430,10 +1455,10 @@
       ]
     },
     {
-      "sourceId": "SRC-797d951f77e6",
+      "sourceId": "SRC-a1e68eebd3c2",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 51,
-      "title": "三、Mass Assignment",
+      "line": 103,
+      "title": "四、Mass Assignment",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1442,10 +1467,10 @@
       ]
     },
     {
-      "sourceId": "SRC-6fc73f84a1ad",
+      "sourceId": "SRC-26a3205a4921",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 61,
-      "title": "四、DB 结构不等于 API",
+      "line": 122,
+      "title": "五、数据库结构不等于 API 结构",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1454,10 +1479,10 @@
       ]
     },
     {
-      "sourceId": "SRC-b0a97e6b000f",
+      "sourceId": "SRC-8794d1ddd7c4",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 65,
-      "title": "五、Value Object",
+      "line": 135,
+      "title": "六、Value Object",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1466,10 +1491,10 @@
       ]
     },
     {
-      "sourceId": "SRC-2277e631cbb1",
+      "sourceId": "SRC-c61ac9116b80",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 75,
-      "title": "六、金额和时间",
+      "line": 159,
+      "title": "七、金额和时间",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1478,10 +1503,10 @@
       ]
     },
     {
-      "sourceId": "SRC-0980b543b396",
+      "sourceId": "SRC-aff0da6b45fc",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 82,
-      "title": "七、映射",
+      "line": 161,
+      "title": "金额",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1490,10 +1515,10 @@
       ]
     },
     {
-      "sourceId": "SRC-f308b219f52c",
+      "sourceId": "SRC-1f60d16e96a6",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 92,
-      "title": "八、不可变性",
+      "line": 169,
+      "title": "时间",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1502,10 +1527,58 @@
       ]
     },
     {
-      "sourceId": "SRC-8b58fa2baf96",
+      "sourceId": "SRC-d64c22a762cc",
       "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
-      "line": 106,
-      "title": "九、版本兼容",
+      "line": 177,
+      "title": "八、映射是什么",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-4b757aeb376d",
+      "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
+      "line": 199,
+      "title": "九、为什么领域对象不公开全部 Setter",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-a89b37622570",
+      "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
+      "line": 223,
+      "title": "十、版本兼容",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-70685a2130d5",
+      "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
+      "line": 237,
+      "title": "十一、本项目中的对应位置",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification"
+      ]
+    },
+    {
+      "sourceId": "SRC-a45c6b973479",
+      "source": "02_backend_spring/03_DTO_Entity_Domain与映射.md",
+      "line": 247,
+      "title": "十二、自测",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1636,9 +1709,9 @@
       ]
     },
     {
-      "sourceId": "SRC-30dd33048a1e",
+      "sourceId": "SRC-1ba6ce0b966c",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 10,
+      "line": 12,
       "title": "一、结构化日志",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1650,9 +1723,9 @@
       ]
     },
     {
-      "sourceId": "SRC-8b3473850224",
+      "sourceId": "SRC-309d27f2cbf4",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 25,
+      "line": 31,
       "title": "二、日志级别",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1664,9 +1737,9 @@
       ]
     },
     {
-      "sourceId": "SRC-4a97ce3b947c",
+      "sourceId": "SRC-2af166441ce8",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 34,
+      "line": 40,
       "title": "三、绝不记录",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1678,10 +1751,10 @@
       ]
     },
     {
-      "sourceId": "SRC-ecff9d946323",
+      "sourceId": "SRC-975329c207e5",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 38,
-      "title": "四、类型化配置",
+      "line": 54,
+      "title": "四、什么是配置",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1692,10 +1765,10 @@
       ]
     },
     {
-      "sourceId": "SRC-4d783725188d",
+      "sourceId": "SRC-6279cd8f7788",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 51,
-      "title": "五、环境",
+      "line": 77,
+      "title": "五、`@Value` 是什么",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1706,10 +1779,10 @@
       ]
     },
     {
-      "sourceId": "SRC-657f2b12e02f",
+      "sourceId": "SRC-c81fc79d519e",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 55,
-      "title": "六、Health",
+      "line": 99,
+      "title": "六、类型化配置",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1720,10 +1793,136 @@
       ]
     },
     {
-      "sourceId": "SRC-cce2c63cf229",
+      "sourceId": "SRC-0d6c928ec6c8",
       "source": "02_backend_spring/05_日志_配置与健康检查.md",
-      "line": 62,
-      "title": "七、审计日志",
+      "line": 143,
+      "title": "七、配置不是 Secret",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-0e5685ae31ed",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 164,
+      "title": "八、环境与 Profile",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-06c3a2318753",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 180,
+      "title": "九、连接超时与读取超时",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-302a1354c2df",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 189,
+      "title": "十、Health Check",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-e33d66e6cf31",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 191,
+      "title": "Liveness",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-d19618fa3a61",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 197,
+      "title": "Readiness",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-0b6405c9a0c1",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 205,
+      "title": "十一、审计日志",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-05f4f557b813",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 221,
+      "title": "十二、配置排错顺序",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-e96a47161acc",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 236,
+      "title": "十三、项目中的对应位置",
+      "codeTargets": [
+        "mini-commerce/backend/src/main/java/com/example/minicommerce",
+        "mini-commerce/backend/src/main/resources/application.yml",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/messaging",
+        "mini-commerce/backend/src/main/java/com/example/minicommerce/notification",
+        "mini-commerce/infra/observability",
+        "mini-commerce/docs/observability.md"
+      ]
+    },
+    {
+      "sourceId": "SRC-a3e62eff1e3b",
+      "source": "02_backend_spring/05_日志_配置与健康检查.md",
+      "line": 247,
+      "title": "十四、自测",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
         "mini-commerce/backend/src/main/resources/application.yml",
@@ -1938,9 +2137,9 @@
       ]
     },
     {
-      "sourceId": "SRC-c59d0c69c97c",
+      "sourceId": "SRC-c7d307e38e2c",
       "source": "02_backend_spring/README.md",
-      "line": 10,
+      "line": 12,
       "title": "核心链路",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1950,9 +2149,9 @@
       ]
     },
     {
-      "sourceId": "SRC-3489db38b1e3",
+      "sourceId": "SRC-f29237ce0b6b",
       "source": "02_backend_spring/README.md",
-      "line": 23,
+      "line": 25,
       "title": "文件",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1962,9 +2161,9 @@
       ]
     },
     {
-      "sourceId": "SRC-d6b96cc878e1",
+      "sourceId": "SRC-4c3d184d16ed",
       "source": "02_backend_spring/README.md",
-      "line": 33,
+      "line": 35,
       "title": "过关表现",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -3117,9 +3316,9 @@
       ]
     },
     {
-      "sourceId": "SRC-d086f0ad8c08",
+      "sourceId": "SRC-5898d92313b3",
       "source": "03_testing/README.md",
-      "line": 10,
+      "line": 12,
       "title": "一、你的起点不是零",
       "codeTargets": [
         "mini-commerce/backend/src/test",
@@ -3128,9 +3327,9 @@
       ]
     },
     {
-      "sourceId": "SRC-c611914932be",
+      "sourceId": "SRC-33ff93c92efc",
       "source": "03_testing/README.md",
-      "line": 34,
+      "line": 36,
       "title": "二、文件",
       "codeTargets": [
         "mini-commerce/backend/src/test",
@@ -4238,9 +4437,9 @@
       ]
     },
     {
-      "sourceId": "SRC-418c9c08ce07",
+      "sourceId": "SRC-39652394e02f",
       "source": "04_database_postgresql/README.md",
-      "line": 10,
+      "line": 12,
       "title": "为什么是核心短板",
       "codeTargets": [
         "mini-commerce/backend/src/main/resources/db/migration",
@@ -4249,9 +4448,9 @@
       ]
     },
     {
-      "sourceId": "SRC-9f8fed9ab2c6",
+      "sourceId": "SRC-bca3dc81f92d",
       "source": "04_database_postgresql/README.md",
-      "line": 14,
+      "line": 16,
       "title": "文件",
       "codeTargets": [
         "mini-commerce/backend/src/main/resources/db/migration",
@@ -4260,9 +4459,9 @@
       ]
     },
     {
-      "sourceId": "SRC-1447b6eccde4",
+      "sourceId": "SRC-c501a05a4b33",
       "source": "04_database_postgresql/README.md",
-      "line": 26,
+      "line": 28,
       "title": "必做现象",
       "codeTargets": [
         "mini-commerce/backend/src/main/resources/db/migration",
@@ -6483,9 +6682,9 @@
       ]
     },
     {
-      "sourceId": "SRC-21958308aa8e",
+      "sourceId": "SRC-d3bb2a97ce34",
       "source": "08_runtime_deployment/README.md",
-      "line": 10,
+      "line": 12,
       "title": "模块目标",
       "codeTargets": [
         "mini-commerce/backend/Dockerfile",
@@ -7165,9 +7364,9 @@
       ]
     },
     {
-      "sourceId": "SRC-d7d67db598c9",
+      "sourceId": "SRC-91f1a2748cee",
       "source": "09_cicd/README.md",
-      "line": 10,
+      "line": 12,
       "title": "核心链路",
       "codeTargets": [
         ".github/workflows/mini-commerce-ci.yml",
@@ -7922,9 +8121,9 @@
       ]
     },
     {
-      "sourceId": "SRC-32de45daff5b",
+      "sourceId": "SRC-a31307b0eef9",
       "source": "10_observability/README.md",
-      "line": 10,
+      "line": 12,
       "title": "为什么不是“把日志打印多一点”",
       "codeTargets": [
         "mini-commerce/backend/src/main/java/com/example/minicommerce/observability",
@@ -9434,9 +9633,9 @@
       ]
     },
     {
-      "sourceId": "SRC-2432c2aa1745",
+      "sourceId": "SRC-287ebb1c4a57",
       "source": "12_cloud_aws/README.md",
-      "line": 10,
+      "line": 12,
       "title": "学习目标",
       "codeTargets": [
         "mini-commerce/infra/aws/terraform",
@@ -10844,9 +11043,9 @@
       ]
     },
     {
-      "sourceId": "SRC-697a9fa05387",
+      "sourceId": "SRC-346ee9b49bee",
       "source": "13_ai_engineering_mcp/README.md",
-      "line": 10,
+      "line": 12,
       "title": "最终目标",
       "codeTargets": [
         "mini-commerce/mcp-server",
@@ -11663,18 +11862,18 @@
       ]
     },
     {
-      "sourceId": "SRC-8aaba300b3cb",
+      "sourceId": "SRC-f6c7927283a2",
       "source": "14_capstone/README.md",
-      "line": 10,
+      "line": 12,
       "title": "交付目标",
       "codeTargets": [
         "mini-commerce"
       ]
     },
     {
-      "sourceId": "SRC-92808e1d4853",
+      "sourceId": "SRC-af170c661e9b",
       "source": "14_capstone/README.md",
-      "line": 26,
+      "line": 28,
       "title": "阶段",
       "codeTargets": [
         "mini-commerce"
@@ -13944,9 +14143,9 @@
       ]
     },
     {
-      "sourceId": "SRC-f99e4399fb80",
+      "sourceId": "SRC-da8820973948",
       "source": "16_references/02_核心术语表.md",
-      "line": 9,
+      "line": 16,
       "title": "A",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -13955,9 +14154,9 @@
       ]
     },
     {
-      "sourceId": "SRC-b27c352d249a",
+      "sourceId": "SRC-8283eaae8120",
       "source": "16_references/02_核心术语表.md",
-      "line": 18,
+      "line": 25,
       "title": "B",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -13966,9 +14165,9 @@
       ]
     },
     {
-      "sourceId": "SRC-328c1e083c7b",
+      "sourceId": "SRC-3e2318d89038",
       "source": "16_references/02_核心术语表.md",
-      "line": 26,
+      "line": 33,
       "title": "C",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -13977,9 +14176,9 @@
       ]
     },
     {
-      "sourceId": "SRC-2e943db093fb",
+      "sourceId": "SRC-ad66933dbbb1",
       "source": "16_references/02_核心术语表.md",
-      "line": 35,
+      "line": 42,
       "title": "D",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -13988,9 +14187,9 @@
       ]
     },
     {
-      "sourceId": "SRC-8c87543107d6",
+      "sourceId": "SRC-0dfc002764d1",
       "source": "16_references/02_核心术语表.md",
-      "line": 43,
+      "line": 50,
       "title": "E",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -13999,9 +14198,9 @@
       ]
     },
     {
-      "sourceId": "SRC-00cc1f4e9725",
+      "sourceId": "SRC-4cbc092c9fa0",
       "source": "16_references/02_核心术语表.md",
-      "line": 51,
+      "line": 58,
       "title": "F",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14010,9 +14209,9 @@
       ]
     },
     {
-      "sourceId": "SRC-aced9f2c25fd",
+      "sourceId": "SRC-eb86894bc7ec",
       "source": "16_references/02_核心术语表.md",
-      "line": 56,
+      "line": 63,
       "title": "G",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14021,9 +14220,9 @@
       ]
     },
     {
-      "sourceId": "SRC-58aba02a03c2",
+      "sourceId": "SRC-359ea7524fd3",
       "source": "16_references/02_核心术语表.md",
-      "line": 62,
+      "line": 69,
       "title": "H",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14032,9 +14231,9 @@
       ]
     },
     {
-      "sourceId": "SRC-08315802ad30",
+      "sourceId": "SRC-13d51bb57347",
       "source": "16_references/02_核心术语表.md",
-      "line": 67,
+      "line": 74,
       "title": "I",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14043,9 +14242,9 @@
       ]
     },
     {
-      "sourceId": "SRC-dad46f46a3c4",
+      "sourceId": "SRC-789060151843",
       "source": "16_references/02_核心术语表.md",
-      "line": 74,
+      "line": 81,
       "title": "L",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14054,9 +14253,9 @@
       ]
     },
     {
-      "sourceId": "SRC-3ad7332261a7",
+      "sourceId": "SRC-98b6f2ea075d",
       "source": "16_references/02_核心术语表.md",
-      "line": 79,
+      "line": 86,
       "title": "M",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14065,9 +14264,9 @@
       ]
     },
     {
-      "sourceId": "SRC-e7699f85b1f1",
+      "sourceId": "SRC-9c1cdde3b870",
       "source": "16_references/02_核心术语表.md",
-      "line": 86,
+      "line": 93,
       "title": "O",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14076,9 +14275,9 @@
       ]
     },
     {
-      "sourceId": "SRC-5727688711df",
+      "sourceId": "SRC-a01a4fc067df",
       "source": "16_references/02_核心术语表.md",
-      "line": 92,
+      "line": 99,
       "title": "P",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14087,9 +14286,9 @@
       ]
     },
     {
-      "sourceId": "SRC-9e66a5459fa2",
+      "sourceId": "SRC-f486ebfbb0b0",
       "source": "16_references/02_核心术语表.md",
-      "line": 98,
+      "line": 105,
       "title": "R",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14098,9 +14297,9 @@
       ]
     },
     {
-      "sourceId": "SRC-320a507cae61",
+      "sourceId": "SRC-f110c95319b1",
       "source": "16_references/02_核心术语表.md",
-      "line": 106,
+      "line": 113,
       "title": "S",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14109,9 +14308,9 @@
       ]
     },
     {
-      "sourceId": "SRC-f9dd8e872168",
+      "sourceId": "SRC-c16fffb9b8a0",
       "source": "16_references/02_核心术语表.md",
-      "line": 115,
+      "line": 122,
       "title": "T",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14120,9 +14319,9 @@
       ]
     },
     {
-      "sourceId": "SRC-edd3541fe193",
+      "sourceId": "SRC-616e2792c1e5",
       "source": "16_references/02_核心术语表.md",
-      "line": 122,
+      "line": 129,
       "title": "V",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14131,9 +14330,9 @@
       ]
     },
     {
-      "sourceId": "SRC-2509bb43fa8e",
+      "sourceId": "SRC-35f02c7a6e3b",
       "source": "16_references/02_核心术语表.md",
-      "line": 126,
+      "line": 133,
       "title": "W",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14142,9 +14341,9 @@
       ]
     },
     {
-      "sourceId": "SRC-b8dfcad20c96",
+      "sourceId": "SRC-f9690ce3371e",
       "source": "16_references/02_核心术语表.md",
-      "line": 130,
+      "line": 137,
       "title": "X",
       "codeTargets": [
         "mini-commerce/README.md",
@@ -14669,5 +14868,6 @@
         "mini-commerce/api/mini-commerce.http"
       ]
     }
-  ]
+  ],
+  "scope": "suggested reading targets, not proof that every chapter requirement is implemented"
 }

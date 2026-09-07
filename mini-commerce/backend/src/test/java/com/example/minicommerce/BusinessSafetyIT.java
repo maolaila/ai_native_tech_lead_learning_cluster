@@ -314,4 +314,21 @@ class BusinessSafetyIT extends AbstractPostgresIT {
         http.perform(put("/api/orders/" + order.id()).with(user(buyer)))
                 .andExpect(status().isMethodNotAllowed());
     }
+
+    @Test
+    void supportCannotMutateAnotherPersonsOrder() {
+        var order = create("support-order");
+        var support =
+                users.save(
+                        new UserEntity(
+                                UUID.randomUUID() + "@example.com",
+                                "support",
+                                "hash",
+                                UserRole.SUPPORT));
+        var actor = UserPrincipal.from(support);
+        assertThatThrownBy(() -> commands.cancel(order.id(), actor))
+                .isInstanceOf(BusinessException.class);
+        assertThatThrownBy(() -> paymentFlow.pay(order.id(), actor, "support-pay", "success"))
+                .isInstanceOf(BusinessException.class);
+    }
 }

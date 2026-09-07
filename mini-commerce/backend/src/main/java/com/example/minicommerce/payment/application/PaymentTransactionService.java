@@ -85,7 +85,10 @@ public class PaymentTransactionService {
                 orders.findForUpdate(orderId)
                         .orElseThrow(
                                 () -> new BusinessException(ErrorCode.ORDER_NOT_FOUND, "订单不存在"));
-        query.authorize(order, actor);
+        query.authorizeWrite(order, actor);
+        if (!order.getUserId().equals(actor.id())) {
+            throw new BusinessException(ErrorCode.ACCESS_DENIED, "只能为自己的订单创建支付");
+        }
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT)
             throw new BusinessException(ErrorCode.ORDER_NOT_PAYABLE, "订单不可支付");
         if (payments.existsByOrderIdAndStatusNot(orderId, PaymentStatus.DECLINED)) {

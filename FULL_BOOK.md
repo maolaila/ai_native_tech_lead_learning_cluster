@@ -3,7 +3,7 @@
 > 本文件由 `tools/rebuild_full_book_and_manifest.py` 根据 `SUMMARY.md` 自动生成，便于全文搜索和连续阅读。
 > 实际学习仍建议按后端小白入口或模块导航完成代码、测试和故障实验。
 
-> 共合并 149 个 Markdown 文件。分章文件更新后，CI 会同步刷新本文件。
+> 共合并 150 个 Markdown 文件。分章文件更新后，运行 tools/sync_learning_assets.py 同步刷新本文件；CI 校验结果。
 
 ---
 
@@ -11,12 +11,12 @@
 
 ## 文件：`README.md`
 
-# AI-Native Tech Lead / Architect 学习文件集群 + 完整工程
+# AI-Native Tech Lead / Architect 学习文件集群 + 可运行教学工程
 
 本仓库包含两类互相对应的资产：
 
 1. 根目录 `00_start`～`16_references`：完整学习文档集群；
-2. [`mini-commerce/`](mini-commerce/README.md)：同一真实业务上下文中的完整工程源码。
+2. [`mini-commerce/`](mini-commerce/README.md)：同一真实业务上下文中的教学参考工程源码。
 
 > 原始纯文档版本保存在分支 `backup/docs-only-2026-09-03`。当前版本不删除文档，而是在文档旁加入完整工程。
 
@@ -118,9 +118,9 @@ python tools/build_docs_site.py --strict
 
 ```bash
 cd mini-commerce
-cp .env.example .env
-docker compose --profile app up -d --build
-./scripts/smoke.sh
+test -f .env || cp .env.example .env  # 不覆盖已有配置
+docker compose --profile app up -d --build --wait --wait-timeout 180
+python3 scripts/smoke.py
 ```
 
 可选可观测性：
@@ -129,7 +129,15 @@ docker compose --profile app up -d --build
 docker compose --profile app --profile observability up -d --build
 ```
 
-前端不是本项目的学习重点，因此使用 HTTP 请求集和最小 API 闭环；后端、数据库、Redis、RabbitMQ、测试、运行、云、MCP 与 Eval 均提供实际工程文件。
+前端不是本项目的学习重点，因此使用 HTTP 请求集和最小 API 闭环；后端、数据库、Redis、RabbitMQ、测试、运行、云、MCP 与 Eval 提供对应文件；Kubernetes/AWS 是模板，不代表已在你的环境部署。
+
+## 正式学习前的约定
+
+先读 [正式学习说明与验收范围](mini-commerce/docs/LEARNING-READINESS.md)。当前没有前端成品、真实支付通道或已部署的云环境；本地默认密码只用于演示。原始路线、阶段门和练习不等于全部已实现功能。
+
+现有环境更新前保留数据和 .env。旧演示库可能不满足新增支付唯一约束，不要随意删除业务记录或把 UNKNOWN 改成失败；初次学习可使用独立 Compose 项目，具体命令见正式学习说明。
+
+文档站从 Git 跟踪的文件生成隔离快照，不复制 .env、临时日志或未跟踪文件。修改文档后重启预览；新增文档先 git add。
 
 ---
 
@@ -3490,6 +3498,159 @@ Observability
 
 ---
 
+<!-- source: mini-commerce/docs/LEARNING-READINESS.md -->
+
+## 文件：`mini-commerce/docs/LEARNING-READINESS.md`
+
+# 正式学习说明：先跑通，再按一条业务链阅读
+
+本页是当前学习版本的统一入口。它不是“绝对没有 Bug”的保证，也不是生产系统认证。质量判断同时依赖源码审查、可重复测试和当前提交的 CI，不能只看文件数量或绿色的格式检查。
+
+## 1. 你现在要用哪一部分
+
+**第一阶段只用本地后端闭环。** 不必先准备 AWS、Kubernetes、Node、前端页面或真实支付账号。
+
+| 内容 | 当前定位 |
+|---|---|
+| Java 21 / Spring Boot 3.5.7 / Maven | 可执行后端参考实现；版本以 pom.xml 为准 |
+| PostgreSQL 17、Redis 8、RabbitMQ 4 | Compose 中的真实依赖，不是内存替代品 |
+| 创建订单、幂等、库存预留、模拟支付、取消、通知、积分 | 当前主学习链；从 HTTP 到数据库再到消息 |
+| 退款 | 付款后、履约前的全额模拟退款；不包含部分退款、退货入库和积分冲正 |
+| MCP | 实际协议服务与只读知识工具；有边界测试，不是完整操作系统沙箱 |
+| Prometheus/Grafana/Collector/Tempo | 本地可观测性配置；跨消息的完整 Span 传播仍需扩展 |
+| Kubernetes / AWS Terraform | 部署参考模板与静态校验；未替你创建云资源或验证真实生产网络 |
+| 前端、Playwright、SLO、故障实验、AI 对照实验 | 学习任务或材料，不表示仓库已交付所有成品和实验结论 |
+
+根目录的阶段门和验收清单是**你需要逐步完成的目标**。文档—代码映射是定位辅助，不表示一个相关文件已经实现该章所有要求。
+
+## 2. 最少环境与启动
+
+需要 Docker Engine/Desktop 正常运行，Docker Compose 支持 `--wait`，Python 3.12 或 3.13 可用。仅通过容器运行后端时，本机不必安装 Java；阅读、修改和运行 Java 测试时再准备 Java 21、Maven 3.9.x。Windows 下以下命令放在 WSL2 执行；`python3` 在 Windows 原生终端可能对应 `py -3`。
+
+从仓库根目录开始：
+
+```bash
+cd mini-commerce
+test -f .env || cp .env.example .env
+# 第一次拉镜像和编译需要联网；--wait 等待健康检查，不把“容器已创建”当成可用。
+docker compose --profile app up -d --build --wait --wait-timeout 180
+python3 scripts/smoke.py
+```
+
+Smoke 会创建带随机后缀的测试账户和商品，验证注册、登录、下单、同键重试、模拟支付、查询落库状态、异步通知和退款。它会留下演示数据；**只用于 local 学习环境，不能指向生产**。默认密码不是机密配置，更不是上线凭证。
+
+运行失败时先看：
+
+```bash
+docker compose ps
+docker compose logs --tail=100 backend
+```
+
+`Connection refused` 先检查依赖服务和端口；`Flyway` 或 `Schema-validation` 先看数据库迁移；不要为了让启动变绿，把 `ddl-auto=validate` 改成 `update` 或关闭 Flyway。
+
+可选监控：
+
+```bash
+docker compose --profile app --profile observability up -d --build --wait --wait-timeout 180
+```
+
+停止但保留演示数据：
+
+```bash
+docker compose --profile app --profile observability down
+```
+
+不要习惯性加 `-v`：它会删除这个 Compose 项目的数据卷。
+
+## 3. 主机地址和容器地址不是一回事
+
+下面是默认值；更改 `.env` 后以实际配置为准。所有映射端口绑定 `127.0.0.1`，不供局域网直接访问。
+
+| 服务 | 你在宿主机使用 | Compose 容器互相访问 |
+|---|---|---|
+| 后端 | `http://127.0.0.1:18080` | `backend:8080` |
+| PostgreSQL | `localhost:15432`，库名 `commerce` | `postgres:5432` |
+| Redis | `localhost:16379` | `redis:6379` |
+| RabbitMQ AMQP 协议 | `localhost:15672`，不是网页 | `rabbitmq:5672` |
+| RabbitMQ 管理网页 | `http://127.0.0.1:15673` | `rabbitmq:15672` |
+| MCP | `http://127.0.0.1:18081/mcp` | `mcp-server:8081/mcp` |
+| Prometheus | `http://127.0.0.1:19090` | `prometheus:9090` |
+| Grafana | `http://127.0.0.1:13000` | `grafana:3000` |
+
+只启动依赖、从源码运行后端的另一种方式（不要同时启动占用相同端口的两个后端）：
+
+```bash
+# 当前目录 mini-commerce
+docker compose up -d --wait postgres redis rabbitmq
+cd backend
+mvn spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+此模式后端默认是 **8080**，不是 18080。另开终端运行 Smoke 时设置 `BASE_URL=http://127.0.0.1:8080`。只启动 app、不启动 observability 时，未配置的 OTLP 接收端可能有连接警告，不表示订单数据库事务失败。
+
+## 4. 演示数据与返回字段
+
+只在 `local` Profile 初始化：Alice 的账号是 `alice@example.com / Password123!`；管理员是 `admin@example.com / AdminPassword123!`。新库里机械键盘单价 `8000.00 JPY`、库存 100；无线鼠标 `3200.00 JPY`、库存 20。请先查商品列表取得实际 ID，不把 1 当成固定业务规则。
+
+`WELCOME10` 只发给 Alice，一人一份。最低消费 5000，折扣 10%，最多优惠 1000；下单占用，付款后使用，未付款取消后释放。两件键盘的小计为 16000，折扣封顶 1000，最终金额 15000 JPY。
+
+订单响应字段是 `orderNumber`、`subtotal`、`discount`、`totalAmount`、`currency` 等；不是 `number` 或 `total`。订单 ID 是完整 UUID，路径参数不能填 `123`。文档里的省略字段或假设金额必须看作示意，不能与默认数据混用。
+
+本项目为教学统一使用两位小数，不是完整的多币种资金账本；真实通道还需按币种最小货币单位、渠道规则和财务口径设计。
+
+## 5. 三个必须先理解的边界
+
+**事务边界。** 创建订单的幂等记录、优惠券、库存、订单、订单项和 Outbox 一起提交。`flush` 不是提交；全局 `clear` 会让所有已托管对象脱离 JPA 跟踪。默认事务代理只拦截经过代理的调用；退款拆成两个 Bean 是为了避免同类自调用使事务失效。受检异常需要显式回滚规则。
+
+**支付边界。** `FakePaymentGateway` 不发真实支付请求，`timeout/unknown` 是确定性模拟。外部调用在事务外；提供方需要按稳定的 paymentId/refundId 去重。当前没有自动对账任务或真实 HTTP 支付适配器。UNKNOWN 是“结果不知道”，不是拒付：应使用原键查询并核对，不能换新键再付，也不能直接取消释放库存。演示支付参数 `decline` 才是明确拒付。模拟器没有使用配置中的连接/读取超时，不能据此声称已验证真实网络超时。
+
+**消息边界。** 下单产生 `order.created.v1`，生命周期消费者记录审计；支付成功才产生 `order.paid.v1`，随后通知和积分分别消费。Confirm Ack 不等于消费者业务成功；mandatory Return 表示没有路由到队列。去重标记与数据库副作用同事务提交，仍然不是对任意外部副作用的“恰好一次”保证。
+
+缓存仅供展示，可能短暂过期。当前实现用本实例的同键结果复用和最多 8 个并发回源限制数据库压力；繁忙返回 503。Redis 锁也不能把展示缓存变成强一致的订单价格源。
+
+## 6. 更新过旧演示环境时
+
+V001～V003 保持原校验和；新增 V004～V006，而不是改旧迁移。V004 增加一张订单只有一个未明确拒付的支付、一次支付只有一个未明确失败的退款等约束。旧演示库若已有矛盾数据，迁移会拒绝通过；**不要伪造 FAILED/DECLINED 来消除错误**。
+
+刚开始学习且不需要沿用旧演示数据时，可隔离新环境，不删除旧数据卷：
+
+```bash
+# 当前目录 mini-commerce；先停止旧项目占用的同一组端口，不加 -v
+docker compose --profile app --profile observability down
+docker compose -p mini-commerce-study --profile app up -d --build --wait --wait-timeout 180
+python3 scripts/smoke.py
+```
+
+以后针对这个新环境的 ps/logs/down 都带 `-p mini-commerce-study`。有需要保留的业务数据时先备份并核对后迁移，不采用“删库重来”。只读 MCP 角色初始化也只会在新 PostgreSQL 数据卷首次启动时执行。
+
+## 7. MCP 和安全范围
+
+HTTP 模式必须使用 Bearer Token，本地 stdio 的权限边界是启动进程本身。数据库使用 `commerce_readonly`，只授予 products、inventory、orders、order_items 的 SELECT；不授予账户、密码哈希或 Refresh Token 表的读取权限。应用数据库角色和演示口令不适用于生产。
+
+EXPLAIN 工具输入一条 SELECT/WITH，由工具自行添加 EXPLAIN；不接受用户传入 EXPLAIN ANALYZE。SQL 关键词检查只是一道防误用措施，不是 SQL 沙箱。检索文档经过真实路径校验、防止越出仓库，并始终标为不可信数据。
+
+`run_test_suite` 默认禁止执行，HTTP 模式始终不能开启；只有信任本地仓库时才在 stdio 设置 `MCP_ENABLE_TEST_EXECUTION=true`。固定命令也会执行仓库中的任意测试代码，超时和白名单不等于完整隔离。本地 Docker MCP 镜像也未安装 Java/Maven，不承诺能在该镜像中运行后端测试。
+
+requestId 是入口关联号；traceId 由链路框架管理，两者不能用同一个客户端字符串冒充。消息保存 traceId 字段不代表自动建立了完整的跨 RabbitMQ 父子 Span。
+
+## 8. 验证材料该怎么读
+
+`LearningReadinessIT` 保存本次首先复现的 7 个问题；`BusinessSafetyIT` 验证重试、并发、取消、权限、消息去重和实际配置；`InfrastructureReadinessTest` 验证缓存与 Confirm/Return 边界。初始复现运行号为 `34085970470`，原测试通过而新增 7 项失败，说明文件和格式检查不能代替行为测试。
+
+修复后的第一轮运行 `34087808615` 已验证 Java 36 项、MCP 17 项，未跳过；这是后续文档及容器验收前的中间证据，不冒充最终提交结果。最终以 main 当前提交的 `mini-commerce-ci` 和学习资料门禁为准。
+
+格式检查只证明格式；词典标记检查只证明内容存在；链接检查只证明本地路径存在。当前没有声称完成生产压测、真实支付验证、云上 apply、所有外链可用性检查或全面依赖漏洞扫描。
+
+## 9. 第一天的结束标准
+
+先看[零基础入口](mini-commerce/docs/BEGINNER-START-HERE.md)，再看[创建订单走读](mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md)。只打开 OrderController、OrderDtos、CreateOrderService、InventoryService、InventoryRepository 五个文件。
+
+第一个 20 分钟只说明“请求从哪里进入、调用谁”；第二个 20 分钟只说明“哪些数据库修改同成同败”；第三个 20 分钟运行一个测试，并说明它在防什么错误。遇到不懂的词查本地词典，写入稍后清单，不同时打开十几个专题。
+
+今天能不看源码讲清楚“请求 → 业务流程 → 条件库存更新 → 数据库事务”，就可以停止。退款、消息租约、MCP 和云不是第一天的要求。
+
+---
+
 <!-- source: mini-commerce/docs/BEGINNER-START-HERE.md -->
 
 ## 文件：`mini-commerce/docs/BEGINNER-START-HERE.md`
@@ -3582,7 +3743,7 @@ CreateOrderService
 ```text
 api/             HTTP 请求入口、请求参数、响应结构
 application/     一个完整业务用例的执行顺序
- domain/         业务状态、业务动作和不能被破坏的规则
+domain/         业务状态、业务动作和不能被破坏的规则
 infrastructure/  数据库、Redis、RabbitMQ、外部服务等技术实现
 config/          Spring、消息队列和安全等集中配置
 test/            自动验证业务规则
@@ -3679,7 +3840,7 @@ public OrderResponse create(...) {
 
 大白话：
 
-> `@Transactional` 告诉 Spring：“这个方法里的数据库修改要作为一个整体提交；中途出错时要一起回滚。”
+> `@Transactional` 告诉 Spring：“这个方法里的数据库修改作为一个整体提交；未捕获的运行时异常会触发默认回滚，受检异常需显式设置回滚规则。”
 
 完整说明见：[Spring 与 Java 注解小白词典](mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md)。
 
@@ -3788,7 +3949,7 @@ public OrderResponse create(...) {
 
 ## 一、调用方发送请求
 
-示例：
+以下是新建 local 演示数据库中 Alice 使用 WELCOME10 购买两件机械键盘的示例。先查询商品列表确认 ID；商品 ID 不保证永远是 1。该券只分配给 Alice，一旦占用或使用，不能换一个幂等键再次用它创建订单。
 
 ```http
 POST /api/orders HTTP/1.1
@@ -3885,7 +4046,7 @@ public OrderResponse create(...)
 
 `@Transactional` 的通俗含义：
 
-> 这个方法中的关键数据库修改要一起成功；中途失败时一起撤销。
+> 这个方法中的关键数据库修改要一起成功；未捕获的运行时异常触发默认回滚。受检异常需要 rollbackFor；主动吞掉异常不保证回滚。
 
 创建订单不是一次简单的 INSERT。它需要同时改变多处数据，所以需要明确事务边界。
 
@@ -4152,17 +4313,17 @@ Outbox 事件
 
 Controller 最终返回 `OrderResponse`，Spring 把 Java 对象转成 JSON，HTTP 状态为 201。
 
-示意：
+以下只展示 OrderResponse 的部分字段。新演示商品单价 8000 JPY，购买两件小计 16000；10% 折扣受 1000 上限约束，因此实付 15000。完整响应还含 userId、items、createdAt。
 
 ```json
 {
   "id": "...",
-  "number": "MC-20260903-AB12CD34",
+  "orderNumber": "示意订单号，以实际响应为准",
   "status": "PENDING_PAYMENT",
-  "subtotal": 200.00,
-  "discount": 10.00,
-  "total": 190.00,
-  "currency": "CNY"
+  "subtotal": 16000.00,
+  "discount": 1000.00,
+  "totalAmount": 15000.00,
+  "currency": "JPY"
 }
 ```
 
@@ -4175,15 +4336,13 @@ Controller 最终返回 `OrderResponse`，Spring 把 Java 对象转成 JSON，HT
 ```text
 领取事件
 → 发送到 RabbitMQ
-→ 等待 Publisher Confirm
-→ 标记为已发布
+→ 等待 Publisher Confirm，并检查没有 mandatory Return（未路由退回）
+→ 用本次领取的 worker + attempt 凭证标记已发布
 ```
 
-Consumer 收到消息后可能：
+创建订单的 `order.created.v1` 由 `OrderLifecycleConsumer` 记录审计，不会直接加积分或发付款通知。
 
-- 创建站内通知；
-- 记录积分；
-- 执行其他异步副作用。
+随后模拟付款成功，支付事务写入另一条 `order.paid.v1`；`OrderPaidConsumers` 的两个订阅才分别创建付款通知和积分。不要把“下单”和“付款成功”当成同一个事件。
 
 消息可能重复投递，所以 Consumer 需要通过消息 ID 去重，并让去重记录与业务修改在同一事务提交。
 
@@ -4223,6 +4382,12 @@ OrderController.java
 → OrderItemEntity.java
 → OutboxService.java
 → OutboxPublisher.java
+→ OrderLifecycleConsumer.java
+
+付款后的另一条链：
+PaymentOrchestrator.java
+→ PaymentTransactionService.java
+→ OutboxPublisher.java
 → OrderPaidConsumers.java
 ```
 
@@ -4245,6 +4410,14 @@ OrderController.java
 5. 为什么订单项保存商品快照？
 6. Outbox 解决什么问题？
 7. 为什么使用 Outbox 后 Consumer 仍然要幂等？
+
+## 十九、这次验收修复的一个重要陷阱
+
+`@Modifying(clearAutomatically = true)` 不是“只刷新库存”。它会清空整个 JPA 持久化上下文，使已经加载的订单、支付和幂等记录都脱离自动跟踪。之后只修改这些对象的字段，未必会写入数据库。原来的实现因此出现“接口返回成功，数据库仍为 PROCESSING”。
+
+本项目保留更新前的 flush，但不清空整个上下文；原生库存 SQL 更新后也不复用旧的库存实体。测试用 JDBC 重新查询数据库验证 COMPLETED/PAID，而不是只看返回的 Java 对象。
+
+`flush` 是把已跟踪的修改送到数据库执行，**不是提交事务**；`clear` 是让 JPA 停止跟踪对象，**不是撤销 SQL**。详见[通俗术语词典](mini-commerce/docs/BACKEND-TERMS-PLAIN-CHINESE.md)。
 
 ---
 
@@ -4364,13 +4537,13 @@ AppProperties.Payment.connectTimeout
 ### 大白话
 
 ```java
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 可以读成：
 
-> 程序启动时，请 Spring 找到 `app.payment.read-timeout`，然后把值放进 `readTimeout`。
+> 程序启动时读取示例配置 app.example.timeout-ms；没有配置时使用 3000 毫秒。这是语法示例，不是本项目实际支付超时字段。
 
 ### `${...}` 是什么
 
@@ -4379,12 +4552,12 @@ private Duration readTimeout;
 ### 默认值怎么写
 
 ```java
-@Value("${app.payment.read-timeout:3s}")
+@Value("${app.example.timeout-ms:3000}")
 ```
 
-冒号后面的 `3s` 是默认值：
+冒号后面的 `3000` 是默认值（单位由本示例约定为毫秒）：
 
-> 配置存在就用配置；配置不存在就暂时使用 3 秒。
+> 配置存在就用配置；配置不存在就使用 3000 毫秒。Duration 的 3s 简写绑定由 Spring Boot 的 @ConfigurationProperties 支持，不要把所有 @Value 转换能力与它等同。
 
 ### 常见错误
 
@@ -4610,10 +4783,10 @@ public OrderResponse get(@PathVariable UUID id) {
 请求：
 
 ```text
-GET /api/orders/123
+GET /api/orders/550e8400-e29b-41d4-a716-446655440000
 ```
 
-其中 `123` 会放进参数 `id`。
+路径中的完整 UUID 字符串会转换成 UUID 对象。这里不能填 `123`：它不是合法 UUID，本项目会返回 400。
 
 ---
 
@@ -5189,6 +5362,20 @@ available >= :qty
 [注解使用位置索引](mini-commerce/docs/generated/annotation-usage-index.md)
 
 该索引会列出每种注解在哪些 Java 文件中出现，方便你从词典跳回真实代码。
+
+## 验收补充：几个容易学错的标签
+
+**`@Transactional(propagation = Propagation.MANDATORY)`：**调用者必须已经开启数据库事务；没有就报错。库存预留必须和订单在同一事务，不能单独提交。
+
+**`@Transactional(rollbackFor = Exception.class)`：**本项目消息与回调处理还会抛出 JSON 解析等受检异常，因此显式要求它们回滚。默认规则是 RuntimeException 和 Error 回滚，而不是“任何异常都会回滚”。本项目采用默认代理模式，同一对象内部自调用不会经过事务代理；退款拆成 RefundService 与 RefundTransactionService 正是为了保证这一点。
+
+**`@JdbcTypeCode(SqlTypes.CHAR)`：**Hibernate 扩展，明确告诉它数据库列是 CHAR。本项目币种列是 CHAR(3)，Java String 的默认 VARCHAR 映射并不等于 CHAR；真实数据库的 ddl-auto=validate 会核对映射。
+
+**`@DirtiesContext`：**通知 Spring 测试框架丢弃旧的应用上下文。集成测试的每个测试类会重启 PostgreSQL 容器；不能把指向旧容器端口的连接池继续用于下一个类。这会增加测试启动时间，但避免错误复用。
+
+**`@Modifying` 的 flush 与 clear：**flush 把已跟踪的修改发给数据库，事务尚可回滚；clear 使整个上下文里的对象脱离跟踪，不等于只刷新某条库存。现在的库存更新不再全局 clear。
+
+参考：[Spring 事务注解规则](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)、[Spring Data JPA 修改查询](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html)。
 
 ---
 
@@ -6367,6 +6554,14 @@ Mock 用得太多可能只证明“自己编的假世界”正确，所以数据
 
 只有项目内仍无法解释时，再查外部资料。
 
+## 持久化上下文、托管对象、游离对象、flush 与 clear
+
+把持久化上下文想成 JPA 的“正在跟踪的对象清单”。托管对象在清单里；事务提交时，JPA 会把检测到的字段变化写入数据库。游离对象不在清单里；继续给它赋值，只能确定 Java 内存改变了，不能确定数据库改变了。
+
+`flush` 把跟踪到的修改发送给数据库执行，不等于 commit；当前事务仍可能回滚。`clear` 清空跟踪清单，不是回滚，也不是只刷新当前 Repository 的某个实体。原生 SQL 绕过对象跟踪，所以更新后内存里的旧库存对象可能过期。
+
+本项目的验收测试特意不用测试方法自己的事务包住业务调用，并用 JDBC 重新读最终事实，避免出现“内存正确、数据库错误”的假通过。
+
 ---
 
 <!-- source: mini-commerce/docs/JAVA-SYNTAX-FOR-BACKEND-BEGINNERS.md -->
@@ -7130,7 +7325,7 @@ public Optional<OrderEntity> findById(UUID id)
 - 缓存过期时间；
 - Outbox 每次处理多少条消息。
 
-不应该这样写：
+需要随环境变化的值不宜在业务代码中这样写（固定的领域规则不一定需要配置）：
 
 ```java
 Duration readTimeout = Duration.ofSeconds(5);
@@ -7201,8 +7396,9 @@ YAML 建议只使用空格，不使用 Tab。
 例如：
 
 ```text
-DB_HOST=postgres
-DB_PASSWORD=example
+DATABASE_URL=jdbc:postgresql://localhost:15432/commerce
+DATABASE_USER=commerce_app
+DATABASE_PASSWORD=commerce-local
 ```
 
 配置文件可以引用环境变量：
@@ -7210,19 +7406,20 @@ DB_PASSWORD=example
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:5432/mini_commerce
-    password: ${DB_PASSWORD:postgres}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:15432/commerce}
+    username: ${DATABASE_USER:commerce_app}
+    password: ${DATABASE_PASSWORD:commerce-local}
 ```
 
 这里：
 
 ```text
-${DB_HOST:localhost}
+${DATABASE_PASSWORD:commerce-local}
 ```
 
 表示：
 
-> 有 `DB_HOST` 就使用它；没有就使用 `localhost`。
+> 有 DATABASE_PASSWORD 就使用它；没有就使用本地演示默认值 commerce-local。容器中的数据库地址由 compose.yaml 改为 postgres:5432，不是宿主机地址。
 
 ### Secret 为什么更适合环境变量或 Secret 管理服务
 
@@ -7235,8 +7432,8 @@ ${DB_HOST:localhost}
 ## 四、`@Value` 怎样取一个配置值
 
 ```java
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 逐段解释：
@@ -7254,27 +7451,27 @@ ${...}
 告诉 Spring：“按照括号里的名字去配置中找。”
 
 ```text
-app.payment.read-timeout
+app.example.timeout-ms
 ```
 
-是配置路径。
+是本段语法示例的配置路径；实际工程使用 AppProperties 的 Duration 字段。
 
 ### 带默认值
 
 ```java
-@Value("${app.payment.read-timeout:3s}")
+@Value("${app.example.timeout-ms:3000}")
 ```
 
 意思是：
 
 ```text
 找到配置 → 使用配置
-找不到配置 → 使用 3 秒
+找不到配置 → 使用 3000 毫秒（本示例约定单位）
 ```
 
 ### 常见类型转换
 
-Spring 可以把文本配置转换成常见类型：
+普通标量可以转换成 boolean、int、long。下面 Duration/DataSize 的单位简写专指 Spring Boot @ConfigurationProperties 绑定，不应推断任何 @Value 注入都有相同转换器：
 
 ```text
 "true"   → boolean
@@ -7307,8 +7504,8 @@ private URI baseUrl;
 @Value("${app.payment.connect-timeout}")
 private Duration connectTimeout;
 
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 短期看很直接，但项目变大后会出现：
@@ -7444,13 +7641,14 @@ application-prod.yml
 ### 启用 Profile
 
 ```bash
-SPRING_PROFILES_ACTIVE=local
+export SPRING_PROFILES_ACTIVE=local  # Bash/WSL，需 export 后子进程才能收到
+mvn -f backend/pom.xml spring-boot:run  # 当前目录 mini-commerce
 ```
 
 或：
 
 ```bash
-java -jar app.jar --spring.profiles.active=local
+mvn -f backend/pom.xml spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
 ---
@@ -7482,7 +7680,7 @@ application.yml
 read-timeout: 5s
 ```
 
-比：
+在绑定到 Duration 时比：
 
 ```yaml
 read-timeout: 5000
@@ -7625,6 +7823,18 @@ compose.yaml
 3. `read-timeout: 5s` 怎样进入 `Duration readTimeout`？
 4. 为什么 JWT Secret 不应该提供公开默认值？
 5. Profile 解决什么问题？
+
+## 十九、实际运行中必须区分的配置
+
+**不是所有超时属性都接受 5s。** 本项目 Hikari 的 connection-timeout/validation-timeout 对应毫秒 long，必须写 1500/1000，不是 1500ms/1000ms；AppProperties 的 Duration 则接受 500ms、2s。原先错误写法会使真实应用启动失败，已经由集成测试覆盖。
+
+**有配置不等于实现使用了它。** FakePaymentGateway 不发 HTTP，所以 app.payment.connect-timeout/read-timeout 是真实支付适配器的预留示例；本次没有声称它们已控制模拟器的网络调用。
+
+**test 只覆盖需要替换的属性。** application-test.yml 会继承主 application.yml；不再另放 src/test/resources/application.yml 影子文件。测试启用真实 Flyway 和 ddl-auto=validate，关闭消息监听与发布器；这与完整 Compose Smoke 的运行范围不同。
+
+**默认配置不是生产就绪。** 目前没有给 AppProperties 全部字段建立完整的启动校验规则，没有自动的生产密钥合规检查。不要把“非 local 不创建默认账号”等同于“已经可以安全上线”。
+
+完整端口、实际环境变量和从源码启动步骤见[正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 ---
 
@@ -8917,14 +9127,14 @@ mini-commerce/
 |---|---|
 | OS | Windows 11 + WSL2，或 macOS/Linux |
 | Java | Java 21 LTS 作为学习基线 |
-| Spring Boot | 当前稳定版本，示例避免依赖冷门 API |
-| Build | Maven 或 Gradle；全项目选一种 |
-| Node | 当前 LTS |
-| PostgreSQL | 18.x 学习环境 |
-| Redis | 当前稳定版本 |
-| RabbitMQ | 当前稳定版本 + Management UI |
+| Spring Boot | 本工程锁定 3.5.7，以 backend/pom.xml 为准；不是要求安装最新版本 |
+| Build | Maven 3.9.x；本工程没有 Gradle 构建文件 |
+| Node | 后续前端练习才需要；首次后端学习不需要 |
+| PostgreSQL | 17，使用 compose.yaml 的 postgres:17-alpine |
+| Redis | 8，使用 Compose 镜像 |
+| RabbitMQ | 4-management-alpine，使用 Compose 镜像 |
 | Container | Docker Desktop / Docker Engine |
-| E2E | Playwright 当前稳定版本 |
+| E2E | 后续前端练习使用 Playwright；本工程当前提供 HTTP Smoke |
 
 版本会变化，因此命令和依赖以项目锁文件与官方文档为准。核心原理不依赖某个小版本。
 
@@ -8932,9 +9142,8 @@ mini-commerce/
 
 ```bash
 java -version
-mvn -version       # 或 ./gradlew --version
-node -v
-npm -v
+mvn -version       # 仅源码运行和 Java 测试需要
+python3 --version   # 文档站、Smoke 和 MCP 需要 Python 3.12/3.13
 docker version
 docker compose version
 git --version
@@ -8943,6 +9152,7 @@ git --version
 ## 三、为什么基础设施优先用 Compose
 
 ```bash
+cd mini-commerce  # 从仓库根目录进入
 docker compose up -d
 ```
 
@@ -8968,7 +9178,7 @@ docker compose up -d
 
 ## 五、环境验收
 
-- [ ] Java、构建工具、Node、Docker 正常；
+- [ ] Docker 正常；源码模式再检查 Java/Maven；暂不安装 Node；
 - [ ] `docker compose up -d` 能启动依赖；
 - [ ] 能连接 PostgreSQL；
 - [ ] `redis-cli PING` 返回 `PONG`；
@@ -9455,6 +9665,8 @@ python3 -m http.server 8080
 ## 文件：`01_foundations/README.md`
 
 # 模块 01：HTTP、Linux 与网络基础
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 01 Foundations
 > **本文用途：** 建立后端、部署和故障排查共同依赖的心智模型。
@@ -10668,6 +10880,8 @@ ORDER_NOT_CANCELLABLE
 
 # 模块 02：Spring Boot 后端工程
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 02 Backend
 > **本文用途：** 从基础 Demo 升级到能设计、实现和 Review 可维护的业务模块。
 > **前置知识：** 模块 01
@@ -11584,6 +11798,8 @@ Testcontainers PostgreSQL、真实 Flyway、Repository Mapping、Unique、订单
 
 # 模块 03：从人工点击到系统化测试
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 03 Testing
 > **本文用途：** 把现有“点击看结果、判断前端或接口”的能力升级为分层、可重复、进入 CI 的验证体系。
 > **前置知识：** Spring Boot 基础
@@ -12441,6 +12657,8 @@ stock=1、20 请求；分别用条件 UPDATE、悲观、乐观。记录成功数
 
 # 模块 04：PostgreSQL、事务与并发
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 04 Database
 > **本文用途：** 从基础 SQL 升级到能建模、设计索引、控制事务、解决并发和诊断慢查询。
 > **前置知识：** 后端和测试模块
@@ -12802,6 +13020,8 @@ AI 可能推荐不存在/恶意相似包、打印 Token、关闭校验、新增�
 
 # 模块 05：认证、授权与应用安全
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 05 Security
 > **本文用途：** 建立身份和权限边界，识别常见 Web、Secret 与供应链风险。
 > **前置知识：** 后端、数据库、测试
@@ -13101,6 +13321,8 @@ Redis 原子计数适合临时指标/排行；财务事实仍需持久化与对�
 ## 文件：`06_redis/README.md`
 
 # 模块 06：Redis 与缓存设计
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 06 Redis
 > **本文用途：** 在主数据库正确后，学习缓存、Session、限流和故障降级。
@@ -13557,6 +13779,8 @@ order.created.v1
 ## 文件：`07_rabbitmq/README.md`
 
 # 模块 07：RabbitMQ 与可靠异步处理
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 07 Messaging
 > **本文用途：** 理解异步价值、消息丢失与重复，并让业务在重试和崩溃条件下仍正确。
@@ -14078,6 +14302,8 @@ External API 1.5s
 
 # 模块 08：Docker、Linux 与应用运行
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 08 Runtime
 > **本文用途：** 让项目从“我的 IDE 能跑”升级为可复制、可部署、可关闭、可排查的运行单元。
 > **前置知识：** 基础、后端、数据库
@@ -14509,6 +14735,8 @@ Environment Approval→Canary 10%→观察→100%；实现 Feature Flag。
 ## 文件：`09_cicd/README.md`
 
 # 模块 09：CI/CD、发布与回滚
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 09 CI/CD
 > **本文用途：** 把代码提交转换为可重复验证、可追踪、可审批和可恢复的发布过程。
@@ -15012,6 +15240,8 @@ Timeout、Retry 放大、Thread/Pool Saturation、Circuit Breaker。
 ## 文件：`10_observability/README.md`
 
 # 模块 10：可观测性与生产故障处理
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 10 Observability
 > **本文用途：** 用 Logs、Metrics、Traces 和业务不变量理解系统内部状态，并形成 Incident 闭环。
@@ -15654,6 +15884,8 @@ Entitlement 缓存旧：关键授权可读取权威状态或使用短 TTL/版本
 
 # 模块 11：业务建模与系统设计
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 11 System Design
 > **本文用途：** 从需求、不变量和负载出发设计边界、数据流、失败策略和演进路径。
 > **前置知识：** 前面所有工程模块
@@ -16055,6 +16287,8 @@ Redis/RabbitMQ 可在成本允许时加入或保留本地。
 ## 文件：`12_cloud_aws/README.md`
 
 # 模块 12：AWS 基础与云上运行
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 12 Cloud
 > **本文用途：** 把已有运行、网络、数据和安全概念映射到 AWS，不把云服务当魔法。
@@ -17005,6 +17239,8 @@ Local/Staging/Prod Endpoint 分离；生产只读；沙箱；结果限制和脱�
 
 # 模块 13：AI Engineering、Rules、Golden Path 与 MCP
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 13 AI Engineering
 > **本文用途：** 把资深工程经验转化为新人和 Coding Agent 能稳定执行、自动验证且权限受控的软件生产体系。
 > **前置知识：** 完成前 12 个模块
@@ -17510,6 +17746,8 @@ Kafka、Kubernetes、微服务、复杂 DDD、云大架构、万能 MCP。地基
 ## 文件：`14_capstone/README.md`
 
 # 模块 14：Mini Commerce 毕业项目
+
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](mini-commerce/docs/LEARNING-READINESS.md)。
 
 > **所属模块：** 14 Capstone
 > **本文用途：** 把所有模块串成一个从业务到生产再到 AI 平台的可演示项目。

@@ -59,4 +59,11 @@ public class OrderQueryService {
                 && !a.role().name().equals("SUPPORT"))
             throw new BusinessException(ErrorCode.ACCESS_DENIED, "不能访问他人的订单");
     }
+
+    /** 能查看不等于能修改；客服可协助查询，但不可替别人取消订单。 */
+    public void authorizeWrite(OrderEntity order, UserPrincipal actor) {
+        if (!order.getUserId().equals(actor.id()) && !actor.role().name().equals("ADMIN")) {
+            throw new BusinessException(ErrorCode.ACCESS_DENIED, "没有修改该订单的权限");
+        }
+    }
 }

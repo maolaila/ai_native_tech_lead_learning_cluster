@@ -74,7 +74,7 @@ REQUIREMENTS = (
         (
             "后端零基础：从这里开始",
             "Spring 与 Java 注解小白词典",
-            "分章文件更新后，CI 会同步刷新本文件",
+            "分章文件更新后，运行 tools/sync_learning_assets.py 同步刷新本文件；CI 校验结果",
         ),
     ),
     Requirement(
@@ -166,7 +166,7 @@ def write_report(failures: list[str]) -> None:
         lines.append("")
         lines.extend(f"- {failure}" for failure in failures)
     else:
-        lines.append("通过。后端小白学习入口和代表性源码说明完整。")
+        lines.append("入口与关键短语检查通过；不等于全部资料准确、全部需求实现或运行验证通过。")
     REPORT.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 

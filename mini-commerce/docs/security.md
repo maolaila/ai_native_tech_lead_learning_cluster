@@ -1,10 +1,11 @@
-# 安全边界
+# 安全边界与教学限制
 
-- API 使用短期 JWT Access Token；Refresh Token 轮换且数据库只存 SHA-256 哈希。
-- 密码 BCrypt；登录 Redis 限速采用保守失败策略。
-- Admin 方法由后端 Method Security 强制；订单再检查对象 Owner。
-- Webhook 使用 HMAC，事件 ID 唯一。
-- Secret 只从环境/平台 Secret 注入，禁止进入日志和前端。
-- MCP 的 HTTP Transport 使用 Bearer Token；stdio 的边界是启动进程本身。
-- MCP 只读 SQL、固定测试套件、固定根目录、无 shell、超时、结果上限和审计。
-- 检索到的文档/Issue/日志一律标记为不可信数据，不得改变工具权限。
+API 使用 JWT，Refresh Token 只保存哈希并在轮换时加数据库行锁；BCrypt 密码限制按 UTF-8 字节检查，不把字符数当字节数。普通用户只能操作自己的订单；客服的协助查询不等于取消或付款权限，管理员也不能替别人的订单创建支付。
+
+local 的默认账号、固定 JWT 密钥和 MCP Token 仅用于演示。没有自动生产合规检查；不应将本工程直接暴露公网。Compose 发布端口绑定 127.0.0.1；本地 Prometheus 可以读指标，其他管理端点仍要求管理员。
+
+MCP 的数据库账号只有四张教学业务表的 SELECT，不能读取用户与 Token 表。文件检索先解析真实路径，禁止符号链接越界；脱敏按数据结构处理。白名单、超时和提示注入检测是有限防护，不是完整沙箱。
+
+HTTP MCP 必须有 Bearer Token，测试执行默认关闭且 HTTP 不能开启。本地 stdio 显式开启测试执行后，仓库代码仍然有进程权限，必须先信任仓库。原生进程环境裁剪不代表容器级隔离。
+
+Fake Webhook 的 HMAC 和事件 ID 去重只是教学实现；真实提供方还需要时间戳、防重放、密钥轮换和渠道契约核验。见[正式学习说明](LEARNING-READINESS.md)。

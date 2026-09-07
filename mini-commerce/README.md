@@ -1,6 +1,6 @@
-# Mini Commerce 完整学习工程
+# Mini Commerce 教学参考工程
 
-这不是按章节拆开的 Hello World 集合，而是一套可运行的模块化单体。所有知识点都落在同一个电商业务：用户浏览商品、加入购物车、使用优惠券创建订单、预留库存、模拟支付、处理重复回调、异步通知和积分，并具备测试、发布、监控、云映射和 AI 工程治理。
+这不是按章节拆开的 Hello World 集合，而是一套可运行的模块化单体。核心后端知识点围绕同一个电商业务：用户浏览商品、加入购物车、使用优惠券创建订单、预留库存、模拟支付、处理重复回调、异步通知和积分，并具备测试、发布、监控、云映射和 AI 工程治理。
 
 ## 后端小白先从这里开始
 
@@ -59,7 +59,7 @@
 - JWT Access/Refresh、RBAC、对象级权限、HMAC Webhook；
 - Actuator、Micrometer、Prometheus、Grafana、OpenTelemetry、Tempo；
 - Docker Compose、Kubernetes、AWS Terraform；
-- Python MCP SDK 2.1.1、只读工具、沙箱、审计和 Eval。
+- Python MCP SDK 2.1.1、只读工具、边界检查、审计和 Eval（不是完整沙箱）。
 
 ## 目录
 
@@ -90,9 +90,9 @@ docs/             小白入口、词典、架构、领域、安全、部署、�
 ## 本地运行
 
 ```bash
-cp .env.example .env
-docker compose --profile app up -d --build
-./scripts/smoke.sh
+test -f .env || cp .env.example .env  # 不覆盖已有配置
+docker compose --profile app up -d --build --wait --wait-timeout 180
+python3 scripts/smoke.py
 ```
 
 默认账号仅由 `local` Profile 创建：
@@ -138,3 +138,11 @@ Testcontainers 在存在 Docker 的环境执行真实 PostgreSQL Migration、事
 - MCP 默认只读，不提供任意 Shell、生产写 SQL、Secret 读取或无审批部署。
 
 完整章节映射见 `docs/generated/document-code-map.md`。
+
+## 开始前先看当前范围
+
+[正式学习说明](docs/LEARNING-READINESS.md) 是启动、端口、演示数据、更新旧数据库和未实现功能的统一入口。本文 Shell 命令在 mini-commerce 目录运行，Windows 使用 WSL2。Smoke 会创建专用演示账户、商品和模拟订单，不要对生产地址运行。
+
+订单金额响应字段是 orderNumber、totalAmount；默认商品币种是 JPY。示例优惠券只分配给 Alice，不是所有新用户都有。退款只支持付款后、履约前的全额退款，暂不包含退货、库存返还和积分冲正。
+
+MCP 的测试执行默认关闭，HTTP 模式不能开启；固定命令仍然会执行仓库代码，不应称为只读能力或完整沙箱。

@@ -3,8 +3,8 @@
 > 本文件由 `tools/generate_annotation_usage_index.py` 自动生成。
 > 注解作用的通俗解释见 [`SPRING-JAVA-ANNOTATIONS.md`](../SPRING-JAVA-ANNOTATIONS.md)。
 
-- 注解种类：69
-- 注解出现次数：569
+- 注解种类：73
+- 注解出现次数：654
 
 ## 使用方法
 
@@ -31,25 +31,36 @@
 
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/ArchitectureTest.java`](../../backend/src/test/java/com/example/minicommerce/ArchitectureTest.java#L22)：首次出现在第 22 行
 
+## `@AutoConfigureMockMvc`
+
+出现 2 次。
+
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L35)：首次出现在第 35 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L35)：首次出现在第 35 行
+
 ## `@Autowired`
 
-出现 10 次。
+出现 35 次。
 
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L37)：首次出现在第 37 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L37)：首次出现在第 37 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java`](../../backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java#L27)：首次出现在第 27 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java`](../../backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java#L31)：首次出现在第 31 行
 
 ## `@Bean`
 
-出现 21 次。
+出现 25 次。
 
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java`](../../backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java#L36)：首次出现在第 36 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java`](../../backend/src/main/java/com/example/minicommerce/messaging/config/RabbitTopology.java#L37)：首次出现在第 37 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java`](../../backend/src/main/java/com/example/minicommerce/shared/config/ClockConfiguration.java#L10)：首次出现在第 10 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java`](../../backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java#L40)：首次出现在第 40 行
 
 ## `@BeforeEach`
 
-出现 1 次。
+出现 3 次。
 
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L56)：首次出现在第 56 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L51)：首次出现在第 51 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java`](../../backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java#L41)：首次出现在第 41 行
 
 ## `@Column`
@@ -60,22 +71,23 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java#L26)：首次出现在第 26 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java#L45)：首次出现在第 45 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L30)：首次出现在第 30 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L24)：首次出现在第 24 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L25)：首次出现在第 25 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java#L26)：首次出现在第 26 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java#L22)：首次出现在第 22 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java#L29)：首次出现在第 29 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L27)：首次出现在第 27 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L26)：首次出现在第 26 行
 - 其余 6 个文件可在 IDE 中全局搜索 `@Column`
 
 ## `@Component`
 
-出现 16 次。
+出现 17 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java`](../../backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java#L24)：首次出现在第 24 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java#L17)：首次出现在第 17 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OutboxPublisher.java#L32)：首次出现在第 32 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java#L30)：首次出现在第 30 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/observability/CommerceHealthIndicator.java`](../../backend/src/main/java/com/example/minicommerce/observability/CommerceHealthIndicator.java#L13)：首次出现在第 13 行
@@ -85,8 +97,7 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/application/WebhookSignature.java`](../../backend/src/main/java/com/example/minicommerce/payment/application/WebhookSignature.java#L22)：首次出现在第 22 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/ApiSecurityHandlers.java`](../../backend/src/main/java/com/example/minicommerce/shared/security/ApiSecurityHandlers.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/CurrentUser.java`](../../backend/src/main/java/com/example/minicommerce/shared/security/CurrentUser.java#L13)：首次出现在第 13 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/JwtAuthenticationFilter.java`](../../backend/src/main/java/com/example/minicommerce/shared/security/JwtAuthenticationFilter.java#L24)：首次出现在第 24 行
-- 其余 3 个文件可在 IDE 中全局搜索 `@Component`
+- 其余 4 个文件可在 IDE 中全局搜索 `@Component`
 
 ## `@ConditionalOnProperty`
 
@@ -133,6 +144,12 @@
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java`](../../backend/src/main/java/com/example/minicommerce/cart/api/CartController.java#L42)：首次出现在第 42 行
 
+## `@Digits`
+
+出现 2 次。
+
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java`](../../backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java#L24)：首次出现在第 24 行
+
 ## `@DirtiesContext`
 
 出现 1 次。
@@ -171,13 +188,13 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java#L17)：首次出现在第 17 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java#L27)：首次出现在第 27 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L18)：首次出现在第 18 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L17)：首次出现在第 17 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L18)：首次出现在第 18 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L11)：首次出现在第 11 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java#L16)：首次出现在第 16 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java#L17)：首次出现在第 17 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java#L17)：首次出现在第 17 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java#L17)：首次出现在第 17 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L17)：首次出现在第 17 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L18)：首次出现在第 18 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L16)：首次出现在第 16 行
 - 其余 5 个文件可在 IDE 中全局搜索 `@Entity`
 
@@ -185,16 +202,16 @@
 
 出现 6 次。
 
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L45)：首次出现在第 45 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L46)：首次出现在第 46 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L29)：首次出现在第 29 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L32)：首次出现在第 32 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L41)：首次出现在第 41 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L42)：首次出现在第 42 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java#L30)：首次出现在第 30 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java#L35)：首次出现在第 35 行
 
 ## `@ExceptionHandler`
 
-出现 7 次。
+出现 13 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java`](../../backend/src/main/java/com/example/minicommerce/shared/error/GlobalExceptionHandler.java#L38)：首次出现在第 38 行
 
@@ -229,13 +246,13 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java#L22)：首次出现在第 22 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java#L38)：首次出现在第 38 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L26)：首次出现在第 26 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L22)：首次出现在第 22 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L23)：首次出现在第 23 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L16)：首次出现在第 16 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java#L19)：首次出现在第 19 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java#L25)：首次出现在第 25 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java#L25)：首次出现在第 25 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L25)：首次出现在第 25 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L26)：首次出现在第 26 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L24)：首次出现在第 24 行
 - 其余 5 个文件可在 IDE 中全局搜索 `@Id`
 
@@ -245,7 +262,7 @@
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java`](../../backend/src/main/java/com/example/minicommerce/audit/infrastructure/AuditLogEntity.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L22)：首次出现在第 22 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L20)：首次出现在第 20 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L21)：首次出现在第 21 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java#L21)：首次出现在第 21 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L20)：首次出现在第 20 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/CouponEntity.java#L21)：首次出现在第 21 行
@@ -254,11 +271,11 @@
 
 出现 6 次。
 
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L62)：首次出现在第 62 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L64)：首次出现在第 64 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java#L20)：首次出现在第 20 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L22)：首次出现在第 22 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L26)：首次出现在第 26 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java#L19)：首次出现在第 19 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L21)：首次出现在第 21 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L23)：首次出现在第 23 行
 
 ## `@MappedSuperclass`
 
@@ -266,12 +283,19 @@
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java`](../../backend/src/main/java/com/example/minicommerce/shared/persistence/BaseEntity.java#L21)：首次出现在第 21 行
 
+## `@MockitoBean`
+
+出现 2 次。
+
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L47)：首次出现在第 47 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L47)：首次出现在第 47 行
+
 ## `@Modifying`
 
 出现 5 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L31)：首次出现在第 31 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L26)：首次出现在第 26 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L30)：首次出现在第 30 行
 
 ## `@NotBlank`
 
@@ -290,10 +314,10 @@
 
 ## `@NotNull`
 
-出现 5 次。
+出现 6 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java`](../../backend/src/main/java/com/example/minicommerce/catalog/api/ProductDtos.java#L23)：首次出现在第 23 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java`](../../backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java#L26)：首次出现在第 26 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java`](../../backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java#L23)：首次出现在第 23 行
 
 ## `@Order`
 
@@ -324,11 +348,11 @@
 
 出现 15 次。
 
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L38)：首次出现在第 38 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L40)：首次出现在第 40 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java#L22)：首次出现在第 22 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L24)：首次出现在第 24 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java#L22)：首次出现在第 22 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L23)：首次出现在第 23 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L25)：首次出现在第 25 行
 
 ## `@PathVariable`
 
@@ -348,7 +372,7 @@
 
 ## `@Positive`
 
-出现 3 次。
+出现 4 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/api/CartController.java`](../../backend/src/main/java/com/example/minicommerce/cart/api/CartController.java#L48)：首次出现在第 48 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java`](../../backend/src/main/java/com/example/minicommerce/order/api/OrderDtos.java#L26)：首次出现在第 26 行
@@ -410,15 +434,16 @@
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryRepository.java#L31)：首次出现在第 31 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderRepository.java#L21)：首次出现在第 21 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L23)：首次出现在第 23 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptRepository.java#L27)：首次出现在第 27 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponRepository.java#L20)：首次出现在第 20 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L22)：首次出现在第 22 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundRepository.java#L24)：首次出现在第 24 行
 
 ## `@RabbitListener`
 
-出现 4 次。
+出现 5 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java#L33)：首次出现在第 33 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java#L30)：首次出现在第 30 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java#L54)：首次出现在第 54 行
 
 ## `@Repository`
@@ -494,21 +519,21 @@
 
 ## `@Service`
 
-出现 21 次。
+出现 22 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/audit/application/AuditService.java`](../../backend/src/main/java/com/example/minicommerce/audit/application/AuditService.java#L14)：首次出现在第 14 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java`](../../backend/src/main/java/com/example/minicommerce/cart/application/CartService.java#L21)：首次出现在第 21 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheService.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheService.java#L21)：首次出现在第 21 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheService.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheService.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java#L31)：首次出现在第 31 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java`](../../backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java#L26)：首次出现在第 26 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java`](../../backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java#L13)：首次出现在第 13 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java`](../../backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java#L14)：首次出现在第 14 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxService.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OutboxService.java#L11)：首次出现在第 11 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/ProcessedMessageService.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/ProcessedMessageService.java#L13)：首次出现在第 13 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java#L23)：首次出现在第 23 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L50)：首次出现在第 50 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java#L23)：首次出现在第 23 行
-- 其余 8 个文件可在 IDE 中全局搜索 `@Service`
+- 其余 9 个文件可在 IDE 中全局搜索 `@Service`
 
 ## `@Size`
 
@@ -531,6 +556,12 @@
 
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java`](../../backend/src/test/java/com/example/minicommerce/support/AbstractPostgresIT.java#L30)：首次出现在第 30 行
 
+## `@SuppressWarnings`
+
+出现 3 次。
+
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java`](../../backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java#L42)：首次出现在第 42 行
+
 ## `@Table`
 
 出现 18 次。
@@ -539,20 +570,23 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartEntity.java#L18)：首次出现在第 18 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java#L29)：首次出现在第 29 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L19)：首次出现在第 19 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L18)：首次出现在第 18 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/RefreshTokenEntity.java#L19)：首次出现在第 19 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L12)：首次出现在第 12 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java#L17)：首次出现在第 17 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxEventEntity.java#L18)：首次出现在第 18 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/NotificationEntity.java#L18)：首次出现在第 18 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java#L18)：首次出现在第 18 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L18)：首次出现在第 18 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L19)：首次出现在第 19 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L17)：首次出现在第 17 行
 - 其余 5 个文件可在 IDE 中全局搜索 `@Table`
 
 ## `@Test`
 
-出现 9 次。
+出现 35 次。
 
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L88)：首次出现在第 88 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java`](../../backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java#L41)：首次出现在第 41 行
+- [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L83)：首次出现在第 83 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java`](../../backend/src/test/java/com/example/minicommerce/inventory/InventoryConcurrencyIT.java#L31)：首次出现在第 31 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java`](../../backend/src/test/java/com/example/minicommerce/order/CreateOrderIT.java#L64)：首次出现在第 64 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java`](../../backend/src/test/java/com/example/minicommerce/order/domain/OrderEntityTest.java#L36)：首次出现在第 36 行
@@ -567,21 +601,21 @@
 
 ## `@Transactional`
 
-出现 38 次。
+出现 46 次。
 
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/application/CartService.java`](../../backend/src/main/java/com/example/minicommerce/cart/application/CartService.java#L33)：首次出现在第 33 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductCacheInvalidationConsumer.java#L34)：首次出现在第 34 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java`](../../backend/src/main/java/com/example/minicommerce/catalog/application/ProductService.java#L58)：首次出现在第 58 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java`](../../backend/src/main/java/com/example/minicommerce/identity/application/AuthService.java#L51)：首次出现在第 51 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java`](../../backend/src/main/java/com/example/minicommerce/identity/application/DemoDataInitializer.java#L50)：首次出现在第 50 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java`](../../backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java#L10)：首次出现在第 10 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java`](../../backend/src/main/java/com/example/minicommerce/inventory/application/InventoryService.java#L11)：首次出现在第 11 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OrderLifecycleConsumer.java#L31)：首次出现在第 31 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java#L23)：首次出现在第 23 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java#L24)：首次出现在第 24 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java#L54)：首次出现在第 54 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L99)：首次出现在第 99 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java#L58)：首次出现在第 58 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java#L33)：首次出现在第 33 行
-- 其余 3 个文件可在 IDE 中全局搜索 `@Transactional`
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java#L61)：首次出现在第 61 行
+- 其余 5 个文件可在 IDE 中全局搜索 `@Transactional`
 
 ## `@UniqueConstraint`
 
@@ -591,9 +625,9 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/cart/infrastructure/CartItemEntity.java#L33)：首次出现在第 33 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java`](../../backend/src/main/java/com/example/minicommerce/identity/infrastructure/UserEntity.java#L14)：首次出现在第 14 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java`](../../backend/src/main/java/com/example/minicommerce/notification/infrastructure/PointsLedgerEntity.java#L21)：首次出现在第 21 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L21)：首次出现在第 21 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/IdempotencyRecordEntity.java#L22)：首次出现在第 22 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderItemEntity.java#L17)：首次出现在第 17 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L23)：首次出现在第 23 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L24)：首次出现在第 24 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java#L21)：首次出现在第 21 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java`](../../backend/src/main/java/com/example/minicommerce/refund/infrastructure/RefundEntity.java#L22)：首次出现在第 22 行
 
@@ -619,8 +653,8 @@
 
 出现 5 次。
 
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L49)：首次出现在第 49 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java`](../../backend/src/main/java/com/example/minicommerce/catalog/infrastructure/ProductEntity.java#L50)：首次出现在第 50 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java`](../../backend/src/main/java/com/example/minicommerce/inventory/infrastructure/InventoryEntity.java#L29)：首次出现在第 29 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L63)：首次出现在第 63 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L66)：首次出现在第 66 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java`](../../backend/src/main/java/com/example/minicommerce/order/infrastructure/OrderEntity.java#L64)：首次出现在第 64 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java`](../../backend/src/main/java/com/example/minicommerce/payment/infrastructure/PaymentAttemptEntity.java#L68)：首次出现在第 68 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java`](../../backend/src/main/java/com/example/minicommerce/promotion/infrastructure/UserCouponEntity.java#L42)：首次出现在第 42 行

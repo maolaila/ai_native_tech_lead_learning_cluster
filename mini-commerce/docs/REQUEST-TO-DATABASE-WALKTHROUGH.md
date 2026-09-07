@@ -8,7 +8,7 @@
 
 ## 一、调用方发送请求
 
-示例：
+以下是新建 local 演示数据库中 Alice 使用 WELCOME10 购买两件机械键盘的示例。先查询商品列表确认 ID；商品 ID 不保证永远是 1。该券只分配给 Alice，一旦占用或使用，不能换一个幂等键再次用它创建订单。
 
 ```http
 POST /api/orders HTTP/1.1
@@ -105,7 +105,7 @@ public OrderResponse create(...)
 
 `@Transactional` 的通俗含义：
 
-> 这个方法中的关键数据库修改要一起成功；中途失败时一起撤销。
+> 这个方法中的关键数据库修改要一起成功；未捕获的运行时异常触发默认回滚。受检异常需要 rollbackFor；主动吞掉异常不保证回滚。
 
 创建订单不是一次简单的 INSERT。它需要同时改变多处数据，所以需要明确事务边界。
 
@@ -372,17 +372,17 @@ Outbox 事件
 
 Controller 最终返回 `OrderResponse`，Spring 把 Java 对象转成 JSON，HTTP 状态为 201。
 
-示意：
+以下只展示 OrderResponse 的部分字段。新演示商品单价 8000 JPY，购买两件小计 16000；10% 折扣受 1000 上限约束，因此实付 15000。完整响应还含 userId、items、createdAt。
 
 ```json
 {
   "id": "...",
-  "number": "MC-20260903-AB12CD34",
+  "orderNumber": "示意订单号，以实际响应为准",
   "status": "PENDING_PAYMENT",
-  "subtotal": 200.00,
-  "discount": 10.00,
-  "total": 190.00,
-  "currency": "CNY"
+  "subtotal": 16000.00,
+  "discount": 1000.00,
+  "totalAmount": 15000.00,
+  "currency": "JPY"
 }
 ```
 
@@ -395,15 +395,13 @@ Controller 最终返回 `OrderResponse`，Spring 把 Java 对象转成 JSON，HT
 ```text
 领取事件
 → 发送到 RabbitMQ
-→ 等待 Publisher Confirm
-→ 标记为已发布
+→ 等待 Publisher Confirm，并检查没有 mandatory Return（未路由退回）
+→ 用本次领取的 worker + attempt 凭证标记已发布
 ```
 
-Consumer 收到消息后可能：
+创建订单的 `order.created.v1` 由 `OrderLifecycleConsumer` 记录审计，不会直接加积分或发付款通知。
 
-- 创建站内通知；
-- 记录积分；
-- 执行其他异步副作用。
+随后模拟付款成功，支付事务写入另一条 `order.paid.v1`；`OrderPaidConsumers` 的两个订阅才分别创建付款通知和积分。不要把“下单”和“付款成功”当成同一个事件。
 
 消息可能重复投递，所以 Consumer 需要通过消息 ID 去重，并让去重记录与业务修改在同一事务提交。
 
@@ -443,6 +441,12 @@ OrderController.java
 → OrderItemEntity.java
 → OutboxService.java
 → OutboxPublisher.java
+→ OrderLifecycleConsumer.java
+
+付款后的另一条链：
+PaymentOrchestrator.java
+→ PaymentTransactionService.java
+→ OutboxPublisher.java
 → OrderPaidConsumers.java
 ```
 
@@ -465,3 +469,11 @@ OrderController.java
 5. 为什么订单项保存商品快照？
 6. Outbox 解决什么问题？
 7. 为什么使用 Outbox 后 Consumer 仍然要幂等？
+
+## 十九、这次验收修复的一个重要陷阱
+
+`@Modifying(clearAutomatically = true)` 不是“只刷新库存”。它会清空整个 JPA 持久化上下文，使已经加载的订单、支付和幂等记录都脱离自动跟踪。之后只修改这些对象的字段，未必会写入数据库。原来的实现因此出现“接口返回成功，数据库仍为 PROCESSING”。
+
+本项目保留更新前的 flush，但不清空整个上下文；原生库存 SQL 更新后也不复用旧的库存实体。测试用 JDBC 重新查询数据库验证 COMPLETED/PAID，而不是只看返回的 Java 对象。
+
+`flush` 是把已跟踪的修改送到数据库执行，**不是提交事务**；`clear` 是让 JPA 停止跟踪对象，**不是撤销 SQL**。详见[通俗术语词典](BACKEND-TERMS-PLAIN-CHINESE.md)。

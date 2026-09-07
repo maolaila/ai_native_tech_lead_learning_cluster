@@ -1,5 +1,7 @@
 # 模块 10：可观测性与生产故障处理
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](../mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 10 Observability
 > **本文用途：** 用 Logs、Metrics、Traces 和业务不变量理解系统内部状态，并形成 Incident 闭环。
 > **前置知识：** 运行环境、CI/CD

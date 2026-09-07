@@ -179,7 +179,7 @@ Object Authorization：这个具体订单是否属于请求者
 阅读顺序：
 
 1. `backend/src/main/resources/application.yml`
-2. `infra/compose.yaml`
+2. `compose.yaml`
 3. Dockerfile
 4. Prometheus/Grafana/Tempo/OpenTelemetry 配置
 5. `.github/workflows/`
@@ -209,6 +209,7 @@ mvn spotless:check   # 检查是否有未格式化代码
 仓库还提供：
 
 ```bash
+cd ../..  # 从 mini-commerce/backend 回到仓库根目录
 python tools/check_learning_readability.py
 ```
 

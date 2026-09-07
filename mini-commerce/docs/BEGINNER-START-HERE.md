@@ -86,7 +86,7 @@ CreateOrderService
 ```text
 api/             HTTP 请求入口、请求参数、响应结构
 application/     一个完整业务用例的执行顺序
- domain/         业务状态、业务动作和不能被破坏的规则
+domain/         业务状态、业务动作和不能被破坏的规则
 infrastructure/  数据库、Redis、RabbitMQ、外部服务等技术实现
 config/          Spring、消息队列和安全等集中配置
 test/            自动验证业务规则
@@ -183,7 +183,7 @@ public OrderResponse create(...) {
 
 大白话：
 
-> `@Transactional` 告诉 Spring：“这个方法里的数据库修改要作为一个整体提交；中途出错时要一起回滚。”
+> `@Transactional` 告诉 Spring：“这个方法里的数据库修改作为一个整体提交；未捕获的运行时异常会触发默认回滚，受检异常需显式设置回滚规则。”
 
 完整说明见：[Spring 与 Java 注解小白词典](SPRING-JAVA-ANNOTATIONS.md)。
 

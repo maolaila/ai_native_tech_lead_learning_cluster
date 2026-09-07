@@ -35,6 +35,10 @@ SUMMARY_BLOCK = '''## 后端小白专用入口
 def update_mkdocs() -> bool:
     text = MKDOCS_PATH.read_text(encoding="utf-8")
     if '  - "后端小白专用入口":' in text:
+        if "LEARNING-READINESS.md" not in text:
+            text = text.replace('  - "后端小白专用入口":', '  - "后端小白专用入口":\n      - "正式学习说明与验收范围": "mini-commerce/docs/LEARNING-READINESS.md"', 1)
+            MKDOCS_PATH.write_text(text, encoding="utf-8")
+            return True
         return False
     marker = "nav:\n"
     if marker not in text:
@@ -48,6 +52,10 @@ def update_mkdocs() -> bool:
 def update_summary() -> bool:
     text = SUMMARY_PATH.read_text(encoding="utf-8")
     if "## 后端小白专用入口" in text:
+        if "LEARNING-READINESS.md" not in text:
+            text = text.replace("## 后端小白专用入口", "## 后端小白专用入口\n\n- [正式学习说明与验收范围](mini-commerce/docs/LEARNING-READINESS.md)", 1)
+            SUMMARY_PATH.write_text(text, encoding="utf-8")
+            return True
         return False
     marker = "## `00_start`\n"
     if marker not in text:

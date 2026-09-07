@@ -64,7 +64,7 @@ public class OrderCommandService {
                 orders.findForUpdate(id)
                         .orElseThrow(
                                 () -> new BusinessException(ErrorCode.ORDER_NOT_FOUND, "订单不存在"));
-        query.authorize(order, actor);
+        query.authorizeWrite(order, actor);
         List<OrderItemEntity> lines = items.findByOrderIdOrderById(id);
         // 与创建支付意图使用同一把订单行锁，防止取消释放库存与外部扣款同时发生。
         if (order.getStatus() == com.example.minicommerce.order.domain.OrderStatus.PENDING_PAYMENT

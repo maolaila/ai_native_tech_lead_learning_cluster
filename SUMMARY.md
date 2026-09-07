@@ -10,6 +10,8 @@
 
 ## 后端小白专用入口
 
+- [正式学习说明与验收范围](mini-commerce/docs/LEARNING-READINESS.md)
+
 - [后端零基础：从这里开始](mini-commerce/docs/BEGINNER-START-HERE.md)
 - [一次创建订单请求完整走读](mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md)
 - [Spring 与 Java 注解小白词典](mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md)

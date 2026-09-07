@@ -41,7 +41,7 @@ public record AppProperties(Jwt jwt, Payment payment, Cache cache, Outbox outbox
     public record Jwt(String issuer, String secret, Duration accessTtl, Duration refreshTtl) {}
 
     /**
-     * 支付相关配置。
+     * 支付相关配置。当前 FakePaymentGateway 不发 HTTP 请求；连接/读取超时是后续真实支付适配器的配置示例，并未自动作用于模拟器。
      *
      * @param webhookSecret 验证支付回调签名的密钥
      * @param connectTimeout 最多等多久建立网络连接

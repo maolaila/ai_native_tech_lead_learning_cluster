@@ -1,5 +1,7 @@
 # 模块 12：AWS 基础与云上运行
 
+> 阅读定位：本模块同时包含原理、当前参考实现和后续练习。验收清单是你的学习目标，不表示这些能力都已在工程中完成；实际可运行范围见 [正式学习说明](../mini-commerce/docs/LEARNING-READINESS.md)。
+
 > **所属模块：** 12 Cloud
 > **本文用途：** 把已有运行、网络、数据和安全概念映射到 AWS，不把云服务当魔法。
 > **前置知识：** Docker、CI/CD、Observability、Security

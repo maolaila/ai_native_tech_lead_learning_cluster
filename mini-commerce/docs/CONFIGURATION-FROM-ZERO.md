@@ -20,7 +20,7 @@
 - 缓存过期时间；
 - Outbox 每次处理多少条消息。
 
-不应该这样写：
+需要随环境变化的值不宜在业务代码中这样写（固定的领域规则不一定需要配置）：
 
 ```java
 Duration readTimeout = Duration.ofSeconds(5);
@@ -91,8 +91,9 @@ YAML 建议只使用空格，不使用 Tab。
 例如：
 
 ```text
-DB_HOST=postgres
-DB_PASSWORD=example
+DATABASE_URL=jdbc:postgresql://localhost:15432/commerce
+DATABASE_USER=commerce_app
+DATABASE_PASSWORD=commerce-local
 ```
 
 配置文件可以引用环境变量：
@@ -100,19 +101,20 @@ DB_PASSWORD=example
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:5432/mini_commerce
-    password: ${DB_PASSWORD:postgres}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:15432/commerce}
+    username: ${DATABASE_USER:commerce_app}
+    password: ${DATABASE_PASSWORD:commerce-local}
 ```
 
 这里：
 
 ```text
-${DB_HOST:localhost}
+${DATABASE_PASSWORD:commerce-local}
 ```
 
 表示：
 
-> 有 `DB_HOST` 就使用它；没有就使用 `localhost`。
+> 有 DATABASE_PASSWORD 就使用它；没有就使用本地演示默认值 commerce-local。容器中的数据库地址由 compose.yaml 改为 postgres:5432，不是宿主机地址。
 
 ### Secret 为什么更适合环境变量或 Secret 管理服务
 
@@ -125,8 +127,8 @@ ${DB_HOST:localhost}
 ## 四、`@Value` 怎样取一个配置值
 
 ```java
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 逐段解释：
@@ -144,27 +146,27 @@ ${...}
 告诉 Spring：“按照括号里的名字去配置中找。”
 
 ```text
-app.payment.read-timeout
+app.example.timeout-ms
 ```
 
-是配置路径。
+是本段语法示例的配置路径；实际工程使用 AppProperties 的 Duration 字段。
 
 ### 带默认值
 
 ```java
-@Value("${app.payment.read-timeout:3s}")
+@Value("${app.example.timeout-ms:3000}")
 ```
 
 意思是：
 
 ```text
 找到配置 → 使用配置
-找不到配置 → 使用 3 秒
+找不到配置 → 使用 3000 毫秒（本示例约定单位）
 ```
 
 ### 常见类型转换
 
-Spring 可以把文本配置转换成常见类型：
+普通标量可以转换成 boolean、int、long。下面 Duration/DataSize 的单位简写专指 Spring Boot @ConfigurationProperties 绑定，不应推断任何 @Value 注入都有相同转换器：
 
 ```text
 "true"   → boolean
@@ -197,8 +199,8 @@ private URI baseUrl;
 @Value("${app.payment.connect-timeout}")
 private Duration connectTimeout;
 
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 短期看很直接，但项目变大后会出现：
@@ -334,13 +336,14 @@ application-prod.yml
 ### 启用 Profile
 
 ```bash
-SPRING_PROFILES_ACTIVE=local
+export SPRING_PROFILES_ACTIVE=local  # Bash/WSL，需 export 后子进程才能收到
+mvn -f backend/pom.xml spring-boot:run  # 当前目录 mini-commerce
 ```
 
 或：
 
 ```bash
-java -jar app.jar --spring.profiles.active=local
+mvn -f backend/pom.xml spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
 ---
@@ -372,7 +375,7 @@ application.yml
 read-timeout: 5s
 ```
 
-比：
+在绑定到 Duration 时比：
 
 ```yaml
 read-timeout: 5000
@@ -515,3 +518,15 @@ compose.yaml
 3. `read-timeout: 5s` 怎样进入 `Duration readTimeout`？
 4. 为什么 JWT Secret 不应该提供公开默认值？
 5. Profile 解决什么问题？
+
+## 十九、实际运行中必须区分的配置
+
+**不是所有超时属性都接受 5s。** 本项目 Hikari 的 connection-timeout/validation-timeout 对应毫秒 long，必须写 1500/1000，不是 1500ms/1000ms；AppProperties 的 Duration 则接受 500ms、2s。原先错误写法会使真实应用启动失败，已经由集成测试覆盖。
+
+**有配置不等于实现使用了它。** FakePaymentGateway 不发 HTTP，所以 app.payment.connect-timeout/read-timeout 是真实支付适配器的预留示例；本次没有声称它们已控制模拟器的网络调用。
+
+**test 只覆盖需要替换的属性。** application-test.yml 会继承主 application.yml；不再另放 src/test/resources/application.yml 影子文件。测试启用真实 Flyway 和 ddl-auto=validate，关闭消息监听与发布器；这与完整 Compose Smoke 的运行范围不同。
+
+**默认配置不是生产就绪。** 目前没有给 AppProperties 全部字段建立完整的启动校验规则，没有自动的生产密钥合规检查。不要把“非 local 不创建默认账号”等同于“已经可以安全上线”。
+
+完整端口、实际环境变量和从源码启动步骤见[正式学习说明](LEARNING-READINESS.md)。

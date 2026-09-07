@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 订单模块的HTTP/API 适配层：{@code OrderDtos}。
  *
- * <p><strong>作用：</strong>负责路由、请求参数、校验、认证主体和 HTTP 响应转换，不承载核心业务规则。
+ * <p><strong>作用：</strong>定义请求允许传入的字段、字段校验和响应结构。DTO 是数据盒子，不处理路由、不查询数据库，也不会自己执行认证。
  *
  * <p><strong>为什么：</strong>把 HTTP 细节留在系统边界，应用服务才能脱离 Web 框架测试和复用。
  *
@@ -20,10 +20,10 @@ public final class OrderDtos {
     private OrderDtos() {}
 
     public record CreateOrderRequest(
-            @NotEmpty @Size(max = 50) List<@Valid OrderLineRequest> items,
+            @NotEmpty @Size(max = 50) List<@NotNull @Valid OrderLineRequest> items,
             @Size(max = 50) String couponCode) {}
 
-    public record OrderLineRequest(@NotNull Long productId, @Positive int quantity) {}
+    public record OrderLineRequest(@NotNull @Positive Long productId, @Positive int quantity) {}
 
     public record OrderResponse(
             UUID id,

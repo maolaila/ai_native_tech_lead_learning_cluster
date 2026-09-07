@@ -106,11 +106,19 @@ def main() -> int:
         "V001__baseline.sql 创建 outbox_events",
     )
 
-    mcp_security = read("mcp-server/src/mini_commerce_mcp/security.py")
+    # 执行拒绝逻辑，不用错误提示短语是否存在来冒充安全验证。
+    sys.path.insert(0, str(PROJECT_ROOT / "mcp-server/src"))
+    from mini_commerce_mcp.security import validate_readonly_sql
+    rejected = 0
+    for unsafe in ("drop table orders", "delete from orders", "EXPLAIN ANALYZE SELECT 1"):
+        try:
+            validate_readonly_sql(unsafe)
+        except ValueError:
+            rejected += 1
     add_check(
         checks,
         "MCP 拒绝 DDL",
-        "write or DDL keyword" in mcp_security,
+        rejected == 3 and validate_readonly_sql("select 1") == "select 1",
         "security.py 拒绝写 SQL 和 DDL 关键字",
     )
 

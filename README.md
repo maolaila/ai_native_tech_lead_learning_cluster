@@ -1,9 +1,9 @@
-# AI-Native Tech Lead / Architect 学习文件集群 + 完整工程
+# AI-Native Tech Lead / Architect 学习文件集群 + 可运行教学工程
 
 本仓库包含两类互相对应的资产：
 
 1. 根目录 `00_start`～`16_references`：完整学习文档集群；
-2. [`mini-commerce/`](mini-commerce/README.md)：同一真实业务上下文中的完整工程源码。
+2. [`mini-commerce/`](mini-commerce/README.md)：同一真实业务上下文中的教学参考工程源码。
 
 > 原始纯文档版本保存在分支 `backup/docs-only-2026-09-03`。当前版本不删除文档，而是在文档旁加入完整工程。
 
@@ -105,9 +105,9 @@ python tools/build_docs_site.py --strict
 
 ```bash
 cd mini-commerce
-cp .env.example .env
-docker compose --profile app up -d --build
-./scripts/smoke.sh
+test -f .env || cp .env.example .env  # 不覆盖已有配置
+docker compose --profile app up -d --build --wait --wait-timeout 180
+python3 scripts/smoke.py
 ```
 
 可选可观测性：
@@ -116,4 +116,12 @@ docker compose --profile app up -d --build
 docker compose --profile app --profile observability up -d --build
 ```
 
-前端不是本项目的学习重点，因此使用 HTTP 请求集和最小 API 闭环；后端、数据库、Redis、RabbitMQ、测试、运行、云、MCP 与 Eval 均提供实际工程文件。
+前端不是本项目的学习重点，因此使用 HTTP 请求集和最小 API 闭环；后端、数据库、Redis、RabbitMQ、测试、运行、云、MCP 与 Eval 提供对应文件；Kubernetes/AWS 是模板，不代表已在你的环境部署。
+
+## 正式学习前的约定
+
+先读 [正式学习说明与验收范围](mini-commerce/docs/LEARNING-READINESS.md)。当前没有前端成品、真实支付通道或已部署的云环境；本地默认密码只用于演示。原始路线、阶段门和练习不等于全部已实现功能。
+
+现有环境更新前保留数据和 .env。旧演示库可能不满足新增支付唯一约束，不要随意删除业务记录或把 UNKNOWN 改成失败；初次学习可使用独立 Compose 项目，具体命令见正式学习说明。
+
+文档站从 Git 跟踪的文件生成隔离快照，不复制 .env、临时日志或未跟踪文件。修改文档后重启预览；新增文档先 git add。

@@ -110,13 +110,13 @@ AppProperties.Payment.connectTimeout
 ### 大白话
 
 ```java
-@Value("${app.payment.read-timeout}")
-private Duration readTimeout;
+@Value("${app.example.timeout-ms:3000}")
+private long timeoutMillis;
 ```
 
 可以读成：
 
-> 程序启动时，请 Spring 找到 `app.payment.read-timeout`，然后把值放进 `readTimeout`。
+> 程序启动时读取示例配置 app.example.timeout-ms；没有配置时使用 3000 毫秒。这是语法示例，不是本项目实际支付超时字段。
 
 ### `${...}` 是什么
 
@@ -125,12 +125,12 @@ private Duration readTimeout;
 ### 默认值怎么写
 
 ```java
-@Value("${app.payment.read-timeout:3s}")
+@Value("${app.example.timeout-ms:3000}")
 ```
 
-冒号后面的 `3s` 是默认值：
+冒号后面的 `3000` 是默认值（单位由本示例约定为毫秒）：
 
-> 配置存在就用配置；配置不存在就暂时使用 3 秒。
+> 配置存在就用配置；配置不存在就使用 3000 毫秒。Duration 的 3s 简写绑定由 Spring Boot 的 @ConfigurationProperties 支持，不要把所有 @Value 转换能力与它等同。
 
 ### 常见错误
 
@@ -356,10 +356,10 @@ public OrderResponse get(@PathVariable UUID id) {
 请求：
 
 ```text
-GET /api/orders/123
+GET /api/orders/550e8400-e29b-41d4-a716-446655440000
 ```
 
-其中 `123` 会放进参数 `id`。
+路径中的完整 UUID 字符串会转换成 UUID 对象。这里不能填 `123`：它不是合法 UUID，本项目会返回 400。
 
 ---
 
@@ -935,3 +935,17 @@ available >= :qty
 [注解使用位置索引](generated/annotation-usage-index.md)
 
 该索引会列出每种注解在哪些 Java 文件中出现，方便你从词典跳回真实代码。
+
+## 验收补充：几个容易学错的标签
+
+**`@Transactional(propagation = Propagation.MANDATORY)`：**调用者必须已经开启数据库事务；没有就报错。库存预留必须和订单在同一事务，不能单独提交。
+
+**`@Transactional(rollbackFor = Exception.class)`：**本项目消息与回调处理还会抛出 JSON 解析等受检异常，因此显式要求它们回滚。默认规则是 RuntimeException 和 Error 回滚，而不是“任何异常都会回滚”。本项目采用默认代理模式，同一对象内部自调用不会经过事务代理；退款拆成 RefundService 与 RefundTransactionService 正是为了保证这一点。
+
+**`@JdbcTypeCode(SqlTypes.CHAR)`：**Hibernate 扩展，明确告诉它数据库列是 CHAR。本项目币种列是 CHAR(3)，Java String 的默认 VARCHAR 映射并不等于 CHAR；真实数据库的 ddl-auto=validate 会核对映射。
+
+**`@DirtiesContext`：**通知 Spring 测试框架丢弃旧的应用上下文。集成测试的每个测试类会重启 PostgreSQL 容器；不能把指向旧容器端口的连接池继续用于下一个类。这会增加测试启动时间，但避免错误复用。
+
+**`@Modifying` 的 flush 与 clear：**flush 把已跟踪的修改发给数据库，事务尚可回滚；clear 使整个上下文里的对象脱离跟踪，不等于只刷新某条库存。现在的库存更新不再全局 clear。
+
+参考：[Spring 事务注解规则](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)、[Spring Data JPA 修改查询](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html)。

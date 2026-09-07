@@ -362,6 +362,7 @@ def validate() -> None:
 
 
 def generate() -> None:
+    raise SystemExit("历史初始化生成器已停用，避免覆盖修复后的源码。学习和 CI 只能使用 --check；不要重新生成工程。")
     merged: dict[str, str] = {}
     for group in (CORE, BUSINESS, BACKEND_PLATFORM, PLATFORM, CLOUD, QUALITY):
         merged.update(group)
