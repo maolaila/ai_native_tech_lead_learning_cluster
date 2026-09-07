@@ -26,7 +26,9 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Materialize reviewed repair on audit branch only
+      - name: Install testing and formatting tools
+        run: python -m pip install 'black==25.1.0' -e './mini-commerce/mcp-server[dev]'
+      - name: Format reviewed source on audit branch only
         shell: bash
         run: |
           shopt -s nullglob
@@ -35,11 +37,12 @@ jobs:
             rm "$repair"
           done
           mvn -B -ntp -f mini-commerce/backend/pom.xml spotless:apply
-          git add mini-commerce tools/maintenance
+          python -m black mini-commerce/mcp-server
+          git add -A
           if ! git diff --cached --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m 'fix: materialize reviewed pre-study repairs (validation follows)'
+            git commit -m 'style: format reviewed learning source (validation follows)'
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
           git rev-parse HEAD > /tmp/source-commit.txt
@@ -48,6 +51,9 @@ jobs:
         run: |
           docker info >/dev/null
           mvn -B -ntp -f mini-commerce/backend/pom.xml verify
+      - name: MCP security and boundary tests
+        if: success() || failure()
+        run: python -m pytest -q mini-commerce/mcp-server/tests --junitxml=/tmp/mcp-tests.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -56,6 +62,7 @@ jobs:
             mini-commerce/backend/target/surefire-reports/**
             mini-commerce/backend/target/failsafe-reports/**
             mini-commerce/backend/target/site/jacoco/**
+            /tmp/mcp-tests.xml
           retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()
