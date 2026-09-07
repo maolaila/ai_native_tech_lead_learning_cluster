@@ -5,14 +5,12 @@ on:
     branches: [main, feat/complete-mini-commerce]
     paths:
       - 'mini-commerce/**'
-      - 'tools/generate_complete_mini_commerce_v2.py'
-      - 'tools/scaffold/**'
+      - 'tools/**'
       - '.github/workflows/mini-commerce-ci.yml'
   pull_request:
     paths:
       - 'mini-commerce/**'
-      - 'tools/generate_complete_mini_commerce_v2.py'
-      - 'tools/scaffold/**'
+      - 'tools/**'
       - '.github/workflows/mini-commerce-ci.yml'
   workflow_dispatch:
 
@@ -60,6 +58,7 @@ jobs:
         run: |
           docker info >/dev/null
           mvn -B -ntp verify
+          python3 ../../tools/check_test_evidence.py
       - name: Upload test evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -97,24 +96,28 @@ jobs:
         run: docker build -t mini-commerce-backend:ci mini-commerce/backend
       - name: Build MCP image
         run: docker build -t mini-commerce-mcp:ci mini-commerce/mcp-server
-      - name: Run real HTTP and asynchronous message Smoke
+      - name: Run real HTTP, message and monitoring acceptance
         working-directory: mini-commerce
         run: |
-          docker compose --profile app up -d --build --wait --wait-timeout 240
-          python3 scripts/smoke.py
+          docker compose --profile app --profile observability up -d --build --wait --wait-timeout 240
+          python3 scripts/smoke.py | tee /tmp/smoke.json
           python3 scripts/check_mcp_http.py
           docker compose exec -T mcp-server python /workspace/mini-commerce/scripts/check_mcp_runtime.py
+          python3 scripts/check_observability.py --output /tmp/observability.json
       - name: Capture runtime logs and stop CI containers
         if: always()
         working-directory: mini-commerce
         run: |
           docker compose logs --no-color --tail=200 > /tmp/compose.log 2>&1
-          docker compose --profile app down -v
+          docker compose --profile app --profile observability down -v
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: compose-runtime-evidence
-          path: /tmp/compose.log
+          path: |
+            /tmp/compose.log
+            /tmp/smoke.json
+            /tmp/observability.json
 
   terraform:
     runs-on: ubuntu-latest

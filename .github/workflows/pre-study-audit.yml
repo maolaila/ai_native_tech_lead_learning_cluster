@@ -61,6 +61,7 @@ jobs:
         run: |
           docker info >/dev/null
           mvn -B -ntp -f mini-commerce/backend/pom.xml verify
+          python tools/check_test_evidence.py
       - name: MCP and documentation safety tests
         if: success() || failure()
         run: |
@@ -84,17 +85,7 @@ jobs:
           python3 scripts/smoke.py | tee /tmp/pre-study/smoke.json
           python3 scripts/check_mcp_http.py
           docker compose exec -T mcp-server python /workspace/mini-commerce/scripts/check_mcp_runtime.py
-          curl --fail --silent http://127.0.0.1:18080/actuator/prometheus > /tmp/pre-study/metrics.txt
-          grep -q commerce_orders_created /tmp/pre-study/metrics.txt
-          python3 - <<'PY'
-          import json,time,urllib.request
-          for _ in range(30):
-              data=json.load(urllib.request.urlopen('http://127.0.0.1:19090/api/v1/query?query=up',timeout=5))
-              if any(x['metric'].get('job')=='mini-commerce' and x['value'][1]=='1' for x in data['data']['result']):
-                  print('Prometheus scrape verified'); break
-              time.sleep(2)
-          else: raise SystemExit('Prometheus did not scrape backend successfully')
-          PY
+          python3 scripts/check_observability.py --output /tmp/pre-study/observability.json
       - name: Save Compose evidence and stop ephemeral CI containers
         if: always()
         working-directory: mini-commerce
