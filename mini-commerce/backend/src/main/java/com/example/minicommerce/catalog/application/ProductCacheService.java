@@ -2,9 +2,9 @@ package com.example.minicommerce.catalog.application;
 
 import com.example.minicommerce.catalog.api.ProductDtos.ProductResponse;
 import com.example.minicommerce.shared.config.AppProperties;
-import com.example.minicommerce.shared.redis.RedisLockService;
 import com.example.minicommerce.shared.error.BusinessException;
 import com.example.minicommerce.shared.error.ErrorCode;
+import com.example.minicommerce.shared.redis.RedisLockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
@@ -18,9 +18,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 商品展示缓存：Cache Aside、短期空值缓存、TTL 抖动与受控回源。
- * <p><strong>大白话：</strong>同一实例中同一商品只派一个请求查数据库，其他请求短暂等待同一结果。
- * 最多同时回源 8 个不同商品；繁忙时返回 503，而不是把压力无限转给数据库。
+ *
+ * <p><strong>大白话：</strong>同一实例中同一商品只派一个请求查数据库，其他请求短暂等待同一结果。 最多同时回源 8 个不同商品；繁忙时返回 503，而不是把压力无限转给数据库。
+ *
  * <p>Redis 锁是跨实例的尽力协调，不保证强一致；下单始终读取数据库权威价格。
+ *
  * <p><strong>对应文档：</strong>{@code 06_redis/03_穿透_击穿_雪崩与一致性.md}。
  */
 @Service
@@ -31,10 +33,15 @@ public class ProductCacheService {
     private final ObjectMapper json;
     private final AppProperties properties;
     private final RedisLockService locks;
-    private final ConcurrentMap<Long, CompletableFuture<Optional<ProductResponse>>> flights = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Long, CompletableFuture<Optional<ProductResponse>>> flights =
+            new ConcurrentHashMap<>();
     private final Semaphore databaseSlots = new Semaphore(8);
 
-    public ProductCacheService(StringRedisTemplate redis, ObjectMapper json, AppProperties properties, RedisLockService locks) {
+    public ProductCacheService(
+            StringRedisTemplate redis,
+            ObjectMapper json,
+            AppProperties properties,
+            RedisLockService locks) {
         this.redis = redis;
         this.json = json;
         this.properties = properties;
@@ -75,8 +82,11 @@ public class ProductCacheService {
             throw failure;
         } finally {
             if (lock != null) {
-                try { locks.release(lock); }
-                catch (RuntimeException ignored) { log.warn("event=cache_unlock_failed productId={}", id); }
+                try {
+                    locks.release(lock);
+                } catch (RuntimeException ignored) {
+                    log.warn("event=cache_unlock_failed productId={}", id);
+                }
             }
             if (acquired) databaseSlots.release();
             flights.remove(id, mine);
@@ -114,7 +124,11 @@ public class ProductCacheService {
     private void writeCache(String key, Optional<ProductResponse> loaded) {
         try {
             if (loaded.isPresent()) {
-                redis.opsForValue().set(key, json.writeValueAsString(loaded.get()), jittered(properties.cache().productTtl()));
+                redis.opsForValue()
+                        .set(
+                                key,
+                                json.writeValueAsString(loaded.get()),
+                                jittered(properties.cache().productTtl()));
             } else {
                 redis.opsForValue().set(key, NULL, properties.cache().nullTtl());
             }
@@ -125,8 +139,11 @@ public class ProductCacheService {
     }
 
     public void evict(Long id) {
-        try { redis.delete("product:v1:" + id); }
-        catch (RuntimeException failed) { log.warn("event=product_cache_evict_failed productId={}", id); }
+        try {
+            redis.delete("product:v1:" + id);
+        } catch (RuntimeException failed) {
+            log.warn("event=product_cache_evict_failed productId={}", id);
+        }
     }
 
     private BusinessException busy() {
