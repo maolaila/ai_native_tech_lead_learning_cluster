@@ -1,0 +1,49 @@
+name: Pre-study audit
+on:
+  push:
+    branches: [audit/pre-study-2026-09-07]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pre-study-audit-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Archive tracked source for review
+        run: |
+          git archive --format=zip HEAD -o /tmp/learning-source.zip
+          git rev-parse HEAD > /tmp/source-commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: learning-source
+          path: |
+            /tmp/learning-source.zip
+            /tmp/source-commit.txt
+          retention-days: 7
+  backend-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: mini-commerce/backend/pom.xml
+      - run: docker info >/dev/null
+      - run: mvn -B -ntp -f mini-commerce/backend/pom.xml verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pre-study-backend-evidence
+          path: |
+            mini-commerce/backend/target/surefire-reports/**
+            mini-commerce/backend/target/failsafe-reports/**
+            mini-commerce/backend/target/site/jacoco/**
+          retention-days: 14
