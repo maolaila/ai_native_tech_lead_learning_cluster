@@ -3,6 +3,7 @@
 对应文档：mini-commerce/docs/observability.md。
 只用于本地学习；需先运行 Smoke 创建一笔订单，并启动 observability Profile。
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,7 +20,11 @@ METRIC = "commerce_orders_creation_total"
 def local_url(value: str) -> str:
     """验收脚本只检查本机端口，避免误指向生产。"""
     parts = urlsplit(value)
-    if parts.scheme != "http" or parts.hostname not in {"127.0.0.1", "localhost", "::1"}:
+    if parts.scheme != "http" or parts.hostname not in {
+        "127.0.0.1",
+        "localhost",
+        "::1",
+    }:
         raise ValueError("该脚本只接受本地 HTTP 地址")
     return value.rstrip("/")
 
@@ -32,7 +37,11 @@ def main() -> None:
     prometheus = local_url(os.environ.get("PROMETHEUS_URL", "http://127.0.0.1:19090"))
     with urlopen(backend + "/actuator/prometheus", timeout=5) as response:
         text = response.read().decode("utf-8")
-    samples = [line for line in text.splitlines() if line.startswith(METRIC + " ") or line.startswith(METRIC + "{")]
+    samples = [
+        line
+        for line in text.splitlines()
+        if line.startswith(METRIC + " ") or line.startswith(METRIC + "{")
+    ]
     if not samples or not any(float(line.split()[1]) >= 1 for line in samples):
         raise AssertionError("后端没有导出正数的订单计数；先运行 Smoke，并核对指标名称")
 
@@ -42,16 +51,34 @@ def main() -> None:
         try:
             results = {}
             for query in ['up{job="mini-commerce"}', METRIC + '{job="mini-commerce"}']:
-                with urlopen(prometheus + "/api/v1/query?" + urlencode({"query": query}), timeout=5) as response:
+                with urlopen(
+                    prometheus + "/api/v1/query?" + urlencode({"query": query}),
+                    timeout=5,
+                ) as response:
                     data = json.load(response)
                 if data.get("status") != "success":
                     raise ValueError("Prometheus 查询失败")
                 results[query] = data["data"]["result"]
-            if all(any(float(sample["value"][1]) >= 1 for sample in values) for values in results.values()):
-                report = {"status": "passed", "exporterMetric": METRIC, "prometheusJob": "mini-commerce", "checks": ["backend-exporter", "prometheus-up", "prometheus-order-counter"]}
+            if all(
+                any(float(sample["value"][1]) >= 1 for sample in values)
+                for values in results.values()
+            ):
+                report = {
+                    "status": "passed",
+                    "exporterMetric": METRIC,
+                    "prometheusJob": "mini-commerce",
+                    "checks": [
+                        "backend-exporter",
+                        "prometheus-up",
+                        "prometheus-order-counter",
+                    ],
+                }
                 if args.output:
                     args.output.parent.mkdir(parents=True, exist_ok=True)
-                    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+                    args.output.write_text(
+                        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
                 print(json.dumps(report, ensure_ascii=False))
                 return
         except (OSError, ValueError, KeyError) as exc:

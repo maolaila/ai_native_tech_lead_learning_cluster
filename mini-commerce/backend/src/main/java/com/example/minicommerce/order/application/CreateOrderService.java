@@ -18,6 +18,7 @@ import com.example.minicommerce.order.infrastructure.OrderRepository;
 import com.example.minicommerce.promotion.application.CouponService;
 import com.example.minicommerce.shared.error.BusinessException;
 import com.example.minicommerce.shared.error.ErrorCode;
+import com.example.minicommerce.shared.transaction.AfterCommitExecutor;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -50,6 +51,10 @@ import org.springframework.transaction.annotation.Transactional;
 // @Service：告诉 Spring，这个类主要负责一个业务用例，并由 Spring 创建和注入依赖。
 @Service
 public class CreateOrderService {
+    // 不使用 .created：Prometheus 客户端把它作为保留后缀，会在导出时删除。
+    // 在监控页面查询 commerce_orders_creation_total；这个名字也由自动化测试检查。
+    public static final String CREATION_METRIC = "commerce.orders.creation";
+    private final AfterCommitExecutor afterCommit;
     private final ProductService products;
     private final InventoryService inventory;
     private final CouponService coupons;
@@ -77,7 +82,8 @@ public class CreateOrderService {
             OrderQueryService query,
             AuditService audit,
             Clock clock,
-            MeterRegistry metrics) {
+            MeterRegistry metrics,
+            AfterCommitExecutor afterCommit) {
         this.products = products;
         this.inventory = inventory;
         this.coupons = coupons;
@@ -91,6 +97,7 @@ public class CreateOrderService {
         this.audit = audit;
         this.clock = clock;
         this.metrics = metrics;
+        this.afterCommit = afterCommit;
     }
 
     /**
@@ -260,7 +267,9 @@ public class CreateOrderService {
                 null,
                 Map.of("status", order.getStatus(), "total", total));
 
-        metrics.counter("commerce.orders.created").increment();
+        // 提交成功以后才加一次，避免事务最后提交失败却把订单算作成功。
+        // 提交后到回调前仍可能宕机，所以 Counter 只用于监控趋势，不是财务账本。
+        afterCommit.run(() -> metrics.counter(CREATION_METRIC).increment());
         return OrderMapper.view(order, savedItems);
     }
 

@@ -1777,9 +1777,9 @@
     ]
   },
   {
-    "sourceId": "SRC-c81fc79d519e",
+    "sourceId": "SRC-371c5c29de34",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 99,
+    "line": 101,
     "title": "六、类型化配置",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1791,9 +1791,9 @@
     ]
   },
   {
-    "sourceId": "SRC-0d6c928ec6c8",
+    "sourceId": "SRC-876c751ce5c3",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 143,
+    "line": 145,
     "title": "七、配置不是 Secret",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1805,9 +1805,9 @@
     ]
   },
   {
-    "sourceId": "SRC-0e5685ae31ed",
+    "sourceId": "SRC-abc15ba880ac",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 164,
+    "line": 166,
     "title": "八、环境与 Profile",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1819,9 +1819,9 @@
     ]
   },
   {
-    "sourceId": "SRC-06c3a2318753",
+    "sourceId": "SRC-b81933f10ab3",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 180,
+    "line": 182,
     "title": "九、连接超时与读取超时",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1833,9 +1833,9 @@
     ]
   },
   {
-    "sourceId": "SRC-302a1354c2df",
+    "sourceId": "SRC-44b5fe40544c",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 189,
+    "line": 191,
     "title": "十、Health Check",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1847,9 +1847,9 @@
     ]
   },
   {
-    "sourceId": "SRC-e33d66e6cf31",
+    "sourceId": "SRC-aa08cb9ad2be",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 191,
+    "line": 193,
     "title": "Liveness",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1861,9 +1861,9 @@
     ]
   },
   {
-    "sourceId": "SRC-d19618fa3a61",
+    "sourceId": "SRC-47392a151a7e",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 197,
+    "line": 199,
     "title": "Readiness",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1875,9 +1875,9 @@
     ]
   },
   {
-    "sourceId": "SRC-0b6405c9a0c1",
+    "sourceId": "SRC-b570cf05348f",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 205,
+    "line": 207,
     "title": "十一、审计日志",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1889,9 +1889,9 @@
     ]
   },
   {
-    "sourceId": "SRC-05f4f557b813",
+    "sourceId": "SRC-cb263f904e27",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 221,
+    "line": 223,
     "title": "十二、配置排错顺序",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1903,9 +1903,9 @@
     ]
   },
   {
-    "sourceId": "SRC-e96a47161acc",
+    "sourceId": "SRC-b8738083521b",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 236,
+    "line": 238,
     "title": "十三、项目中的对应位置",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",
@@ -1917,9 +1917,9 @@
     ]
   },
   {
-    "sourceId": "SRC-a3e62eff1e3b",
+    "sourceId": "SRC-76b2979b72bb",
     "source": "02_backend_spring/05_日志_配置与健康检查.md",
-    "line": 247,
+    "line": 249,
     "title": "十四、自测",
     "codeTargets": [
       "mini-commerce/backend/src/main/java/com/example/minicommerce",

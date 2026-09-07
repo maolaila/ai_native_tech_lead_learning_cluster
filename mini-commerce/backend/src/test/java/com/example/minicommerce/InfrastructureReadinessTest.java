@@ -154,4 +154,18 @@ class InfrastructureReadinessTest {
         verify(repository).published(eq(event.eventId()), anyString(), eq(1));
         verify(repository, never()).failed(any(), anyString(), anyInt(), anyString());
     }
+
+    /** 使用真实 Prometheus 导出器，不能用 SimpleMeterRegistry 代替命名验证。 */
+    @Test
+    void orderCounterExportsTheNameUsedByTheRuntimeProbe() {
+        try (var registry =
+                new io.micrometer.prometheusmetrics.PrometheusMeterRegistry(
+                        io.micrometer.prometheusmetrics.PrometheusConfig.DEFAULT)) {
+            registry.counter(
+                            com.example.minicommerce.order.application.CreateOrderService
+                                    .CREATION_METRIC)
+                    .increment();
+            assertThat(registry.scrape()).contains("commerce_orders_creation_total 1.0");
+        }
+    }
 }

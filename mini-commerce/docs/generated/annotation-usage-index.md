@@ -4,7 +4,7 @@
 > 注解作用的通俗解释见 [`SPRING-JAVA-ANNOTATIONS.md`](../SPRING-JAVA-ANNOTATIONS.md)。
 
 - 注解种类：73
-- 注解出现次数：615
+- 注解出现次数：616
 
 ## 使用方法
 
@@ -534,7 +534,7 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/OutboxService.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/OutboxService.java#L11)：首次出现在第 11 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/application/ProcessedMessageService.java`](../../backend/src/main/java/com/example/minicommerce/messaging/application/ProcessedMessageService.java#L13)：首次出现在第 13 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java#L23)：首次出现在第 23 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L51)：首次出现在第 51 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L52)：首次出现在第 52 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java#L28)：首次出现在第 28 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/OrderQueryService.java#L23)：首次出现在第 23 行
 - 其余 9 个文件可在 IDE 中全局搜索 `@Service`
@@ -585,7 +585,7 @@
 
 ## `@Test`
 
-出现 37 次。
+出现 38 次。
 
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L88)：首次出现在第 88 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java`](../../backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java#L41)：首次出现在第 41 行
@@ -617,7 +617,7 @@
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java`](../../backend/src/main/java/com/example/minicommerce/messaging/infrastructure/OutboxJdbcRepository.java#L23)：首次出现在第 23 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/NotificationQueryService.java#L24)：首次出现在第 24 行
 - [`mini-commerce/backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java`](../../backend/src/main/java/com/example/minicommerce/notification/application/OrderPaidConsumers.java#L58)：首次出现在第 58 行
-- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L104)：首次出现在第 104 行
+- [`mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java`](../../backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java#L111)：首次出现在第 111 行
 - 其余 5 个文件可在 IDE 中全局搜索 `@Transactional`
 
 ## `@UniqueConstraint`

@@ -1988,7 +1988,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
-      "line": 51
+      "line": 52
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java",
@@ -2255,6 +2255,10 @@
       "line": 137
     },
     {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java",
+      "line": 159
+    },
+    {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java",
       "line": 83
     },
@@ -2448,7 +2452,7 @@
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java",
-      "line": 104
+      "line": 111
     },
     {
       "path": "mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/OrderCommandService.java",
