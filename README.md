@@ -1,5 +1,7 @@
 # AI-Native Tech Lead / Architect 学习文件集群 + 可运行教学工程
 
+> 正式学习先读 [启动与学习范围](mini-commerce/docs/LEARNING-READINESS.md)，修订与证据见 [开学前检查记录](mini-commerce/docs/PRE-STUDY-REVIEW.md)。日常学习使用 main；示例中的令牌和 ID 需替换为真实响应值。
+
 本仓库包含两类互相对应的资产：
 
 1. 根目录 `00_start`～`16_references`：完整学习文档集群；

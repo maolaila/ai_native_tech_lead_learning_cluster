@@ -5,18 +5,18 @@
 
 ## 总体统计
 
-- 文件数：426（不含本 MANIFEST）
-- Markdown 文件数：180
-- Markdown 总行数：41,069
-- Markdown 总字符数：965,871
-- 目录内容大小：3,422,936 bytes
+- 文件数：428（不含本 MANIFEST）
+- Markdown 文件数：181
+- Markdown 总行数：41,253
+- Markdown 总字符数：975,826
+- 目录内容大小：3,447,551 bytes
 
 ## 模块统计
 
 | 模块 | 文件 | Markdown 行数 | Markdown 字符 | 字节 |
 |---|---:|---:|---:|---:|
-| `(root)` | 9 | 23,062 | 304,593 | 521,277 |
-| `.github` | 10 | 0 | 0 | 12,744 |
+| `(root)` | 9 | 23,152 | 309,576 | 530,625 |
+| `.github` | 10 | 0 | 0 | 13,354 |
 | `00_start` | 5 | 566 | 8,166 | 14,074 |
 | `01_foundations` | 5 | 397 | 5,991 | 9,953 |
 | `02_backend_spring` | 8 | 1,169 | 18,081 | 30,343 |
@@ -34,9 +34,9 @@
 | `14_capstone` | 10 | 436 | 8,111 | 13,311 |
 | `15_templates` | 15 | 727 | 10,199 | 13,939 |
 | `16_references` | 5 | 450 | 9,791 | 14,201 |
-| `mini-commerce` | 224 | 8,338 | 502,115 | 2,134,587 |
+| `mini-commerce` | 225 | 8,432 | 507,087 | 2,147,102 |
 | `practice` | 14 | 171 | 3,580 | 19,781 |
-| `tools` | 34 | 0 | 0 | 470,416 |
+| `tools` | 35 | 0 | 0 | 472,558 |
 
 ## 自动校验
 
@@ -52,8 +52,8 @@
 - `705d83f8205ecf6f59dcdca024dfd7b4fe11f0b59ae78d667184ff18f59b9ae0`  `.editorconfig`
 - `d107232104dd5f1244f4788fe37cc2824c8029961411b7c495774806a709834c`  `.github/workflows/beginner-learning-ci.yml`
 - `8426893a1fb20e13b650874333c734d212b66aeb5d0ee82af967d5e7e0d4f66e`  `.github/workflows/generate-complete-mini-commerce.yml`
-- `d508e32887545aa6c59cb2403966c07960c941f0e7ed14c58ad4a11c4612825b`  `.github/workflows/mini-commerce-ci.yml`
-- `233d3ed4d46275decc44da986a39cc9851bbc4fe1e0b6a6a24e19a02cf7781ed`  `.github/workflows/pre-study-audit.yml`
+- `b6d58e57eb6d427e4dbdfd9ec845864a9ffc52b6532a6d5ec12b9b3171ea9d8e`  `.github/workflows/mini-commerce-ci.yml`
+- `f7d3862132f66095d4071e12820d4b020185a3d289388f12864b5ea60a6986b5`  `.github/workflows/pre-study-audit.yml`
 - `8426893a1fb20e13b650874333c734d212b66aeb5d0ee82af967d5e7e0d4f66e`  `.github/workflows/repair-readable-learning-code.yml`
 - `8426893a1fb20e13b650874333c734d212b66aeb5d0ee82af967d5e7e0d4f66e`  `.github/workflows/validate-and-promote-mini-commerce-v2.yml`
 - `8426893a1fb20e13b650874333c734d212b66aeb5d0ee82af967d5e7e0d4f66e`  `.github/workflows/validate-and-promote-mini-commerce-v3.yml`
@@ -197,23 +197,23 @@
 - `89ead2af98dfd73ab5878e62a143e3917428e3d0553612e762fda971092c1a90`  `16_references/03_命令与排障速查.md`
 - `6221563d03e25ed7ddc17f6aa82bdca554d0bdc702ed50e3acda4c609b184f37`  `16_references/04_常见误区与暂缓学习清单.md`
 - `c2f75a55dd14eb53995bbeeac9afb5b8f82243612b23d6b5fa59a4e6f2e632f4`  `16_references/README.md`
-- `f2eab615d1536603c314b3ddb5c30632e9aaec0b14f12ec75045d254aa399029`  `FULL_BOOK.md`
+- `bbeebed122f3559e4909749dac5c755583a41ab9d3355fcd18ec0c0184a9c437`  `FULL_BOOK.md`
 - `5abcfce83fdfd30754a9dba00eb72eed99bf4d6ca5e95f082097960c4a360b51`  `PROGRESS_CHECKLIST.md`
-- `1415d8416c646941b80a71027acd384a92c6059794d6846f35264afa2605e19e`  `README.md`
-- `8792727acc3320ec2ba3c545fe0f39353dfebb3f61611afbd48ac2867a8c4011`  `SUMMARY.md`
+- `53760df467c83820ccb8f0c40dde5ade663742f27188c9e943a19f4226114a10`  `README.md`
+- `e2df511cdf385feac9a60c4816187266188a747394d88debdfe1516c17ecad5c`  `SUMMARY.md`
 - `fbc459fbec83761b100dc1d1e42cd7bea667c4a7d042ebace3701554cdaf9882`  `mini-commerce/.env.example`
-- `8ebed7b531cd773880e5dc98f85cf27024853712377514dddb665501796f2c92`  `mini-commerce/.gitignore`
+- `8dcc55e3b12715212d892016a1427f7f491fb2e32cc3db3d565ee21ef12400ea`  `mini-commerce/.gitignore`
 - `467c7eab343f5aa6d40159eec3b356b9f17d6802eb13e2009ecfbeee47b7b1b1`  `mini-commerce/BUILD-VERIFICATION.md`
-- `b18e3f65e19e233c671a362360ff8038230b5b6400d46162b2bd2f0edde19944`  `mini-commerce/CI-FAILURE-bootstrap-v6.md`
-- `05676713c04df343e76b12e02c2ca54f71827a59f3b7219f38efcc1a7c93f03b`  `mini-commerce/CI-FAILURE-bootstrap-v7.md`
-- `51f973fc959258a694cb2741c90eee4394774790f5560b04662b6b8663bce2e2`  `mini-commerce/CI-FAILURE-bootstrap-v8.md`
-- `fdfd6c3f1c279c9cce3bc4bb651bae8b3b8e231ef43fa9430d11e8ed265a6898`  `mini-commerce/CI-FAILURE-bootstrap.md`
-- `dcc29294c490fa4f34f8a8b169730213a14a91ba1214671601813c8d76d674e4`  `mini-commerce/CI-FAILURE-v3.md`
-- `f8cffcc2139ae6c77b149c54609bc755973c53af1febc68ac245e0eb2ea06d1b`  `mini-commerce/CI-FAILURE-v4.md`
-- `77b29e4cb548e8cc6c61b6f15be067abe25bb5e0acc075e74ab69b98c3ebdfb4`  `mini-commerce/CI-FAILURE-v5.md`
-- `9baf16cb37d30b9a8a273d25abdaedd271a02df443a76caaa4ab1ace7077542a`  `mini-commerce/DELIVERY-MANIFEST.json`
+- `3a250fdf890c9dfd98ef184d4e051629625af1ae7ee0a5ec395e477792c89bbf`  `mini-commerce/CI-FAILURE-bootstrap-v6.md`
+- `6772702749e7eceedbd11ca96cb63ac152f4df6e560f1f1566d3d1f9c3a156fe`  `mini-commerce/CI-FAILURE-bootstrap-v7.md`
+- `967707ea52c56b77ec009d527ae008870f239207ff8ef9f5761f131940b3ae39`  `mini-commerce/CI-FAILURE-bootstrap-v8.md`
+- `1e2e6d2b6eb6a0966693c5285b4be21d229cbb2355582791a70fc6ae46101217`  `mini-commerce/CI-FAILURE-bootstrap.md`
+- `9e804c1ae19bc6e6ce9cd41c3af5abbb38d381f09e796b7d726fd8091298b09e`  `mini-commerce/CI-FAILURE-v3.md`
+- `623b0e951d2de1090be4c0d301985951e93a62b2eb83b073a1b8a3084b88f033`  `mini-commerce/CI-FAILURE-v4.md`
+- `c809dce116c98f4a1bba0ebcaf1e3d0f8600f4390e13f068516857a67430efc1`  `mini-commerce/CI-FAILURE-v5.md`
+- `98602a2165eca0c9d8b9a630a33dc7ac4427613b9e959b2a600989131b00803f`  `mini-commerce/DELIVERY-MANIFEST.json`
 - `458de82a46b69b36a0df04c13eb59f11b39d9e8ae98d91b9f682c2ac973c2f9b`  `mini-commerce/Makefile`
-- `63985e18f554a6bb97628ff80895ecb9aad9203679d808a1e2841434b54fbaf3`  `mini-commerce/README.md`
+- `2f6d3132dd505c6ef480c43c6c88dd5282e18cef57ba929080c104171266822e`  `mini-commerce/README.md`
 - `1e6d7f14df0c6f54d0c25a50263c69b63a3dec38e8264def4bf042bd87a3e406`  `mini-commerce/ai-engineering/eval/cases.jsonl`
 - `6f770e80e11ec27103c32c9c896520b740d2a7b53ff0cefcea456c1c86b66b4c`  `mini-commerce/ai-engineering/eval/run_static_eval.py`
 - `45351829f0c48f3aee35e12619bfce855f2a1c44a84b19e8fe37d7f6da416204`  `mini-commerce/ai-engineering/golden-paths/create-feature.md`
@@ -336,7 +336,7 @@
 - `4649b7b6e281569090cb2f90e9ede7e4ca0288423d932a9e513abfb8d5737fe0`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/JwtService.java`
 - `90ea82d757dc4b4fcfba0902bc5e8e2406311f72b3d2ef5c35e073b7f6366ca9`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/SecurityConfiguration.java`
 - `25fc464adb245a191d6544a7d83efa9f51200725fdade9b1d648f54efbb754fb`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/security/UserPrincipal.java`
-- `7546afe2d1086108f4779b61adf535a80fded7d01c20017296dfe2302e43ff7a`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/transaction/AfterCommitExecutor.java`
+- `1867837d7d71594c65c974bebb91f1adc8048d9bae4d71e39d93327a3e2774f7`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/transaction/AfterCommitExecutor.java`
 - `c1e73fce23edde2f863e01e49a499b0da30843432998463623c80b5e7a3db478`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/CorrelationIdFilter.java`
 - `7a178c77df9725d5632427c4fd38b326da246036b28a2f247e4d85d1e00f9f5c`  `mini-commerce/backend/src/main/java/com/example/minicommerce/shared/web/RateLimitFilter.java`
 - `d328ac5a55eb8706e0971a8c67748d9191ed0c7e6dfecff4f1e371bcdd69e146`  `mini-commerce/backend/src/main/resources/application-test.yml`
@@ -365,14 +365,15 @@
 - `33c8943e6b7192ef1a05bc7e88e2ef1b9f200fbcdb307c9d3c01c23c8c445516`  `mini-commerce/docs/CODE-READING-GUIDE.md`
 - `f105e4f4824a90e22dce48342493e2d000abf0ad7083e31769668f3c9efc8aa1`  `mini-commerce/docs/CONFIGURATION-FROM-ZERO.md`
 - `ee7b0bbf2f00133efa60312df5935ca242fdf663a27582d065f620051e2c98e5`  `mini-commerce/docs/JAVA-SYNTAX-FOR-BACKEND-BEGINNERS.md`
-- `85de61d1658c99b98b3f719abba68b2684c828d74e7747ad431b5f902aad89e6`  `mini-commerce/docs/LEARNING-READINESS.md`
+- `c164bac186a7e1caff1794edaffb6fef7d96359dcbe95ba68a98afff9b4be126`  `mini-commerce/docs/LEARNING-READINESS.md`
+- `0d6c24eb848fc7842ea5763b689e9c4935b4893988333d26668223c52f03e4f2`  `mini-commerce/docs/PRE-STUDY-REVIEW.md`
 - `62afce2435de267ccd65a3a045d85b8f748d1e05244e0658b9a97cad59cc1767`  `mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md`
 - `d01cbc53dd35f7947c01d592edcb1a8b56fe834df37b577ac5690d5e87789d55`  `mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md`
 - `fdf91bc3b25b2759fdff14ac785c125f193414f9eec273315d8c03fb67fe8c3d`  `mini-commerce/docs/architecture.md`
 - `5e3ce237db52a81582747bb36b7b1995f6ae3712a0ebf157624242bef0b0690c`  `mini-commerce/docs/deployment.md`
 - `1794dc987dbd9331f2e7c00b80dfcf719030a90ad68c99ebb24948edcd2a551d`  `mini-commerce/docs/domain-model.md`
-- `1674301c562d4702a3f463afe9c034330473847a8f0057a63e20ffe0558a0308`  `mini-commerce/docs/generated/annotation-usage-index.json`
-- `6bfd8fc01c886a0633f37298e9d00d13061ef3b530220ae911541babb97215ea`  `mini-commerce/docs/generated/annotation-usage-index.md`
+- `bd4eb21e969b784953d2322a4b47835d9b4270a23a2de220b2e4779ebc2fc623`  `mini-commerce/docs/generated/annotation-usage-index.json`
+- `2c3543e735a3d2b3d57b695774cf3d88d9f6c007a73430cc39509e02ed3a58d6`  `mini-commerce/docs/generated/annotation-usage-index.md`
 - `5be4a88ba874baa50ffea27370f55dd0af0e42cda891c57a9810a4d43977f8a7`  `mini-commerce/docs/generated/beginner-learning-audit.md`
 - `d28d92746cb32d92d8e0d2b172d7aca2199741ebf48e11149bc5b08d1884e0bc`  `mini-commerce/docs/generated/document-code-map.json`
 - `a4e691e129d2673c7639a7a12553e9c5d408e2077b3e3c2f92788ec18fba73f4`  `mini-commerce/docs/generated/document-code-map.md`
@@ -417,15 +418,15 @@
 - `1a37ec9d390722f96d3ad569ce39ac46a1ae3bb9a6f6ea3e5311ab068e463734`  `mini-commerce/mcp-server/tests/test_readiness.py`
 - `4b7e153b10faa153c185596ac073b1e9394f2c8aedf7f0a4ba4ed37cc952ac80`  `mini-commerce/mcp-server/tests/test_security.py`
 - `5b54c08cde70f983942371e56d29b0e62ae395fcd93a34741d5073a89f76aa50`  `mini-commerce/mcp-server/tests/test_tool_allowlist.py`
-- `a20765531991e7f494ef1475089337872c13ae2d0f1f98e8f89d6f63c2734274`  `mini-commerce/scripts/backup.sh`
+- `a37d4f8fe167246a5d4123adde5d34594b61abe23805df7960a21d560656386d`  `mini-commerce/scripts/backup.sh`
 - `ef0629880e234ad701bcaa37e67730b50a8ae2d9d581196c2ac503c59ee0bfc8`  `mini-commerce/scripts/check_mcp_http.py`
 - `b2b49c8b826ef000b09895990688fb94c247fb7f84dc4512c84a7b6197dd01e0`  `mini-commerce/scripts/check_mcp_runtime.py`
 - `112839d2170a2a2967d15773429e7f05013c6463d8879ded514b75bfa5071858`  `mini-commerce/scripts/check_observability.py`
-- `121130648f8b346e81e5e0f9bb791be7ce69634e94ae94887f88a4491b190801`  `mini-commerce/scripts/restore-test.sh`
+- `00b5ffa8c047c94691f38b2852cfd88712fd997c63d688db038a1a0f58ce42a2`  `mini-commerce/scripts/restore-test.sh`
 - `8737743fac1d31a719a206e12fc4b868b7b9d47cc5c65c646623232555a5b274`  `mini-commerce/scripts/smoke.py`
 - `d022bb60561d0408feacb26599bcfa3ca8c939c23c717d199c613b05cc9066a1`  `mini-commerce/scripts/smoke.sh`
-- `d9602974da905c81760a989539e1707c63f60a9498f583ad6803e874b5c487f4`  `mini-commerce/tools/check_learning_references.py`
-- `686d49872710e433eda0578987a7b9415b7bc20d28a1429572f3caa5555e3559`  `mkdocs.yml`
+- `bed5b8541390ea22090d9bcbd4007fa03f988f8081ca3504581f836f13295728`  `mini-commerce/tools/check_learning_references.py`
+- `7396e2c8c2c033e45043211d97fa9dabbc0f2efe19a949c70b06ffa59fb67f14`  `mkdocs.yml`
 - `47b1d33fa5813b9a43da5b5d954b6949ebd8eec1d342fcac6780cb6616db8411`  `practice/.env.example`
 - `4ca9e57bdf2cad02b2e3e76a77b425f488a78be64978ef1c56d887fcef4f406f`  `practice/Makefile`
 - `50aff694e58e93a741540bca8879249ec19644d73a20e1b85941e429f8226363`  `practice/README.md`
@@ -473,5 +474,6 @@
 - `75980e6d0a35ca4bd165a14b189444337c146bd70fe2e99c558dff982581a188`  `tools/scaffold/quality_fixes_v2.py`
 - `e03373dfdc0f92f96f832682427751836905745d4eea6a22a8061bafd46d0f98`  `tools/sync_learning_assets.py`
 - `291f9f8d7d941d120d12fca3e04f8ebab6d3844292a94498cb115be542079a80`  `tools/tests/test_docs_safety.py`
+- `6d9c84573c28befe31d6435837cd52f9e74d4765a5a4c93dc9e91eb3f9ff51eb`  `tools/tests/test_http_examples.py`
 - `b310b0f6f1385ce88a12a0ae0710118f0dabc57fe40d810a591ee38b38e5b6fb`  `tools/tests/test_learning_contracts.py`
 - `36214dd525efeba5aeecbb4e75134b5811c9eaec07fbe19dad833fc61751fe03`  `tools/update_beginner_mkdocs_nav.py`

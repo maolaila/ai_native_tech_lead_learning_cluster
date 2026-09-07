@@ -1,5 +1,7 @@
 # Mini Commerce 教学参考工程
 
+> 正式学习先读 [启动与学习范围](docs/LEARNING-READINESS.md)，修订与证据见 [开学前检查记录](docs/PRE-STUDY-REVIEW.md)。日常学习使用 main；示例中的令牌和 ID 需替换为真实响应值。
+
 这不是按章节拆开的 Hello World 集合，而是一套可运行的模块化单体。核心后端知识点围绕同一个电商业务：用户浏览商品、加入购物车、使用优惠券创建订单、预留库存、模拟支付、处理重复回调、异步通知和积分，并具备测试、发布、监控、云映射和 AI 工程治理。
 
 ## 后端小白先从这里开始
@@ -69,7 +71,7 @@ mcp-server/       MCP Server 2.x：知识检索、Schema、只读 Explain、受�
 ai-engineering/   Rules、Golden Paths、Eval 数据集
 infra/            Compose 配套、Prometheus/Grafana/Tempo、K8s、AWS Terraform
 labs/             百万订单、EXPLAIN、死锁、负载实验
-api/              可直接执行的 HTTP 请求集
+api/              按步骤填写变量后执行的 HTTP 请求集
 scripts/          Smoke、备份与恢复验证
 docs/             小白入口、词典、架构、领域、安全、部署、可观测性和文档映射
 ```

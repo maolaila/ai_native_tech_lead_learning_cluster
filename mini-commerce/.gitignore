@@ -16,3 +16,8 @@ build-evidence/
 mcp-audit/
 
 # .terraform.lock.hcl 故意不忽略：它固定 Provider 版本，应该提交到 Git。
+
+# 数据备份可能含账号与业务数据，不能提交到仓库。
+backups/
+*.dump
+*.partial

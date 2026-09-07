@@ -172,3 +172,7 @@ SELECT status, count(*) FROM outbox_events GROUP BY status;
 
 输入 `\q` 返回普通终端。上面都是查询语句，不会改数据。索引和锁实验晚些再做。
 仓库根目录的 tools/scaffold 与历史 apply/finalize 脚本是早期制作材料，不是另一套要学习的商城；不要运行它们覆盖当前源码。
+
+修订清单、已验证的源码版本与备份演练见 [开学前修订记录](PRE-STUDY-REVIEW.md)。
+
+下载 ZIP 后可以直接阅读 Markdown 和运行 Compose。文档站构建脚本使用 Git 的文件清单，请在 git clone 得到的工作目录中运行；不要把 ZIP 解压目录当成已经带有 Git 历史的仓库。

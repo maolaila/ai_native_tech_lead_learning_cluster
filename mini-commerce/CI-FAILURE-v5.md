@@ -1,3 +1,5 @@
+> 历史失败日志：用于记录早期修复过程，不是当前 main 的验收结论。当前范围和版本证据请阅读 docs/PRE-STUDY-REVIEW.md。
+
 > 历史故障记录，不代表当前版本状态。当前验收范围见 [正式学习说明](docs/LEARNING-READINESS.md)，运行结果以当前提交的 CI 为准。
 
 # CI 失败报告（main 未更新）
