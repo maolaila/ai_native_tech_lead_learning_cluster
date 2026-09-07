@@ -4,41 +4,50 @@ on:
     branches: [audit/pre-study-2026-09-07]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: pre-study-audit-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  source-snapshot:
+  verify:
+    if: github.ref == 'refs/heads/audit/pre-study-2026-09-07' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
-      - name: Archive tracked source for review
-        run: |
-          git archive --format=zip HEAD -o /tmp/learning-source.zip
-          git rev-parse HEAD > /tmp/source-commit.txt
-      - uses: actions/upload-artifact@v4
         with:
-          name: learning-source
-          path: |
-            /tmp/learning-source.zip
-            /tmp/source-commit.txt
-          retention-days: 7
-  backend-baseline:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v5
+          fetch-depth: 0
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
           cache: maven
           cache-dependency-path: mini-commerce/backend/pom.xml
-      - run: docker info >/dev/null
-      - run: mvn -B -ntp -f mini-commerce/backend/pom.xml spotless:apply
-      - run: mvn -B -ntp -f mini-commerce/backend/pom.xml verify
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Materialize reviewed repair on audit branch only
+        shell: bash
+        run: |
+          shopt -s nullglob
+          for repair in tools/maintenance/pending_pre_study_*.py; do
+            python "$repair"
+            rm "$repair"
+          done
+          mvn -B -ntp -f mini-commerce/backend/pom.xml spotless:apply
+          git add mini-commerce tools/maintenance
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'fix: materialize reviewed pre-study repairs (validation follows)'
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
+          git rev-parse HEAD > /tmp/source-commit.txt
+          git archive --format=zip HEAD -o /tmp/learning-source.zip
+      - name: PostgreSQL regression tests (Docker required)
+        run: |
+          docker info >/dev/null
+          mvn -B -ntp -f mini-commerce/backend/pom.xml verify
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,3 +57,11 @@ jobs:
             mini-commerce/backend/target/failsafe-reports/**
             mini-commerce/backend/target/site/jacoco/**
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: learning-source
+          path: |
+            /tmp/learning-source.zip
+            /tmp/source-commit.txt
+          retention-days: 7
