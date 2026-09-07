@@ -1,220 +1,228 @@
 # Spring 请求生命周期与 IoC / DI
 
-> **所属模块：** 02 Backend
-> **本文用途：** 理解框架怎样路由请求、管理对象和注入依赖，以及这些机制为什么影响测试与事务。
-> **前置知识：** HTTP 基础
-> **建议投入：** 阅读 3 小时，实验 3 小时
+> 这一课只解决一个问题：你向 Mini Commerce 发出“创建订单”的请求，为什么最后会执行到 `CreateOrderService.create()`？这个 Service 又是谁创建的？
+>
+> 第一遍最多打开三个文件：`OrderController.java`、`OrderDtos.java` 和下面链接中的 `CreateOrderService.java`。可以在 IDE 的“按文件名打开”功能里输入前两个文件名，不必先逐层展开所有目录。
 
-> 后端零基础先读：[后端零基础：从这里开始](../mini-commerce/docs/BEGINNER-START-HERE.md) 和 [Spring 与 Java 注解小白词典](../mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md)。
+## 一、先看它对创建订单有什么用
 
----
+Mini Commerce 创建订单时，需要确认调用者身份、读取商品、计算价格、预留库存、保存订单，并记录后续要发送的事件。
 
-## 一、一次请求
+这些事情不能全部交给客户端做。客户端告诉服务端“我要哪些商品、各买多少”；服务端仍然要判断允许不允许购买、应该付多少钱、库存够不够，以及同一请求是不是已经处理过。
 
-```text
-Embedded Server
-→ Filter Chain
-→ DispatcherServlet
-→ Handler Mapping
-→ 参数绑定与校验
-→ Controller
-→ Service
-→ Repository
-→ JSON 序列化
-```
+本项目集中编排下单步骤的位置是：
 
-先用大白话理解：
+[CreateOrderService.java](../mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java)，重点阅读 `create()` 方法。
+
+但 HTTP 请求不会直接跳到这个方法。它需要先经过接收请求、检查身份、找到接口方法、转换参数等环节。搞清这条路的实际用途是：**出错时知道先看哪一层，而不是遇到所有错误都去改数据库。**
+
+## 二、一次请求从哪里进入
+
+可以先按下面的顺序理解一次常见的成功请求。这里省略了很多内部细节，也不表示所有接口都会访问数据库。
 
 ```text
-内置服务器收到请求
-→ 过滤器先检查请求
-→ Spring 找到应该处理这个 URL 的 Controller 方法
-→ 把 URL、Header 和 JSON 转成 Java 参数
-→ Controller 调用 Service
-→ Service 调用 Repository
-→ 结果转成 JSON 返回
+HTTP 请求到达服务器
+        ↓
+过滤器等前置处理
+        ↓
+Spring 查找匹配的 Controller 方法
+        ↓
+读取参数，把 JSON 等数据转换为 Java 对象
+        ↓
+执行适用的参数校验
+        ↓
+Controller 调用业务 Service
+        ↓
+Service 根据需要访问 Repository 等组件
+        ↓
+返回值转换成 HTTP 响应
 ```
 
-Spring Boot 替你完成服务器启动、组件扫描、路由、参数绑定、序列化和异常转换。理解这些边界，才能在 401、校验、Controller 和数据库错误之间定位。
+**Controller**可以理解成接口接待处：它负责说明这个接口怎么调用、接收什么参数，并把请求交给业务代码。
 
-如果上面的英文名暂时记不住，不影响第一遍学习。先记住：
+**Service**是业务操作的组织者。在本项目里，`CreateOrderService.create()` 把多个下单步骤连在一起。
 
-> 请求不是直接跳进业务代码，中间还会经过服务器、过滤器、路由和参数转换。
+**Repository**是访问数据库的接口。它帮助业务代码查询和修改数据，但不能替代所有业务判断。
 
-## 二、IoC
+这三个名字先理解职责即可，不要求你立即记住所有框架类。
 
-IoC 全称 Inversion of Control，中文常叫“控制反转”。名字比较抽象，先这样理解：
+## 三、英文名分别指什么
 
-> 一个类需要哪些其他对象，由 Spring 负责创建和组合，而不是这个类自己到处 `new`。
+### Embedded Server：内置服务器
 
-传统写法：
+你启动后端应用时，Spring Boot 可以一起启动用于接收 HTTP 请求的服务器。不需要先手工部署一个独立应用服务器，才有机会运行这个学习项目。
 
-```java
-class ProductController {
-    private final ProductService service = new ProductService();
-}
-```
+“内置”不代表没有端口、连接数和资源限制。你仍然需要知道请求发往哪个端口，以及应用是否已经启动。
 
-Controller 自己决定依赖怎样创建。以后 `ProductService` 还需要数据库、缓存和配置时，Controller 也被迫知道这些细节。
+### Filter Chain：过滤器链
 
-IoC 写法：
+可以把过滤器理解成进入接口前后的一组处理关卡。例如记录请求标识、处理身份认证，或者提前拒绝不符合要求的请求。
 
-```java
-@RestController
-class ProductController {
-    private final ProductService service;
+它们不是每次都允许请求继续向后走。因此，没有登录时请求被拒绝，可能根本没有执行到你的 Controller，更没有执行到 `create()`。
 
-    ProductController(ProductService service) {
-        this.service = service;
-    }
-}
-```
+### DispatcherServlet 与 Handler Mapping：找处理方法的人和规则
 
-Controller 只说“我需要 ProductService”，Spring 负责找到并传进来。
+`DispatcherServlet` 是 Spring MVC 处理请求的核心入口之一。`Handler Mapping` 帮它根据 URL、请求方法等条件寻找应该调用的处理方法。
 
-## 三、DI
+第一遍不必记类的继承树。先把它们合起来理解成：“Spring 根据接口声明，找到负责接收这次请求的方法。”
 
-DI 全称 Dependency Injection，中文叫“依赖注入”。
+### 参数绑定和序列化
 
-可以把 IoC 和 DI 的关系先记成：
+**参数绑定**是把 URL、请求头、JSON 等位置的数据放进 Java 方法的参数中。**序列化**在这里可以先理解成把返回的数据对象转换成响应中的 JSON 等格式。
+
+它们不是业务计算。例如 JSON 成功转成了订单请求对象，不代表库存足够，也不代表订单已经保存。
+
+## 四、几个接口注解怎样放进这个过程
+
+### `@RestController`：这个类接收接口请求
+
+在本项目的 `OrderController.java` 中阅读类上的接口声明。它负责 HTTP 层，而下单的具体业务编排在 `CreateOrderService` 中。
+
+大白话：`@RestController` 告诉 Spring 这是一个用于接口请求处理的 Controller，它的方法返回值通常会按响应正文处理。实际输出格式还取决于返回类型、消息转换配置和请求条件，不能把它简单理解成“任何方法都必定返回 JSON”。
+
+### `@RequestMapping` 与 `@PostMapping`：什么请求该来这里
+
+映射注解描述请求与 Java 方法的对应关系。例如创建资源通常使用 POST，但业务语义仍需要自己设计。
+
+在 `OrderController.java` 中，先看类上的路径，再看创建订单方法上的映射。两者可能共同组成完整路径。只看方法上的一小段路径，容易向错误地址发请求。
+
+**注意：POST 不自动保证幂等，也不自动意味着返回 201。** 状态码和重复请求处理都要看接口及业务实现。
+
+### `@RequestBody`：从请求正文读取对象
+
+它用在方法参数上，表示这个参数需要从请求正文读取。对于这里的 JSON 接口，Spring 会使用适用的消息转换器把 JSON 转成 Java 对象。
+
+项目中的订单请求类型请在 `OrderDtos.java` 阅读。真正允许客户端提交哪些字段，以这个类型为准，不要根据数据库表字段随意拼接请求。
+
+### `@Valid`：触发适用的对象校验
+
+把 JSON 转成对象，只能说明它能按相应结构被读取。名称是否为空、数量是否在允许范围，还需要校验规则。
+
+`@Valid` 可以触发相应的 Bean Validation 校验；具体检查什么，要继续看请求类型中声明的约束。它不会自动查询数据库确认商品存在，也不会替你解决并发库存问题。
+
+**放进下单场景：** 输入校验挡住不合格的请求数据；`create()` 再检查商品、库存和业务规则。不要因为参数上写了 `@Valid`，就删除 Service 中依赖真实业务状态的判断。
+
+## 五、IoC：业务对象不必自己到处创建依赖
+
+现在到 [CreateOrderService.java](../mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java) 看字段和构造器。它需要多个协作对象完成下单，但这些对象并不是 HTTP 请求逐个手动创建的。
+
+**IoC**通常译为“控制反转”。这个名字容易吓人，先记住这里的含义：
+
+> 创建和组合一部分应用对象的工作交给 Spring；业务类主要声明自己需要什么，而不是自己决定所有依赖怎样创建。
+
+为什么这在下单中有用？假设 Service 自己创建数据库访问对象、缓存客户端和监控对象，它不仅要懂下单，还要懂这些依赖的地址、配置和生命周期。以后换配置或写测试，会更难把它们拆开。
+
+把组装工作交给框架以后，业务类可以更专注于下单步骤。但这不是免设计：类承担的职责太多、依赖关系混乱，Spring 不会自动替你改好。
+
+## 六、DI：把需要的对象传进来
+
+**DI**通常译为“依赖注入”。“依赖”就是完成当前工作需要的另一个对象；“注入”可以先理解成把这个对象传进来。
+
+本项目优先通过构造器表达这件事。构造器可以看成创建一个对象时必须填写的清单：需要哪些组件，参数就写出来。
+
+IoC 和 DI 可以这样区分：
 
 ```text
-IoC：把创建和管理对象的工作交给 Spring
-DI：Spring 把一个类需要的对象传给它
+IoC：对象的创建和组装交给谁负责？
+DI：这个类需要的对象怎样交到它手里？
 ```
 
-构造器注入优点：
+在 `CreateOrderService` 的构造器中找到它接收的组件，再在 `create()` 中找到其中一个组件被调用的位置。第一次只追“库存”这一项，不要沿着所有依赖同时展开。
 
-- 依赖在构造器中一眼可见；
-- 字段可以写成 `final`；
-- 对象创建完成时依赖已经齐全；
-- 测试可以直接传 Fake 或 Mock；
-- 构造器参数太多时，会提醒这个类可能承担了太多职责。
+这个动作能让你看到 DI 的实际用途：**构造器得到一个库存相关组件，执行下单时再调用它。** 它不是只存在于面试定义中的术语。
 
-避免字段注入：它隐藏依赖、依赖反射，脱离 Spring 时不方便直接创建和测试。
+### 为什么构造器注入对测试有帮助？
 
-## 四、Bean 与注解
+一个类把依赖写在构造器里，测试更容易明确提供它需要的协作对象。对于合适的单元测试，可以提供测试替身；对于数据库、事务等行为，则需要真实组件和集成测试。
 
-Bean 可以先理解成：
+不要把“可以传 Mock”误解成“用 Mock 就能证明 PostgreSQL 并发正确”。注入方式帮助组织代码，测试是否有证明力仍取决于实际测试了什么。
 
-> 由 Spring 创建并管理的 Java 对象。
+## 七、Bean：由 Spring 管理的对象
 
-常见标签：
+**Bean**在这里不是一个特殊业务类型，可以先理解成由 Spring 创建、注册和管理的 Java 对象。
 
-```text
-@Component      普通 Spring 组件
-@Service        主要负责业务操作
-@Repository     主要负责数据库访问
-@RestController 主要负责 HTTP 接口
-@Configuration  主要负责集中配置
-@Bean           把方法返回的对象交给 Spring 管理
-```
+`@Component` 是常见组件标记；`@Service` 常用于业务服务；`@Repository` 表达数据访问职责；`@Configuration` 常用于配置；`@Bean` 则把配置方法产生的对象注册到 Spring 的管理范围中。
 
-`@Service` 不只是装饰，它向人和工具表达“这个类主要负责业务”。但加上它不会自动让类设计合理，也不会自动开启事务。
+这些标记的作用并不完全相同，也不是任选一个名字就行。但第一遍可以先用职责帮助记忆，再在注解词典中补充具体行为。
 
-## 五、不是所有类都应由 Spring 管理
+### 本项目中的实际用途
 
-适合 Bean：
+回到 `CreateOrderService`，查看类头上的服务声明，并对照它为什么需要参与 Spring 管理：它依赖其他组件，还使用 Spring 的事务机制。
 
-- Service；
-- Repository；
-- 外部 Client；
-- 配置；
-- 有明确生命周期的组件。
+**`@Service` 不等于 `@Transactional`。** 服务标记不会自动让所有数据库操作形成你想要的事务；事务边界需要单独声明和设计。事务生效还存在代理调用等条件，下一节会先给出边界，数据库模块再展开。
 
-普通 Value Object、DTO、临时对象直接 `new` 即可。
+## 八、代理：为什么调用方式也重要
 
-如果什么都交给 Spring，会让简单对象也依赖容器，测试和理解反而更复杂。
+可以把 Spring 的某些代理机制先理解成“在调用业务方法时，经过一个额外的处理入口”。事务处理就是需要注意这种调用关系的常见场景。
 
-## 六、接口不要机械创建
+外部组件调用经过 Spring 管理的代理对象时，框架有机会先做事务处理，再调用真正的业务方法。一个对象内部直接调用自己的另一个方法，在常见代理模式下不会因此重新经过同一个代理入口。
 
-每个 `FooService` 都配 `FooServiceImpl`，但只有一个实现且没有边界价值，会增加样板代码。
+这解释了一个反直觉现象：方法上写着注解，并不能只凭这一行就断定运行时一定获得了对应效果。你还要看对象由谁创建、通过什么路径被调用。
 
-接口适合：
+**现在不要展开整个代理模式课程。** 第一遍只记住：“注解表达意图，实际调用路径决定相关处理是否有机会执行。”学到退款和事务拆分时，再回来看这个区别。
 
-- 确实有多个实现；
-- 外部系统 Port，例如真实支付和模拟支付；
-- 稳定模块契约；
-- 测试需要替代实现；
-- 插件机制。
+## 九、`@Transactional` 放到下单中意味着什么
 
-接口不是“高级代码”的标志。它应该解决替换、隔离或契约问题。
+在 `CreateOrderService.create()` 附近阅读事务声明，再看方法里的数据库操作。下单不是只保存一张表，还需要协调库存、订单、幂等记录和待发送事件等数据。
 
-## 七、单例 Bean 的并发风险
+事务要表达的目标是：这些参与同一个事务的数据库修改作为一个整体提交；符合回滚条件时一起撤销。它不是“整个世界上的所有操作都能倒带”。
 
-Spring Bean 默认常为单例。大白话：
+需要先记住三个边界：
 
-> 整个应用中很多请求会共同使用同一个 Service 对象。
+**第一，异常有回滚规则。** 不能把“方法里出现过任何异常”都当成必然回滚；异常类型、是否被捕获和事务配置会影响结果。
 
-因此不要把某个请求的用户 ID 保存到 Service 字段：
+**第二，外部操作不自动跟着撤销。** 已经发出的网络请求，不能仅靠数据库事务自动收回。
 
-```java
-@Service
-class BadService {
-    private Long currentUserId; // 多个请求会共同读写
-}
-```
+**第三，事务不自动防止所有并发问题。** 库存足够不够，不能只依赖先查询再判断；本项目还使用相应的数据库更新条件和并发控制。
 
-请求数据应作为方法参数传递，或者使用明确的请求级上下文。
+这也是为什么同一条业务链需要多个技术点。DI 解决对象怎么配合；事务解决一组数据库修改的提交边界；库存条件更新解决特定的并发竞争。它们互相配合，不互相替代。
 
-## 八、代理陷阱
+## 十、做一个只读走读，不先改代码
 
-事务、安全、缓存等注解经常依赖 Spring 代理。
+**前置条件：** 已取得本项目源码；不要求先启动数据库。
 
-代理可以先理解成：
+打开 `OrderController.java`，找到创建订单的方法。记下它接收的请求类型和调用的 Service。
 
-> Spring 在真实对象外面包一层。调用方法前后，这一层负责开启事务、检查权限或处理缓存。
+打开 `OrderDtos.java`，找到这个请求类型。区分客户端可以提交的字段和服务端返回的字段。不要把响应中的金额字段反过来当作下单请求的可信输入。
 
-```java
-public void outer() {
-    inner();
-}
+打开 [CreateOrderService.java](../mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java)。先看构造器，再看 `create()`。挑出库存相关调用，记录它前后各发生了什么。
 
-@Transactional
-public void inner() {
-}
-```
+**应该看到的结果：** Controller 没有独自完成全部下单规则；请求对象不等于数据库中的全部订单数据；Service 使用传入的协作组件完成业务步骤。
 
-同一个对象内部直接调用 `inner()`，可能没有经过外面的 Spring 代理，所以事务可能不生效。
+**停止点：** 能画出“Controller → Service → 数据访问”的主线，并说出一个组件通过构造器交给 Service 的实例。本次不要再同时研究全部依赖实现。
 
-关键注解必须用集成测试证明，而不是只看代码上写了注解。
+## 十一、运行时怎么观察这条路
 
-## 九、本项目中的对应位置
+需要实际发请求时，先按 [正式学习说明](../mini-commerce/docs/LEARNING-READINESS.md) 启动，再使用 [HTTP 请求集](../mini-commerce/api/mini-commerce.http) 的 A 组步骤。
 
-```text
-mini-commerce/backend/src/main/java/com/example/minicommerce/MiniCommerceApplication.java
-mini-commerce/backend/src/main/java/com/example/minicommerce/order/api/OrderController.java
-mini-commerce/backend/src/main/java/com/example/minicommerce/order/application/CreateOrderService.java
-mini-commerce/backend/src/main/java/com/example/minicommerce/shared/config/AppProperties.java
-```
+这里故意不再复制另一套账户、端口和请求 JSON，避免课文与请求集分别修改后出现两份不同答案。请求集里标出的令牌和 ID，需要使用前一步的真实响应值。
 
-完整请求走读：
+观察时只回答三件事：未具备适用身份时请求是否被允许进入业务；不合格参数如何被拒绝；正确请求成功后怎样再查询实际订单。
 
-[一次创建订单请求：从 HTTP 到数据库](../mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md)
+这些实验会创建学习数据，应只在本地隔离环境执行。不要对真实生产地址运行演示请求。
 
-## 十、实验
+## 十二、遇到错误先看哪里
 
-- 删除一个 `@Service`，观察依赖是否无法创建；
-- 创建两个同类型 Bean，观察 Spring 怎样报告歧义；
-- 不启动 Spring，直接通过构造器传 Fake；
-- 比较字段注入与构造器注入测试；
-- 复现事务自调用问题。
+无法建立连接，先检查应用是否启动和地址是否正确，不要先改 Service。
 
-每次实验只改变一个条件，记录：
+请求被拒绝且涉及身份，先检查登录步骤与请求携带的凭据；不要把认证失败当成数据库没保存。
 
-```text
-我改了什么
-→ 发生了什么
-→ 为什么
-→ 改回去后是否恢复
-```
+请求正文无法读取，先检查 JSON、字段类型和请求格式。格式都不正确时，业务方法可能还没有执行。
 
-## 十一、自测
+收到明确业务冲突，再沿着 Service 的对应检查定位。库存不足和数据库无法连接不是同一类问题。
 
-1. IoC 与 DI 的关系？
-2. Controller 为什么不自己 `new Service`？
-3. Bean 用大白话怎样解释？
-4. 哪些对象不需要 Spring 管理？
-5. 单例 Bean 为什么不能保存 currentUserId？
-6. 每个 Service 都建接口有什么代价？
-7. 为什么同类内部调用可能让 `@Transactional` 不生效？
+接口看似成功但状态不正确，则继续核对实际数据库、事务边界和测试证据，不能只看控制台打印了一句成功。
+
+## 十三、用自己的话讲出来
+
+**请求为什么不直接进入 `create()`？** 因为服务器和框架需要先接收、查找接口、处理身份与参数，再调用业务代码。
+
+**IoC 和 DI 有什么用？** 让业务对象声明依赖，由框架组织和传入协作对象，降低业务逻辑与创建细节的纠缠。
+
+**Bean 是不是数据库的一行？** 不是。这里指 Spring 管理的对象；数据库记录与 Entity 是另一个维度。
+
+**`@Service` 是否自动开启事务？** 不是。服务角色与事务边界需要区分。
+
+**`@Valid` 是否证明库存足够？** 不能。它执行适用的校验约束，不替代依赖数据库状态的业务判断。
+
+回答完这些问题，就可以进入分层与 DTO 课程。陌生注解查 [项目内注解词典](../mini-commerce/docs/SPRING-JAVA-ANNOTATIONS.md)，不需要为了完成这一课再打开一套外部教程。
