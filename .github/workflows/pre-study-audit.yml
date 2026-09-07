@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+defaults:
+  run:
+    shell: bash
 concurrency:
   group: pre-study-audit-${{ github.ref }}
   cancel-in-progress: true
@@ -86,6 +89,9 @@ jobs:
           python3 scripts/check_mcp_http.py
           docker compose exec -T mcp-server python /workspace/mini-commerce/scripts/check_mcp_runtime.py
           python3 scripts/check_observability.py --output /tmp/pre-study/observability.json
+          DUMP=$(bash scripts/backup.sh)
+          bash scripts/restore-test.sh "$DUMP" | tee /tmp/pre-study/restore.txt
+          docker compose exec -T prometheus promtool check rules /etc/prometheus/alerts.yml
       - name: Save Compose evidence and stop ephemeral CI containers
         if: always()
         working-directory: mini-commerce
