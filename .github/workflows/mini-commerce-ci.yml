@@ -17,6 +17,11 @@ on:
 permissions:
   contents: read
 
+# 显式 Bash 会启用 pipefail；Smoke 失败时不能被后面的 tee 成功掩盖。
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: mini-commerce-ci-${{ github.ref }}
   cancel-in-progress: true
@@ -96,7 +101,7 @@ jobs:
         run: docker build -t mini-commerce-backend:ci mini-commerce/backend
       - name: Build MCP image
         run: docker build -t mini-commerce-mcp:ci mini-commerce/mcp-server
-      - name: Run real HTTP, message and monitoring acceptance
+      - name: Run real HTTP, message, monitoring and restore acceptance
         working-directory: mini-commerce
         run: |
           docker compose --profile app --profile observability up -d --build --wait --wait-timeout 240
@@ -104,6 +109,9 @@ jobs:
           python3 scripts/check_mcp_http.py
           docker compose exec -T mcp-server python /workspace/mini-commerce/scripts/check_mcp_runtime.py
           python3 scripts/check_observability.py --output /tmp/observability.json
+          DUMP=$(bash scripts/backup.sh)
+          bash scripts/restore-test.sh "$DUMP" | tee /tmp/restore.txt
+          docker compose exec -T prometheus promtool check rules /etc/prometheus/alerts.yml
       - name: Capture runtime logs and stop CI containers
         if: always()
         working-directory: mini-commerce
@@ -118,6 +126,7 @@ jobs:
             /tmp/compose.log
             /tmp/smoke.json
             /tmp/observability.json
+            /tmp/restore.txt
 
   terraform:
     runs-on: ubuntu-latest
