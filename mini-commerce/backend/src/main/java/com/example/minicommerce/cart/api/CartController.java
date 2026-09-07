@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 购物车模块的HTTP/API 适配层：{@code CartController}。
+ * 接收查看购物车、设置商品数量和移除商品的请求。
  *
- * <p><strong>作用：</strong>负责路由、请求参数、校验、认证主体和 HTTP 响应转换，不承载核心业务规则。
+ * <p><strong>作用：</strong>接收查看购物车、设置商品数量和移除商品的请求。
  *
- * <p><strong>为什么：</strong>把 HTTP 细节留在系统边界，应用服务才能脱离 Web 框架测试和复用。
+ * <p><strong>为什么：</strong>用户 ID 从当前身份取得，不能让请求方随便填写。PUT 设置的是最终数量，不是每重试一次再加一。
  *
  * <p><strong>对应文档：</strong> {@code 00_start/02_长期项目_Mini_Commerce.md}、 {@code
  * 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code

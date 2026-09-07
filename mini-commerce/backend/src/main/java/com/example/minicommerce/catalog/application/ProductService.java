@@ -19,11 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 商品目录模块的应用用例编排层：{@code ProductService}。
+ * 处理商品浏览、创建、修改和上架，并为下单提供数据库查询。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>处理商品浏览、创建、修改和上架，并为下单提供数据库查询。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>创建商品同时初始化库存；修改后在事务提交后删缓存，并写入变更事件。authoritativeSellable 故意绕开展示缓存。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
  * 06_redis/02_CacheAside_TTL与失效.md}。

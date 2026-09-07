@@ -6,11 +6,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * refund模块的基础设施适配层：{@code RefundEntity}。
+ * 保存一次全额退款的归属、金额、状态和退款方流水号。
  *
- * <p><strong>作用：</strong>把数据库 refunds 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存一次全额退款的归属、金额、状态和退款方流水号。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>INITIATED 只有成功领取后才变 PROCESSING；UNKNOWN 必须核对，不能换个键盲目重新退款。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。

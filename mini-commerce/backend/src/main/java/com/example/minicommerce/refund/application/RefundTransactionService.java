@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * refund模块的应用用例编排层：{@code RefundTransactionService}。
+ * 用短数据库事务登记退款、领取执行权、保存退款结果。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>用短数据库事务登记退款、领取执行权、保存退款结果。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>真正调用支付方在 RefundService 中进行。拆成两个 Spring 对象，使调用经过事务代理，而不是同一对象自己调用自己。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。

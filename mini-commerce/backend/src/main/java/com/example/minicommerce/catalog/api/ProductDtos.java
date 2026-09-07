@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
- * 商品目录模块的HTTP/API 适配层：{@code ProductDtos}。
+ * 规定创建商品、修改商品和返回商品时包含哪些字段。
  *
- * <p><strong>作用：</strong>定义请求允许传入的字段、字段校验和响应结构。DTO 是数据盒子，不处理路由、不查询数据库，也不会自己执行认证。
+ * <p><strong>作用：</strong>规定创建商品、修改商品和返回商品时包含哪些字段。
  *
- * <p><strong>为什么：</strong>把 HTTP 细节留在系统边界，应用服务才能脱离 Web 框架测试和复用。
+ * <p><strong>为什么：</strong>价格是 BigDecimal，限制小数位以匹配数据库；initialStock 是初始可售数量，不是已经卖出的数量。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
  * 06_redis/02_CacheAside_TTL与失效.md}。

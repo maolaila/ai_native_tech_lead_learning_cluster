@@ -5,12 +5,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * 身份与权限模块的基础设施适配层：{@code RefreshTokenEntity}。
+ * 保存刷新令牌的哈希、归属用户、到期时间和撤销时间。
  *
- * <p><strong>作用：</strong>把数据库 refresh_tokens 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ
- * 通信。
+ * <p><strong>作用：</strong>保存刷新令牌的哈希、归属用户、到期时间和撤销时间。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>数据库不保存可直接使用的原令牌；isValidAt 同时检查过期和撤销，不能只判断字符串是否存在。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/01_Session_Cookie_Token.md}、 {@code
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 05_auth_security/03_Web常见攻击.md}。

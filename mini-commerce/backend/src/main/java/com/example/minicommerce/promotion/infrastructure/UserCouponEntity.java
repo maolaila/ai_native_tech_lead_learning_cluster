@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 /**
- * 优惠券模块的基础设施适配层：{@code UserCouponEntity}。
+ * 保存某个用户领到的券，以及它被哪张订单占用。
  *
- * <p><strong>作用：</strong>把数据库 user_coupons 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存某个用户领到的券，以及它被哪张订单占用。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>reserve、markUsed、release 分别表示占用、用掉、退回。检查订单 ID，避免订单 A 释放订单 B 的券。
  *
  * <p><strong>对应文档：</strong> {@code 03_testing/02_测试用例设计.md}、 {@code
  * 04_database_postgresql/02_约束_范式与数据建模.md}。

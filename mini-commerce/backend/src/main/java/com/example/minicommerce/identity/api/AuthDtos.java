@@ -5,11 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * 身份与权限模块的HTTP/API 适配层：{@code AuthDtos}。
+ * 登录、注册、刷新和登出的请求与响应数据盒子。
  *
- * <p><strong>作用：</strong>定义请求允许传入的字段、字段校验和响应结构。DTO 是数据盒子，不处理路由、不查询数据库，也不会自己执行认证。
+ * <p><strong>作用：</strong>登录、注册、刷新和登出的请求与响应数据盒子。
  *
- * <p><strong>为什么：</strong>把 HTTP 细节留在系统边界，应用服务才能脱离 Web 框架测试和复用。
+ * <p><strong>为什么：</strong>RegisterRequest 不允许用户传入 ADMIN 角色；TokenResponse
+ * 也不返回密码哈希。校验注解描述输入规则，不会自行登录用户。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/01_Session_Cookie_Token.md}、 {@code
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 05_auth_security/03_Web常见攻击.md}。

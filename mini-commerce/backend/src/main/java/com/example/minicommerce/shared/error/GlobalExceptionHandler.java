@@ -98,11 +98,7 @@ public class GlobalExceptionHandler {
                 .body(base(HttpStatus.CONFLICT, "数据状态发生冲突，请刷新后重试", ErrorCode.DATA_CONFLICT.name()));
     }
 
-    /**
-     * 最后的安全网：处理前面没有明确分类的异常。
-     *
-     * <p>这不代表可以忽略未知异常。这里会记录完整服务端日志，并向客户端返回不泄露内部细节的 500。
-     */
+    /** 处理 JSON 格式、必填请求头和路径参数类型错误；这些是 400，不是服务器 500。 */
     @ExceptionHandler({
         org.springframework.http.converter.HttpMessageNotReadableException.class,
         org.springframework.web.bind.ServletRequestBindingException.class,
@@ -158,6 +154,7 @@ public class GlobalExceptionHandler {
                                 ErrorCode.DATA_CONFLICT.name()));
     }
 
+    /** 最后的安全网：未知错误记录服务端堆栈，对调用方只返回安全的 500 提示。 */
     @ExceptionHandler(Exception.class)
     ResponseEntity<ProblemDetail> handleUnknown(Exception exception) {
         log.error("event=unhandled_exception traceId={}", traceId(), exception);

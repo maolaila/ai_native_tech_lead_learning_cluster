@@ -4,11 +4,11 @@ import com.example.minicommerce.shared.persistence.BaseEntity;
 import jakarta.persistence.*;
 
 /**
- * 购物车模块的基础设施适配层：{@code CartEntity}。
+ * 保存购物车属于哪个用户；商品明细在 cart_items 表。
  *
- * <p><strong>作用：</strong>把数据库 carts 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存购物车属于哪个用户；商品明细在 cart_items 表。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>购物车不是订单，不保存最终成交金额；下单时仍须重新查询商品价格和库存。
  *
  * <p><strong>对应文档：</strong> {@code 00_start/02_长期项目_Mini_Commerce.md}、 {@code
  * 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code

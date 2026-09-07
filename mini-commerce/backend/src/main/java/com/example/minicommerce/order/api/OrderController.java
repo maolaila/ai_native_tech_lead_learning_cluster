@@ -24,12 +24,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 订单模块的 HTTP 请求入口。
+ * 订单 HTTP 入口：创建订单、查询自己的订单和取消未付款订单。
  *
- * <p><strong>作用：</strong>取得当前用户、请求体、URL 参数和 {@code Idempotency-Key}，再把任务交给订单应用服务。 Controller
- * 不计算金额、不扣库存，也不直接访问 Repository。
+ * <p><strong>作用：</strong>订单 HTTP 入口：创建订单、查询自己的订单和取消未付款订单。
  *
- * <p><strong>大白话：</strong>Controller 是门口接待。它负责把 HTTP 请求整理好，再交给真正的业务负责人处理。
+ * <p><strong>为什么：</strong>当前用户由 CurrentUser 取得，幂等键从请求头取得；具体计价、锁和事务由应用服务完成。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 02_backend_spring/06_订单模块案例.md}、 {@code

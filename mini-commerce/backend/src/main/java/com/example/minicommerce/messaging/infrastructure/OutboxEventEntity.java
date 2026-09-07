@@ -5,11 +5,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * 可靠消息模块的基础设施适配层：{@code OutboxEventEntity}。
+ * 保存一封待寄的业务消息：事件编号、类型、内容、重试次数和领取人。
  *
- * <p><strong>作用：</strong>把数据库 outbox_events 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存一封待寄的业务消息：事件编号、类型、内容、重试次数和领取人。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>事件先留在数据库里，程序重启后还可继续发送。PUBLISHED 只说明发布成功，不代表下游业务已经处理成功。
  *
  * <p><strong>对应文档：</strong> {@code 07_rabbitmq/02_Exchange_Queue_Routing.md}、 {@code
  * 07_rabbitmq/03_Confirm_Ack_Retry_DLQ.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。

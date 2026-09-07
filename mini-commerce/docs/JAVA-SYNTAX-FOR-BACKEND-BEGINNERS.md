@@ -110,7 +110,7 @@ view.productId()
 view.getProductId()
 ```
 
-`record` 适合 DTO、配置和事件数据，但不代表所有业务对象都应该写成 record。
+record 适合 DTO、配置和事件数据，但不代表所有业务对象都应该写成 record。它只是字段引用不可重新赋值；字段里的 List 仍可能被修改，需要时要防御性复制。自动 toString 会展示字段，所以不要把含密码或 Token 的请求、配置 record 整个写入日志。
 
 ---
 
@@ -550,12 +550,12 @@ BigDecimal total
 ### 常见操作
 
 ```java
-price.multiply(quantity)
+price.multiply(BigDecimal.valueOf(quantity))
 subtotal.subtract(discount)
 amount.setScale(2, RoundingMode.HALF_UP)
 ```
 
-不要用 `==` 比较 `BigDecimal`。
+不要用 `==` 比较 BigDecimal。只比较数值是否相等可用 a.compareTo(b) == 0；equals 还比较小数位，1.0 和 1.00 的 equals 为 false。quantity 是 int 时，先转换成 BigDecimal 再 multiply。
 
 ---
 

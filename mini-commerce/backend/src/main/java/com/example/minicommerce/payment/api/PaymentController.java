@@ -11,11 +11,11 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 支付模块的HTTP/API 适配层：{@code PaymentController}。
+ * 接收付款、全额退款和模拟支付回调请求。
  *
- * <p><strong>作用：</strong>负责路由、请求参数、校验、认证主体和 HTTP 响应转换，不承载核心业务规则。
+ * <p><strong>作用：</strong>接收付款、全额退款和模拟支付回调请求。
  *
- * <p><strong>为什么：</strong>把 HTTP 细节留在系统边界，应用服务才能脱离 Web 框架测试和复用。
+ * <p><strong>为什么：</strong>用户付款需要 JWT；支付方回调使用 HMAC 签名而不是用户登录。两种身份来源不能混为一谈。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/03_Web常见攻击.md}、 {@code
  * 07_rabbitmq/04_幂等与Outbox.md}、 {@code 11_system_design/04_韧性_Timeout_Retry_Circuit.md}。

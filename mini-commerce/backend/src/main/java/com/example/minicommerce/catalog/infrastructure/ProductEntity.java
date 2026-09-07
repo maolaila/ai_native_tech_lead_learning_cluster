@@ -6,11 +6,11 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * 商品目录模块的基础设施适配层：{@code ProductEntity}。
+ * 保存商品的名称、SKU、价格、币种和上下架状态。
  *
- * <p><strong>作用：</strong>把数据库 products 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存商品的名称、SKU、价格、币种和上下架状态。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>这是商品的当前信息，历史成交信息另存在 OrderItemEntity。version 帮助发现并发更新；不会自动代替库存扣减规则。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
  * 06_redis/02_CacheAside_TTL与失效.md}。

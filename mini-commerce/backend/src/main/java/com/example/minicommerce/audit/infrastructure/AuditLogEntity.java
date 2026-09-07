@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 /**
- * 审计模块的基础设施适配层：{@code AuditLogEntity}。
+ * 保存一次业务操作的操作者、资源、前后摘要和关联编号。
  *
- * <p><strong>作用：</strong>把数据库 audit_log 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存一次业务操作的操作者、资源、前后摘要和关联编号。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>审计记录用于追查谁做过什么，不是任意内容的备份；不能把密码、Token 或完整支付数据塞进摘要。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/05_日志_配置与健康检查.md}、 {@code
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 10_observability/01_结构化日志与关联ID.md}。

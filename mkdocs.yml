@@ -11,10 +11,6 @@ markdown_extensions:
   - fenced_code
   - toc:
       permalink: true
-exclude_docs: |
-  FULL_BOOK.md
-  MANIFEST.md
-  00_原始学习路线.md
 nav:
   - "后端小白专用入口":
       - "正式学习说明与验收范围": "mini-commerce/docs/LEARNING-READINESS.md"

@@ -21,13 +21,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 商品目录模块的 HTTP/API 适配层。
+ * 商品 HTTP 入口：公开查询商品，管理员创建、修改和上架商品。
  *
- * <p><strong>作用：</strong>接收商品查询和管理请求，触发 DTO 校验，并把调用转交给 {@link ProductService}。Controller 不直接访问
- * Repository，也不决定缓存或上下架规则。
+ * <p><strong>作用：</strong>商品 HTTP 入口：公开查询商品，管理员创建、修改和上架商品。
  *
- * <p><strong>为什么这样分层：</strong>HTTP 路由、分页参数和状态码属于传输层；商品可售性、缓存失效和审计属于应用用例。 把两者分开后，业务可以脱离 Web
- * 容器测试，也不会因接口形式变化而污染持久化代码。
+ * <p><strong>为什么：</strong>这里只把请求交给 ProductService，不直接修改库存或数据库；公开查看与管理员修改的权限不同。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 06_redis/02_CacheAside_TTL与失效.md}。

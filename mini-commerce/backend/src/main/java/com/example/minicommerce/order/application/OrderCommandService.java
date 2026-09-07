@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 订单模块的应用用例编排层：{@code OrderCommandService}。
+ * 取消订单，并归还预留库存、释放尚未使用的优惠券。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>取消订单，并归还预留库存、释放尚未使用的优惠券。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>先锁单、查权限和未终结支付，再改变状态。重复取消不会重复归还；结果未知的支付不能直接按未付款取消。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
  * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。

@@ -331,4 +331,39 @@ class BusinessSafetyIT extends AbstractPostgresIT {
         assertThatThrownBy(() -> paymentFlow.pay(order.id(), actor, "support-pay", "success"))
                 .isInstanceOf(BusinessException.class);
     }
+
+    @Autowired com.example.minicommerce.cart.application.CartService carts;
+
+    @Test
+    void concurrentFirstCartPutCreatesOnlyOneCartAndOneLine() throws Exception {
+        try (var pool = java.util.concurrent.Executors.newFixedThreadPool(2)) {
+            var start = new java.util.concurrent.CountDownLatch(1);
+            java.util.concurrent.Callable<Long> put =
+                    () -> {
+                        start.await();
+                        return carts.put(buyer.id(), productId, 2).cartId();
+                    };
+            var first = pool.submit(put);
+            var second = pool.submit(put);
+            start.countDown();
+            assertThat(first.get(10, java.util.concurrent.TimeUnit.SECONDS))
+                    .isEqualTo(second.get(10, java.util.concurrent.TimeUnit.SECONDS));
+        }
+        assertThat(carts.get(buyer.id()).items()).hasSize(1);
+        assertThat(carts.get(buyer.id()).items().getFirst().quantity()).isEqualTo(2);
+        assertThat(
+                        jdbc.queryForObject(
+                                "select count(*) from carts where user_id=?",
+                                Integer.class,
+                                buyer.id()))
+                .isEqualTo(1);
+        assertThat(inventory.findById(productId).orElseThrow().getReserved()).isZero();
+    }
+
+    @Test
+    void invalidCartQuantityDoesNotCreateAnyRecord() {
+        assertThatThrownBy(() -> carts.put(buyer.id(), productId, 0))
+                .isInstanceOf(BusinessException.class);
+        assertThat(carts.get(buyer.id()).items()).isEmpty();
+    }
 }

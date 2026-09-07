@@ -7,12 +7,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * 支付模块的基础设施适配层：{@code PaymentAttemptEntity}。
+ * 保存一次支付尝试的金额、状态、幂等键和支付方流水号。
  *
- * <p><strong>作用：</strong>把数据库 payment_attempts 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ
- * 通信。
+ * <p><strong>作用：</strong>保存一次支付尝试的金额、状态、幂等键和支付方流水号。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>UNKNOWN 代表结果还不知道，不能当作明确拒付。订单与支付分开记录，方便重试和核对。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/03_Web常见攻击.md}、 {@code
  * 07_rabbitmq/04_幂等与Outbox.md}、 {@code 11_system_design/04_韧性_Timeout_Retry_Circuit.md}。

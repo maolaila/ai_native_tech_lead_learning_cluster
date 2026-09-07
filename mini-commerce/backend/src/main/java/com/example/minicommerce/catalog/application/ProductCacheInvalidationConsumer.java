@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 商品目录模块的应用用例编排层：{@code ProductCacheInvalidationConsumer}。
+ * 收到商品变更事件后，删除对应商品的 Redis 展示缓存。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>收到商品变更事件后，删除对应商品的 Redis 展示缓存。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>下一次查询再加载数据库新值。重复删同一个缓存键无害，但删除失败不能声称已经获得强一致性。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/03_DTO_Entity_Domain与映射.md}、 {@code
  * 06_redis/02_CacheAside_TTL与失效.md}。

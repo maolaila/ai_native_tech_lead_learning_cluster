@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
- * 优惠券模块的基础设施适配层：{@code CouponEntity}。
+ * 保存优惠券模板：券码、折扣方式、最低消费、封顶金额和有效期。
  *
- * <p><strong>作用：</strong>把数据库 coupons 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存优惠券模板：券码、折扣方式、最低消费、封顶金额和有效期。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>一张模板可发给不同用户；哪个用户已经占用或使用，由 UserCouponEntity 记录。
  *
  * <p><strong>对应文档：</strong> {@code 03_testing/02_测试用例设计.md}、 {@code
  * 04_database_postgresql/02_约束_范式与数据建模.md}。

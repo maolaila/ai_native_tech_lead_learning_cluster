@@ -8,6 +8,8 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+from java_source_scan import annotations
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JAVA_ROOT = REPO_ROOT / "mini-commerce/backend/src"
 MARKDOWN_OUTPUT = (
@@ -23,14 +25,8 @@ def scan() -> dict[str, list[dict[str, object]]]:
     for path in sorted(JAVA_ROOT.rglob("*.java")):
         relative = path.relative_to(REPO_ROOT).as_posix()
         text = path.read_text(encoding="utf-8")
-        for line_number, line in enumerate(text.splitlines(), start=1):
-            for match in ANNOTATION_PATTERN.finditer(line):
-                usages[match.group(1)].append(
-                    {
-                        "path": relative,
-                        "line": line_number,
-                    }
-                )
+        for name, line_number in annotations(text):
+            usages[name].append({"path": relative, "line": line_number})
     return dict(sorted(usages.items()))
 
 
@@ -44,7 +40,7 @@ def render(usages: dict[str, list[dict[str, object]]]) -> str:
     lines = [
         "# Java 注解使用位置索引",
         "",
-        "> 本文件由 `tools/generate_annotation_usage_index.py` 自动生成。",
+        "> 本文件由 `tools/generate_annotation_usage_index.py` 自动生成，仅统计代码中的注解，不统计注释和字符串提及。",
         "> 注解作用的通俗解释见 [`SPRING-JAVA-ANNOTATIONS.md`](../SPRING-JAVA-ANNOTATIONS.md)。",
         "",
         f"- 注解种类：{len(usages)}",

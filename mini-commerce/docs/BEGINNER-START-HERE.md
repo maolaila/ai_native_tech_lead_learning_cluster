@@ -9,11 +9,14 @@
 → Controller 接住请求
 → Service 执行业务规则
 → Repository 读写数据库
-→ Redis 加速部分读取
-→ RabbitMQ 处理异步任务
-→ 测试证明规则没有被破坏
-→ 日志、指标和链路帮助排错
+→ 返回 HTTP 响应
 ```
+
+上面是一次普通请求的主线，不是所有组件排成的一条流水线。
+
+Redis 只参与某些缓存或限流操作；RabbitMQ 的消费者通常在另一个时间处理消息。
+测试是开发者在验证项目时运行的程序，不是每个用户请求都会经过的业务步骤。
+日志、指标和链路则在程序运行过程中记录线索，帮助排错。
 
 ## 一、先记住四句话
 
@@ -86,7 +89,7 @@ CreateOrderService
 ```text
 api/             HTTP 请求入口、请求参数、响应结构
 application/     一个完整业务用例的执行顺序
-domain/         业务状态、业务动作和不能被破坏的规则
+domain/          业务状态、业务动作和不能被破坏的规则
 infrastructure/  数据库、Redis、RabbitMQ、外部服务等技术实现
 config/          Spring、消息队列和安全等集中配置
 test/            自动验证业务规则
@@ -183,7 +186,9 @@ public OrderResponse create(...) {
 
 大白话：
 
-> `@Transactional` 告诉 Spring：“这个方法里的数据库修改作为一个整体提交；未捕获的运行时异常会触发默认回滚，受检异常需显式设置回滚规则。”
+> `@Transactional` 告诉 Spring：“把参与同一数据库事务的修改放在一起处理。默认遇到没有被吞掉的运行时异常或 Error，会一起撤销；受检异常要另外声明回滚规则。”
+
+这里的前提是调用真正经过 Spring 的事务代理。“代理”可以先理解成包在业务对象外面的事务助手；你自己 new 一个对象或在同一对象内部调用，不会自动增加这一层帮助。事务也不能撤销已发送的外部 HTTP 请求。
 
 完整说明见：[Spring 与 Java 注解小白词典](SPRING-JAVA-ANNOTATIONS.md)。
 

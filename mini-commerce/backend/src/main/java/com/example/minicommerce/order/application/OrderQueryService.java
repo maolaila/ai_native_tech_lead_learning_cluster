@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 订单模块的应用用例编排层：{@code OrderQueryService}。
+ * 查订单、组装明细，并判断当前用户能否读取或修改该订单。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>查订单、组装明细，并判断当前用户能否读取或修改该订单。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>“能查别人的订单”和“能修改别人的订单”是两种权限；客服读权限不能直接复用成写权限。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
  * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。

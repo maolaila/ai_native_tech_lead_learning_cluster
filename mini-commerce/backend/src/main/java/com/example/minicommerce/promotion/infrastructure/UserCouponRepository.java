@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 /**
- * 优惠券模块的基础设施适配层：{@code UserCouponRepository}。
+ * 查找发给某个用户的某张优惠券，并可锁住这条领券记录。
  *
- * <p><strong>作用：</strong>声明数据库查询或更新能力，由 Spring Data 创建实现；它不负责 Redis、RabbitMQ，也不决定整个业务流程。
+ * <p><strong>作用：</strong>查找发给某个用户的某张优惠券，并可锁住这条领券记录。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>优惠券模板和个人领取记录不同；锁住个人记录，是为了避免两张订单同时占用同一张券。
  *
  * <p><strong>对应文档：</strong> {@code 03_testing/02_测试用例设计.md}、 {@code
  * 04_database_postgresql/02_约束_范式与数据建模.md}。

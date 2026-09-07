@@ -7,11 +7,11 @@ import java.util.HexFormat;
 import org.springframework.stereotype.Component;
 
 /**
- * 订单模块的应用用例编排层：{@code RequestFingerprint}。
+ * 把下单的关键内容转换成稳定的 SHA-256 请求指纹。
  *
- * <p><strong>作用：</strong>编排一个完整业务用例，协调领域规则、仓储、外部端口与事务边界。
+ * <p><strong>作用：</strong>把下单的关键内容转换成稳定的 SHA-256 请求指纹。
  *
- * <p><strong>为什么：</strong>事务应该围绕业务动作，而不是分散在 Controller 或每个 Repository 中。
+ * <p><strong>为什么：</strong>先合并和排序商品，再算指纹；仅改变商品输入顺序不应被误判为另一种业务请求。哈希不是对请求内容加密。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
  * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。

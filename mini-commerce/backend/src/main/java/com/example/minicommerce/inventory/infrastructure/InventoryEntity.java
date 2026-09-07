@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 /**
- * 库存模块的基础设施适配层：{@code InventoryEntity}。
+ * 保存一种商品的可售数量 available 和已预留数量 reserved。
  *
- * <p><strong>作用：</strong>把数据库 inventory 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存一种商品的可售数量 available 和已预留数量 reserved。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>下单时从可售转到预留，付款时只减少预留。管理员调整 available 不是调整总仓库数量，不能把已预留部分也算进去。
  *
  * <p><strong>对应文档：</strong> {@code 04_database_postgresql/04_事务与Spring边界.md}、 {@code
  * 04_database_postgresql/05_并发_锁与库存超卖.md}、 {@code 04_database_postgresql/06_隔离_MVCC与死锁.md}。

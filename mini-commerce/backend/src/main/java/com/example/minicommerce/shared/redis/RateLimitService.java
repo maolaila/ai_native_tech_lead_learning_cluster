@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 /**
- * Lua 将 INCR 与首次设置过期时间作为一个原子操作，避免并发下窗口永不过期。 Redis 故障策略由调用方区分：登录可保守拒绝，普通读接口可受控 Fail Open。
+ * Lua 将 INCR 与首次设置过期时间作为一个原子操作，避免并发下窗口永不过期。 Redis 故障时，当前登录入口拒绝继续；下单入口放行，但仍依赖数据库幂等和库存保护。这不是全站限流。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。

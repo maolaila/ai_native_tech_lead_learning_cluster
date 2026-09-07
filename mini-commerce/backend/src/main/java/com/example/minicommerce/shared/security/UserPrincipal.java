@@ -8,11 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * 共享技术基础模块的安全边界层：{@code UserPrincipal}。
+ * 把已确认的用户 ID、邮箱和角色交给 Spring Security。
  *
- * <p><strong>作用：</strong>负责认证凭证解析、授权和安全策略，不把前端显示状态当成权限控制。
+ * <p><strong>作用：</strong>把已确认的用户 ID、邮箱和角色交给 Spring Security。
  *
- * <p><strong>为什么：</strong>安全必须在服务端默认拒绝，并通过角色、权限和对象所有权共同判断。
+ * <p><strong>为什么：</strong>它是当前请求的身份说明，不是数据库实体。getAuthorities 把角色转换成权限系统使用的 ROLE_ 前缀格式。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/01_请求生命周期与IoC_DI.md}、 {@code
  * 02_backend_spring/04_API设计_校验_异常与错误码.md}、 {@code 11_system_design/02_模块化单体与边界.md}。

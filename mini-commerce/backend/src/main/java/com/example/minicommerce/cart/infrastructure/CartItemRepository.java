@@ -4,11 +4,11 @@ import java.util.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * 购物车模块的基础设施适配层：{@code CartItemRepository}。
+ * 查询、保存或删除某个购物车中的商品明细。
  *
- * <p><strong>作用：</strong>声明数据库查询或更新能力，由 Spring Data 创建实现；它不负责 Redis、RabbitMQ，也不决定整个业务流程。
+ * <p><strong>作用：</strong>查询、保存或删除某个购物车中的商品明细。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>查询必须带 cartId，不能只拿 productId 找明细，否则可能碰到其他用户的购物车。
  *
  * <p><strong>对应文档：</strong> {@code 00_start/02_长期项目_Mini_Commerce.md}、 {@code
  * 02_backend_spring/02_Controller_Service_Repository分层.md}、 {@code

@@ -5,11 +5,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * 身份与权限模块的基础设施适配层：{@code RefreshTokenRepository}。
+ * 查找用于换取新登录凭证的刷新令牌记录。
  *
- * <p><strong>作用：</strong>声明数据库查询或更新能力，由 Spring Data 创建实现；它不负责 Redis、RabbitMQ，也不决定整个业务流程。
+ * <p><strong>作用：</strong>查找用于换取新登录凭证的刷新令牌记录。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>按 tokenHash 查找时加数据库写锁，让两个同时刷新同一令牌的请求排队；第一个撤销旧令牌后，第二个就不能再次使用它。
  *
  * <p><strong>对应文档：</strong> {@code 05_auth_security/01_Session_Cookie_Token.md}、 {@code
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 05_auth_security/03_Web常见攻击.md}。

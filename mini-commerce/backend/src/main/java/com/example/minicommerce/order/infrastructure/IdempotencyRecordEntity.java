@@ -5,12 +5,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * 订单模块的基础设施适配层：{@code IdempotencyRecordEntity}。
+ * 保存下单幂等键、请求指纹、处理状态和最终订单 ID。
  *
- * <p><strong>作用：</strong>把数据库 idempotency_records 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或
- * RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存下单幂等键、请求指纹、处理状态和最终订单 ID。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>相同键重试复用原订单；相同键却更换商品必须拒绝。expiresAt 只是数据字段，当前没有自动清理或到期复用任务。
  *
  * <p><strong>对应文档：</strong> {@code 02_backend_spring/06_订单模块案例.md}、 {@code
  * 04_database_postgresql/04_事务与Spring边界.md}、 {@code 07_rabbitmq/04_幂等与Outbox.md}。

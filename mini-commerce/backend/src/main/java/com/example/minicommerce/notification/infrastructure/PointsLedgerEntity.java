@@ -5,11 +5,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * 通知模块的基础设施适配层：{@code PointsLedgerEntity}。
+ * 保存一笔订单付款后增加的积分明细。
  *
- * <p><strong>作用：</strong>把数据库 points_ledger 表的一条记录映射成 Java 对象，并保存本实体的状态。这个类不负责 Redis 或 RabbitMQ 通信。
+ * <p><strong>作用：</strong>保存一笔订单付款后增加的积分明细。
  *
- * <p><strong>为什么：</strong>数据库表和框架会变化；隔离适配器可以避免这些变化扩散到业务规则和 API 契约。
+ * <p><strong>为什么：</strong>orderId 与 reason 的组合只能出现一次，作为重复消费的第二道防线。points 使用 long；当前退款流程还没有冲回积分。
  *
  * <p><strong>对应文档：</strong> {@code 07_rabbitmq/01_同步异步与事件边界.md}、 {@code
  * 07_rabbitmq/04_幂等与Outbox.md}。
