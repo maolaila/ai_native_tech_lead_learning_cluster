@@ -366,4 +366,40 @@ class BusinessSafetyIT extends AbstractPostgresIT {
                 .isInstanceOf(BusinessException.class);
         assertThat(carts.get(buyer.id()).items()).isEmpty();
     }
+
+    @Autowired io.micrometer.core.instrument.MeterRegistry meters;
+    @Autowired org.springframework.transaction.PlatformTransactionManager transactionManager;
+
+    /** 只在真正提交后记一次；重复请求、回滚都不能多算订单。 */
+    @Test
+    void creationCounterReflectsCommitRatherThanMethodReturn() {
+        var counter = meters.counter(CreateOrderService.CREATION_METRIC);
+        double before = counter.count();
+        create("metric-replay");
+        create("metric-replay");
+        assertThat(counter.count()).isEqualTo(before + 1);
+        new org.springframework.transaction.support.TransactionTemplate(transactionManager)
+                .executeWithoutResult(
+                        status -> {
+                            create("metric-rollback");
+                            status.setRollbackOnly();
+                        });
+        assertThat(counter.count()).isEqualTo(before + 1);
+        assertThat(
+                        jdbc.queryForObject(
+                                "select count(*) from idempotency_records where user_id=? and idempotency_key=?",
+                                Integer.class,
+                                buyer.id(),
+                                "metric-rollback"))
+                .isZero();
+    }
+
+    /** 仪表盘依赖这个配置，不能只验证仪表盘 JSON 合法。 */
+    @Test
+    void histogramRequiredByP95DashboardIsEnabled() {
+        assertThat(
+                        environment.getProperty(
+                                "management.metrics.distribution.percentiles-histogram.http.server.requests"))
+                .isEqualTo("true");
+    }
 }

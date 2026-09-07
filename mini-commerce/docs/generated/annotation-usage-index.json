@@ -97,6 +97,14 @@
       "line": 335
     },
     {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java",
+      "line": 370
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java",
+      "line": 371
+    },
+    {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java",
       "line": 37
     },
@@ -2233,6 +2241,14 @@
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java",
       "line": 363
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java",
+      "line": 374
+    },
+    {
+      "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java",
+      "line": 398
     },
     {
       "path": "mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java",

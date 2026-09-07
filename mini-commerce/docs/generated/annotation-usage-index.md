@@ -4,7 +4,7 @@
 > 注解作用的通俗解释见 [`SPRING-JAVA-ANNOTATIONS.md`](../SPRING-JAVA-ANNOTATIONS.md)。
 
 - 注解种类：73
-- 注解出现次数：616
+- 注解出现次数：620
 
 ## 使用方法
 
@@ -40,7 +40,7 @@
 
 ## `@Autowired`
 
-出现 36 次。
+出现 38 次。
 
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L37)：首次出现在第 37 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java`](../../backend/src/test/java/com/example/minicommerce/LearningReadinessIT.java#L37)：首次出现在第 37 行
@@ -585,7 +585,7 @@
 
 ## `@Test`
 
-出现 38 次。
+出现 40 次。
 
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java`](../../backend/src/test/java/com/example/minicommerce/BusinessSafetyIT.java#L88)：首次出现在第 88 行
 - [`mini-commerce/backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java`](../../backend/src/test/java/com/example/minicommerce/InfrastructureReadinessTest.java#L41)：首次出现在第 41 行

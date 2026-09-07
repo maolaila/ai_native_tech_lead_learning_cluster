@@ -1,3 +1,8 @@
+# 作用：把同一个商城需要的数据库、缓存、消息队列和应用一起启动。
+# 为什么：容器之间使用下面的服务名连接；你的电脑访问的是 ports 左侧端口。
+# 对应文档：08_runtime_deployment/02_Compose_Network_Volume_Health.md、mini-commerce/docs/LEARNING-READINESS.md。
+# profiles 是可选分组：app 启动后端和 MCP，observability 启动监控。
+# volumes 保存持久数据；down 不删数据，down -v 会删数据，学习时不要随手加 -v。
 name: mini-commerce
 services:
   postgres:

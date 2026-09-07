@@ -77,6 +77,11 @@ app:
     poll-delay: 500ms
 
 management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        # P95 图用的是直方图桶；不启用此项，图表公式存在但没有数据可算。
+        http.server.requests: true
   endpoints:
     web:
       exposure:

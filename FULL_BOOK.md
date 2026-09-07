@@ -3649,6 +3649,34 @@ requestId 是入口关联号；traceId 由链路框架管理，两者不能用�
 
 今天能不看源码讲清楚“请求 → 业务流程 → 条件库存更新 → 数据库事务”，就可以停止。退款、消息租约、MCP 和云不是第一天的要求。
 
+## 10. 手动实验不要被占位符绊住
+
+打开 [HTTP 请求集](mini-commerce/api/mini-commerce.http)，只执行第一组，先不要点“运行全部”。
+带 `paste-` 的文字必须换成前一个请求实际返回的值；它不是系统中的默认数据。
+首次下单示例不带优惠券，这样不会因为 Alice 的券已使用而卡住。优惠券计算另见本页第 4 节。
+
+`200` 表示操作有正常响应，`201` 表示创建成功，`204` 表示成功但没有响应体。
+`400` 先检查格式和参数，`401` 先重新登录，`403` 检查当前用户的权限，`409` 阅读响应中的 code 和 detail。
+这些预期的业务拒绝不是服务器崩溃；不要直接把所有失败都改成返回 200。
+
+第一次下单后请查看数据库，而不是只相信成功 JSON。在 mini-commerce 目录运行（默认数据库名/账号）：
+
+```bash
+docker compose exec postgres psql -U commerce_app -d commerce
+```
+
+进入后执行：
+
+```sql
+SELECT id, order_number, status, total_amount, currency
+FROM orders ORDER BY created_at DESC LIMIT 5;
+SELECT product_id, available, reserved FROM inventory ORDER BY product_id;
+SELECT status, count(*) FROM outbox_events GROUP BY status;
+```
+
+输入 `\q` 返回普通终端。上面都是查询语句，不会改数据。索引和锁实验晚些再做。
+仓库根目录的 tools/scaffold 与历史 apply/finalize 脚本是早期制作材料，不是另一套要学习的商城；不要运行它们覆盖当前源码。
+
 ---
 
 <!-- source: mini-commerce/docs/BEGINNER-START-HERE.md -->

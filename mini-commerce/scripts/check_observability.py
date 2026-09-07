@@ -45,6 +45,12 @@ def main() -> None:
     if not samples or not any(float(line.split()[1]) >= 1 for line in samples):
         raise AssertionError("后端没有导出正数的订单计数；先运行 Smoke，并核对指标名称")
 
+    if not any(
+        line.startswith("http_server_requests_seconds_bucket{")
+        for line in text.splitlines()
+    ):
+        raise AssertionError("后端没有 HTTP 直方图桶，Grafana 的 P95 图将没有数据")
+
     # up=1 只证明抓取成功；还要查业务计数，避免网页可打开但业务指标为空。
     last = None
     for _ in range(30):
@@ -69,6 +75,7 @@ def main() -> None:
                     "prometheusJob": "mini-commerce",
                     "checks": [
                         "backend-exporter",
+                        "http-histogram-buckets",
                         "prometheus-up",
                         "prometheus-order-counter",
                     ],

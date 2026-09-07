@@ -1,34 +1,126 @@
-@base = http://localhost:18080
-@access = paste-access-token
+# Mini Commerce 手动学习请求集：在 IDE 的 HTTP Client 中一次只执行一个 ### 请求。
+# 对应文档：mini-commerce/docs/LEARNING-READINESS.md 第 2～5、10 节；
+# mini-commerce/docs/REQUEST-TO-DATABASE-WALKTHROUGH.md；02_backend_spring/06_订单模块案例.md。
+# 没有 HTTP Client 时，先运行 scripts/smoke.py；它使用同一组业务 API，不需要另学前端。
+# 禁止“运行全部”：下单、支付、取消、退款都是修改数据的操作。
+# 这里的密码仅供本地 local Profile；不要向生产环境发送这些请求。
 
-### 登录（本地 Alice）
+@base = http://127.0.0.1:18080
+# 源码方式启动后端时，改为 http://127.0.0.1:8080；不要改成数据库的端口。
+@access = paste-accessToken-from-login
+# 登录响应的 accessToken 完整复制到上一行。Bearer 是固定前缀，不是令牌的一部分。
+@productId = paste-product-id-from-list
+# 商品 ID 是数字；订单、支付 ID 是 UUID 字符串。它们不是同一个编号。
+@orderId = paste-id-from-create-order
+@paymentId = paste-paymentId-from-pay
+# 同一次操作因为网络问题重试，要保留原 Key 和原请求内容。
+# 想新增另一笔真实订单时，手动把下面的后缀一起改成新的值，例如 002。
+@orderKey = study-order-001
+@paymentKey = study-payment-001
+@refundKey = study-refund-001
+
+### A1. 登录 Alice：预期 200；复制 accessToken 到顶部 access
 POST {{base}}/api/auth/login
 Content-Type: application/json
 
-{"email":"alice@example.com","password":"Password123!"}
+{
+  "email": "alice@example.com",
+  "password": "Password123!"
+}
 
-### 商品列表
+### A2. 查询已上架商品：预期 200；从响应 content 数组复制一个商品的 id
+# 新数据库有演示商品；不要假设 id 永远是 1。记住选中的名称、price、currency。
 GET {{base}}/api/products?page=0&size=20
 
-### 加入购物车
-PUT {{base}}/api/cart/items/1
+### A3. 放入购物车：quantity=1 表示“设为一件”，不是“再加一件”
+PUT {{base}}/api/cart/items/{{productId}}
 Authorization: Bearer {{access}}
 Content-Type: application/json
 
-{"quantity":1}
+{
+  "quantity": 1
+}
 
-### 创建订单：价格由服务端计算；重复请求应使用同一 Key
+### A4. 查询自己的购物车：预期 200；购物车此时不会占用库存
+GET {{base}}/api/cart
+Authorization: Bearer {{access}}
+
+### A5. 创建订单：预期 201；复制响应 id 到 orderId
+# 请求只报商品和数量，不能提交自己计算的总价；第一次不使用优惠券。
+# 这里显式提交 items，不是自动读取购物车。当前工程下单成功也不会自动清空购物车。
+# 重复执行本请求（同 Key、同内容）应返回同一个订单 id，不能重复预留库存。
+# 改了数量却继续使用原 Key，会返回 409 幂等冲突；这是预期保护，不是系统崩溃。
 POST {{base}}/api/orders
 Authorization: Bearer {{access}}
-Idempotency-Key: order-demo-001
+Idempotency-Key: {{orderKey}}
 Content-Type: application/json
 
-{"items":[{"productId":1,"quantity":1}],"couponCode":"WELCOME10"}
+{
+  "items": [
+    {
+      "productId": {{productId}},
+      "quantity": 1
+    }
+  ]
+}
 
-### 模拟支付。paymentToken=decline/unknown 可制造失败
-POST {{base}}/api/payments/orders/paste-order-uuid
+### A6. 再查一次订单：预期 200，status=PENDING_PAYMENT
+# 以真实查询结果和数据库为准，不只相信上一步创建接口的 JSON。
+# 若此订单早就付过款，同 Key 重放返回的是旧订单；不是又生成了一笔待付订单。
+GET {{base}}/api/orders/{{orderId}}
 Authorization: Bearer {{access}}
-Idempotency-Key: payment-demo-001
+
+### A7. 模拟支付：预期 200，status=SUCCEEDED；复制 paymentId 到顶部
+# success 只是本地模拟器的控制词，不是真实支付凭证，不会扣你的钱。
+# 同 Key 重试只读取原处理结果。学习 decline/unknown/timeout 时必须另建新订单。
+POST {{base}}/api/payments/orders/{{orderId}}
+Authorization: Bearer {{access}}
+Idempotency-Key: {{paymentKey}}
 Content-Type: application/json
 
-{"paymentToken":"success"}
+{
+  "paymentToken": "success"
+}
+
+### A8. 支付后重新查询订单：预期 status=PAID
+GET {{base}}/api/orders/{{orderId}}
+Authorization: Bearer {{access}}
+
+### A9. 查询站内通知：预期 200；等待几秒再查，应出现与这笔订单有关的通知
+# 通知由 RabbitMQ 的异步消费者写入，不保证支付响应返回的那一刻就已存在。
+GET {{base}}/api/notifications
+Authorization: Bearer {{access}}
+
+# 第一组到这里结束。写三句话：哪一步查数据库，哪一步预留库存，哪一步发消息。
+# 第二组是可选实验；不要为了“把文件都运行完”而继续操作。
+
+### B1. 付款后、履约前的全额模拟退款：预期 200，status=SUCCEEDED
+# 只对上面的已付款订单操作。重复同 Key 不会重复退款；不包含退货/部分退款/积分冲正。
+POST {{base}}/api/payments/{{paymentId}}/refunds
+Authorization: Bearer {{access}}
+Idempotency-Key: {{refundKey}}
+
+### B2. 退款后重新查询订单：预期 status=REFUNDED
+GET {{base}}/api/orders/{{orderId}}
+Authorization: Bearer {{access}}
+
+### B3. 从购物车删除这件商品：预期 204，没有 JSON 响应体
+# 这不会撤销已经生成的订单；订单与购物车是不同的业务记录。
+# 再次删除可能返回 404，但“商品已经不在购物车”这个最终状态仍然相同。
+DELETE {{base}}/api/cart/items/{{productId}}
+Authorization: Bearer {{access}}
+
+# C 组：取消实验。先把 orderKey 改成一个新值，再执行 A5，更新 orderId；不要执行 A7。
+### C1. 取消未付款的新订单：预期 200，status=CANCELLED
+# 不要对 PAID、REFUNDED 或支付 UNKNOWN 的订单执行并期待成功。
+POST {{base}}/api/orders/{{orderId}}/cancellation
+Authorization: Bearer {{access}}
+
+### C2. 再查询：预期 CANCELLED；重复取消不能把库存归还两次
+GET {{base}}/api/orders/{{orderId}}
+Authorization: Bearer {{access}}
+
+# 错误先看 HTTP 状态码及响应的 code/detail：
+# 400：变量未替换、UUID 格式错、缺少头/字段；401：accessToken 未填写或过期；
+# 403：当前身份无权；404：记录不存在；409：库存/状态/幂等冲突；
+# 429：请求过快；503：依赖不可用或系统繁忙。不要通过删除校验来“修好”这些保护。

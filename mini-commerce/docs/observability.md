@@ -30,3 +30,13 @@ sum(rate(commerce_orders_creation_total[5m]))
 ```
 
 官方核对：[Micrometer 1.13 指标后缀迁移说明](https://github.com/micrometer-metrics/micrometer/wiki/1.13-Migration-Guide#invalid-meter-suffixes)。本页已给出当前工程需要的用法，不必现在离开仓库阅读。
+
+
+### P95、Counter 和告警分别在说什么
+
+P95 可以先理解为“这一段时间里，大约 95% 的请求比它快”。它不是平均值，直方图算出的值是估计值。
+本项目已打开 `http.server.requests` 的直方图桶。先调用几个接口，等至少两次抓取后再看 Grafana；刚启动时空图不等于程序坏了。
+
+Counter 是“从这次进程启动以来累计发生多少次”。看失败趋势通常用 rate/increase，不直接用累计值永久报警。
+错误率等于失败请求速率除以全部请求速率，不能为了避免除零把分母随意改成 1。完全没有请求时，比例没有意义。
+Outbox 发布失败告警不是“待发消息积压量”的监测；要监测积压，应另外统计未发布记录数及最老事件等待时间。

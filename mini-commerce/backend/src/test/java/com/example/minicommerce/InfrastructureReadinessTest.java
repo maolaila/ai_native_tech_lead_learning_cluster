@@ -158,14 +158,18 @@ class InfrastructureReadinessTest {
     /** 使用真实 Prometheus 导出器，不能用 SimpleMeterRegistry 代替命名验证。 */
     @Test
     void orderCounterExportsTheNameUsedByTheRuntimeProbe() {
-        try (var registry =
+        // 本版本 MeterRegistry 有 close()，但没有实现 AutoCloseable，不能放进 try(...)。
+        var registry =
                 new io.micrometer.prometheusmetrics.PrometheusMeterRegistry(
-                        io.micrometer.prometheusmetrics.PrometheusConfig.DEFAULT)) {
+                        io.micrometer.prometheusmetrics.PrometheusConfig.DEFAULT);
+        try {
             registry.counter(
                             com.example.minicommerce.order.application.CreateOrderService
                                     .CREATION_METRIC)
                     .increment();
             assertThat(registry.scrape()).contains("commerce_orders_creation_total 1.0");
+        } finally {
+            registry.close();
         }
     }
 }
