@@ -1,0 +1,11 @@
+# 本地环境、缓存和生成日志不得进入学习资料或发布站点。
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+_site/
+*.tfstate
+*.tfstate.*

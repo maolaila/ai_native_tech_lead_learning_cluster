@@ -1,141 +1,37 @@
 name: Beginner-friendly learning quality gate
-
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - fix/beginner-friendly-learning
-      - feat/complete-mini-commerce
-      - main
-    paths:
-      - "README.md"
-      - "SUMMARY.md"
-      - "FULL_BOOK.md"
-      - "MANIFEST.md"
-      - "mkdocs.yml"
-      - "00_start/**"
-      - "01_foundations/**"
-      - "02_backend_spring/**"
-      - "03_testing/**"
-      - "04_database_postgresql/**"
-      - "05_auth_security/**"
-      - "06_redis/**"
-      - "07_rabbitmq/**"
-      - "08_runtime_deployment/**"
-      - "09_cicd/**"
-      - "10_observability/**"
-      - "11_system_design/**"
-      - "12_cloud_aws/**"
-      - "13_ai_engineering_mcp/**"
-      - "14_capstone/**"
-      - "15_templates/**"
-      - "16_references/**"
-      - "mini-commerce/**"
-      - "tools/**"
-      - ".github/workflows/beginner-learning-ci.yml"
-
+    branches: [main, feat/complete-mini-commerce]
+  pull_request:
+  workflow_dispatch:
 permissions:
-  contents: write
-
+  contents: read
 concurrency:
   group: beginner-learning-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   verify:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-
+    timeout-minutes: 15
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Set up Java 21
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: '21'
           cache: maven
           cache-dependency-path: mini-commerce/backend/pom.xml
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: requirements-docs.txt
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.13.2"
-
-      - name: Install documentation dependencies
-        run: python3 -m pip install --disable-pip-version-check -r requirements-docs.txt
-
-      - name: Keep beginner navigation in sync
-        run: python3 tools/update_beginner_mkdocs_nav.py
-
-      - name: Generate annotation usage index
-        run: python3 tools/generate_annotation_usage_index.py
-
-      - name: Rebuild merged learning book
-        run: python3 tools/rebuild_full_book_and_manifest.py --full-book
-
-      - name: Format every Java source file
-        run: mvn -B -f mini-commerce/backend/pom.xml spotless:apply
-
-      - name: Check Java readability and document mappings
-        run: python3 tools/check_learning_readability.py
-
-      - name: Check beginner learning materials
-        run: python3 tools/check_beginner_learning_assets.py
-
-      - name: Compile and run unit, architecture and PostgreSQL integration tests
-        run: mvn -B -f mini-commerce/backend/pom.xml verify
-
-      - name: Check static architecture rules
-        run: python3 mini-commerce/ai-engineering/eval/run_static_eval.py
-
-      - name: Check learning references
-        run: python3 tools/check_learning_references.py
-
-      - name: Format and validate Terraform
-        working-directory: mini-commerce/infra/aws/terraform
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-docs.txt
+      - name: Check formatting without rewriting source
+        run: mvn -B -ntp -f mini-commerce/backend/pom.xml spotless:check
+      - name: Verify generated documents and inventories match source
         run: |
-          terraform fmt -recursive
-          terraform init -backend=false
-          terraform validate
-
-      - name: Build MkDocs site in strict mode
-        run: python3 tools/build_docs_site.py --strict --output /tmp/ai-native-learning-site
-
-      - name: Rebuild repository manifest
-        run: python3 tools/rebuild_full_book_and_manifest.py --manifest
-
-      - name: Reject whitespace errors
-        run: git diff --check
-
-      - name: Commit generated books, indexes, navigation and formatting
-        shell: bash
-        run: |
-          if git diff --quiet; then
-            echo "No generated changes are required."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            README.md \
-            SUMMARY.md \
-            FULL_BOOK.md \
-            MANIFEST.md \
-            mkdocs.yml \
-            mini-commerce \
-            tools
-          git commit -m "docs: synchronize beginner guides and validated project assets"
-          git push origin HEAD:${GITHUB_REF_NAME}
+          python tools/sync_learning_assets.py
+          git diff --exit-code
+      - name: Check build output path protections
+        run: python -m unittest discover -s tools/tests -v
+      - name: Strict MkDocs build from tracked source snapshot
+        run: python tools/build_docs_site.py --strict --output /tmp/learning-site

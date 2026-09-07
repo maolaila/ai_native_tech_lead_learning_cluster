@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-"""使用临时 MkDocs 配置构建或预览整仓库文档。
-
-原知识库的 Markdown 分散在仓库根目录多个模块中，因此 docs_dir 需要指向仓库根目录。
-MkDocs 1.6 不允许配置文件本身位于 docs_dir 中，也不允许 site_dir 位于 docs_dir 内。
-本脚本把运行时配置放到系统临时目录，并把站点输出到仓库外部，避免复制自身。
-"""
-
+"""把 Git 跟踪的文档和源码复制到隔离快照构建；不公开未跟踪日志与 .env。"""
 from __future__ import annotations
-
 import argparse
+import json
 import re
+import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -19,85 +15,70 @@ SOURCE_CONFIG = REPO_ROOT / "mkdocs.yml"
 DEFAULT_OUTPUT = REPO_ROOT.parent / f"{REPO_ROOT.name}-site"
 
 
-def runtime_config(output: Path) -> str:
-    text = SOURCE_CONFIG.read_text(encoding="utf-8")
-    docs_dir = REPO_ROOT.resolve().as_posix()
-    site_dir = output.resolve().as_posix()
+def validate_output(output: Path, repo: Path = REPO_ROOT) -> Path:
+    output, repo = output.resolve(), repo.resolve()
+    if output == Path(output.anchor) or output == repo or output in repo.parents or repo in output.parents:
+        raise ValueError("输出不能是文件系统根、仓库、仓库祖先或仓库内部目录")
+    marker = output.parent / (output.name + ".learning-site-owner")
+    if output.exists() and (not output.is_dir() or any(output.iterdir())):
+        if not marker.is_file() or marker.read_text(encoding="utf-8") != str(repo):
+            raise ValueError("拒绝清理非本工具拥有的非空目录；请使用新的 --output 路径，不要删除未知文件")
+    return marker
 
-    text, docs_count = re.subn(
-        r"(?m)^docs_dir:\s*.*$",
-        f'docs_dir: "{docs_dir}"',
-        text,
-        count=1,
-    )
-    text, site_count = re.subn(
-        r"(?m)^site_dir:\s*.*$",
-        f'site_dir: "{site_dir}"',
-        text,
-        count=1,
-    )
-    if docs_count != 1 or site_count != 1:
-        raise SystemExit("mkdocs.yml 必须各包含一行 docs_dir 和 site_dir")
+
+def snapshot(destination: Path) -> None:
+    tracked = subprocess.check_output(["git", "ls-files", "-z"], cwd=REPO_ROOT).decode("utf-8").split("\0")
+    for name in tracked:
+        if not name: continue
+        path = REPO_ROOT / name
+        if not path.is_file() or path.is_symlink(): continue
+        if path.name == ".env" or any(part in {".git", "target", "node_modules", "mcp-audit", "__pycache__", ".terraform"} for part in path.parts): continue
+        target = destination / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, target)
+
+
+def runtime_config(docs: Path, output: Path) -> str:
+    text = SOURCE_CONFIG.read_text(encoding="utf-8")
+    for name, path in (("docs_dir", docs), ("site_dir", output)):
+        text, count = re.subn(rf"(?m)^{name}:\s*.*$", lambda _: f"{name}: {json.dumps(str(path))}", text, count=1)
+        if count != 1: raise ValueError(f"mkdocs.yml 必须包含一行 {name}")
     return text
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="构建或预览 AI-Native Tech Lead 学习文档站"
-    )
-    parser.add_argument(
-        "--serve",
-        action="store_true",
-        help="启动本地预览服务器，而不是只构建静态站点",
-    )
-    parser.add_argument(
-        "--strict",
-        action="store_true",
-        help="把 MkDocs 警告当作失败，CI 应启用",
-    )
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=DEFAULT_OUTPUT,
-        help=f"站点输出目录，必须在仓库外；默认 {DEFAULT_OUTPUT}",
-    )
-    parser.add_argument(
-        "--address",
-        default="127.0.0.1:8000",
-        help="--serve 时监听地址，默认 127.0.0.1:8000",
-    )
-    return parser.parse_args()
-
-
 def main() -> int:
-    args = parse_args()
+    parser = argparse.ArgumentParser(description="隔离快照构建或预览学习文档；新增文件先 git add，修改后重启预览")
+    parser.add_argument("--serve", action="store_true")
+    parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--address", default="127.0.0.1:8000")
+    args = parser.parse_args()
     output = args.output.resolve()
-    try:
-        output.relative_to(REPO_ROOT.resolve())
-    except ValueError:
-        pass
-    else:
-        raise SystemExit(
-            "站点输出目录不能放在仓库内部，否则 MkDocs 会把输出再次复制进自己"
-        )
-
-    output.parent.mkdir(parents=True, exist_ok=True)
-
-    with tempfile.TemporaryDirectory(prefix="ai-native-mkdocs-") as temp_dir:
-        config_path = Path(temp_dir) / "mkdocs.runtime.yml"
-        config_path.write_text(runtime_config(output), encoding="utf-8")
-
-        command = ["mkdocs", "serve" if args.serve else "build", "-f", str(config_path)]
-        if args.strict:
-            command.append("--strict")
+    marker = None if args.serve else validate_output(output)
+    with tempfile.TemporaryDirectory(prefix="learning-docs-") as folder:
+        root = Path(folder)
+        docs, site = root / "docs", root / "site"
+        docs.mkdir()
+        snapshot(docs)
+        config = root / "mkdocs.runtime.yml"
+        config.write_text(runtime_config(docs, site), encoding="utf-8")
+        command = [sys.executable, "-m", "mkdocs", "serve" if args.serve else "build", "-f", str(config)]
+        if args.strict: command.append("--strict")
         if args.serve:
             command.extend(["--dev-addr", args.address])
-
-        print("执行：", " ".join(command))
-        print("文档源：", REPO_ROOT)
-        print("站点输出：", output)
-        return subprocess.run(command, cwd=REPO_ROOT, check=False).returncode
+            print("本地快照预览；修改后请重启，新增文件请先 git add。", flush=True)
+        result = subprocess.run(command, cwd=REPO_ROOT, check=False).returncode
+        if result == 0 and not args.serve:
+            # 构建成功且输出目录属于本工具时才替换，不让 MkDocs 清空任意用户目录。
+            validate_output(output)
+            if output.exists(): shutil.rmtree(output)
+            output.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copytree(site, output)
+            marker.write_text(str(REPO_ROOT.resolve()), encoding="utf-8")
+            print(f"站点已生成：{output}")
+        return result
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try: raise SystemExit(main())
+    except ValueError as error: raise SystemExit(str(error)) from None
