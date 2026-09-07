@@ -15,5 +15,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 05_auth_security/02_RBAC与对象级权限.md}、 {@code 05_auth_security/03_Web常见攻击.md}。
  */
 public interface RefreshTokenRepository extends JpaRepository<RefreshTokenEntity, UUID> {
+    // 刷新和退出都要锁住同一条 Token，避免并发把一个旧 Token 轮换成两个新 Token。
+    @org.springframework.data.jpa.repository.Lock(
+            jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
     Optional<RefreshTokenEntity> findByTokenHash(String tokenHash);
 }

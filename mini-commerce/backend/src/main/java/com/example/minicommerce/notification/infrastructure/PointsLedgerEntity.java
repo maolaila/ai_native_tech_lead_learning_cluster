@@ -36,14 +36,14 @@ public class PointsLedgerEntity {
     private String reason;
 
     @Column(nullable = false)
-    private int points;
+    private long points;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
     protected PointsLedgerEntity() {}
 
-    public PointsLedgerEntity(Long u, UUID o, int p, Instant n) {
+    public PointsLedgerEntity(Long u, UUID o, long p, Instant n) {
         userId = u;
         orderId = o;
         reason = "ORDER_PAID";

@@ -21,14 +21,14 @@ public final class ProductDtos {
             @NotBlank @Size(max = 64) String sku,
             @NotBlank @Size(max = 200) String name,
             @NotNull @Size(max = 2000) String description,
-            @NotNull @DecimalMin("0.01") BigDecimal price,
+            @NotNull @DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal price,
             @NotBlank @Pattern(regexp = "[A-Z]{3}") String currency,
             @PositiveOrZero int initialStock) {}
 
     public record UpdateProductRequest(
             @NotBlank @Size(max = 200) String name,
             @NotNull @Size(max = 2000) String description,
-            @NotNull @DecimalMin("0.01") BigDecimal price) {}
+            @NotNull @DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal price) {}
 
     public record ProductResponse(
             Long id,

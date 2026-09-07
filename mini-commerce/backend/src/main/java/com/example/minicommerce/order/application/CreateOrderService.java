@@ -173,6 +173,9 @@ public class CreateOrderService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add)
                         .setScale(2, RoundingMode.HALF_UP);
 
+        if (subtotal.compareTo(new BigDecimal("99999999999999999.99")) > 0) {
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR, "订单金额超过当前系统支持范围");
+        }
         UUID orderId = UUID.randomUUID();
 
         // 第 10 步：校验并占用优惠券。失败会抛异常，整个下单事务一起回滚。

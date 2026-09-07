@@ -84,7 +84,8 @@ public class OutboxPublisher {
             Message message =
                     new Message(
                             event.payload().getBytes(StandardCharsets.UTF_8), messageProperties);
-            CorrelationData correlation = new CorrelationData(event.eventId().toString());
+            CorrelationData correlation =
+                    new CorrelationData(event.eventId() + ":" + event.attemptCount());
 
             // EVENTS 是 Exchange，eventType 同时作为 Routing Key。
             rabbit.send(RabbitTopology.EVENTS, event.eventType(), message, correlation);
@@ -101,9 +102,13 @@ public class OutboxPublisher {
                 throw new IllegalStateException("broker nack: " + confirm.getReason());
             }
 
-            // 只有 Broker 明确 Ack 后，才把 Outbox 事件标记为已发布。
-            repository.published(event.eventId());
-            metrics.counter("commerce.outbox.published").increment();
+            // Confirm Ack 只证明 Broker 接收；mandatory Return 表示没有路由到队列，仍然失败。
+            if (correlation.getReturned() != null) {
+                throw new IllegalStateException("消息未路由到任何队列: " + event.eventType());
+            }
+            if (repository.published(event.eventId(), worker, event.attemptCount())) {
+                metrics.counter("commerce.outbox.published").increment();
+            }
         } catch (Exception exception) {
             // 失败不删除事件，记录次数和原因，留给下一轮按重试策略继续处理。
             log.warn(
@@ -111,7 +116,8 @@ public class OutboxPublisher {
                     event.eventId(),
                     event.attemptCount(),
                     exception.toString());
-            repository.failed(event.eventId(), event.attemptCount(), exception.toString());
+            repository.failed(event.eventId(), worker, event.attemptCount(), exception.toString());
+            if (exception instanceof InterruptedException) Thread.currentThread().interrupt();
             metrics.counter("commerce.outbox.failed").increment();
         }
     }

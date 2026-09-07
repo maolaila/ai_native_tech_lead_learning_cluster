@@ -90,8 +90,8 @@ public class OrderPaidConsumers {
         Long userId = event.payload().get("userId").asLong();
         BigDecimal total = event.payload().get("total").decimalValue();
 
-        // 当前演示规则：每满 100 元积 1 分。真实业务应把规则写成明确、可测试的领域策略。
-        int earnedPoints = total.divideToIntegralValue(BigDecimal.valueOf(100)).intValue();
+        // 当前演示规则：每满 100 个订单币种单位积 1 分（JPY 是日元，不是人民币元）。不做汇率换算。
+        long earnedPoints = total.divideToIntegralValue(BigDecimal.valueOf(100)).longValueExact();
 
         points.save(
                 new PointsLedgerEntity(

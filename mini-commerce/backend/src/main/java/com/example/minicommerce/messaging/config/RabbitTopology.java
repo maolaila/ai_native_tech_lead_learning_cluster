@@ -30,6 +30,7 @@ public class RabbitTopology {
     public static final String DLX = "commerce.dlx";
     public static final String NOTIFICATION_Q = "notification.order-paid.v1";
     public static final String POINTS_Q = "points.order-paid.v1";
+    public static final String LIFECYCLE_Q = "audit.order-lifecycle.v1";
     public static final String CACHE_Q = "cache.product-changed.v1";
 
     /** Topic Exchange 可以根据带点号的 Routing Key 模式分发业务事件。 */
@@ -118,6 +119,27 @@ public class RabbitTopology {
     @Bean
     Binding cacheDead(Queue cacheDlq, DirectExchange deadLetterExchange) {
         return BindingBuilder.bind(cacheDlq).to(deadLetterExchange).with(CACHE_Q + ".dead");
+    }
+
+    /** 创建、取消、退款也有实际订阅者，不把未路由的事件误报为已发布。 */
+    @Bean
+    Queue lifecycleQueue() {
+        return durable(LIFECYCLE_Q);
+    }
+
+    @Bean
+    Queue lifecycleDlq() {
+        return QueueBuilder.durable(LIFECYCLE_Q + ".dlq").build();
+    }
+
+    @Bean
+    Binding lifecycleBinding(Queue lifecycleQueue, TopicExchange commerceExchange) {
+        return BindingBuilder.bind(lifecycleQueue).to(commerceExchange).with("order.*.v1");
+    }
+
+    @Bean
+    Binding lifecycleDead(Queue lifecycleDlq, DirectExchange deadLetterExchange) {
+        return BindingBuilder.bind(lifecycleDlq).to(deadLetterExchange).with(LIFECYCLE_Q + ".dead");
     }
 
     /** mandatory=true：如果消息无法路由到任何 Queue，RabbitMQ 会把它退回给发送方，而不是悄悄丢弃。 */

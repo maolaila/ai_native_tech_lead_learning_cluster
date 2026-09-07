@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * 为每个入口请求建立 requestId/traceId，并写回响应头，便于把浏览器、日志、消息和数据库记录关联起来。
+ * 为每个入口请求建立 requestId（不冒充分布式 traceId），并写回响应头，便于把浏览器、日志、消息和数据库记录关联起来。
  * 对应文档：01_foundations/01_HTTP请求全链路.md、10_observability/01_结构化日志与关联ID.md。
  */
 @Component
@@ -26,8 +26,8 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String requestId = normalize(request.getHeader(HEADER));
-        try (MDC.MDCCloseable ignored1 = MDC.putCloseable("requestId", requestId);
-                MDC.MDCCloseable ignored2 = MDC.putCloseable("traceId", requestId)) {
+        // traceId 由 Micrometer/Tracing 创建；一个用户输入的 X-Request-Id 不能覆盖它。
+        try (MDC.MDCCloseable ignored = MDC.putCloseable("requestId", requestId)) {
             response.setHeader(HEADER, requestId);
             chain.doFilter(request, response);
         }

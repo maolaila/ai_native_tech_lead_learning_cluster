@@ -43,7 +43,8 @@ public class SecurityConfiguration {
             HttpSecurity http,
             JwtAuthenticationFilter jwt,
             RateLimitFilter rateLimit,
-            ApiSecurityHandlers handlers)
+            ApiSecurityHandlers handlers,
+            org.springframework.core.env.Environment environment)
             throws Exception {
         return http
                 // 当前使用 Bearer Token；若改成 Cookie 登录，不能继续机械关闭 CSRF。
@@ -58,23 +59,31 @@ public class SecurityConfiguration {
                                         .authenticationEntryPoint(handlers)
                                         .accessDeniedHandler(handlers))
                 .authorizeHttpRequests(
-                        authorization ->
-                                authorization
-                                        // 健康检查和基本信息允许部署平台匿名访问。
-                                        .requestMatchers("/actuator/health/**", "/actuator/info")
-                                        .permitAll()
-                                        // 注册和登录必须允许未登录用户访问。
-                                        .requestMatchers("/api/auth/**")
-                                        .permitAll()
-                                        // 浏览公开商品不需要登录。
-                                        .requestMatchers(HttpMethod.GET, "/api/products/**")
-                                        .permitAll()
-                                        // 支付平台回调不携带用户 JWT，但必须在业务层验签和去重。
-                                        .requestMatchers("/api/payments/webhooks/**")
-                                        .permitAll()
-                                        // 其他请求默认要求已经通过认证。
-                                        .anyRequest()
-                                        .authenticated())
+                        authorization -> {
+                            // 仅 local 学习环境允许容器内 Prometheus 匿名抓指标，Compose 端口绑定本机。
+                            // 非 local 的监控端点要求管理员；生产应使用独立管理网络和机器凭证。
+                            if (environment.matchesProfiles("local")) {
+                                authorization.requestMatchers("/actuator/prometheus").permitAll();
+                            }
+                            authorization
+                                    // 健康检查和基本信息允许部署平台匿名访问。
+                                    .requestMatchers("/actuator/health/**", "/actuator/info")
+                                    .permitAll()
+                                    .requestMatchers("/actuator/**")
+                                    .hasRole("ADMIN")
+                                    // 注册和登录必须允许未登录用户访问。
+                                    .requestMatchers("/api/auth/**")
+                                    .permitAll()
+                                    // 浏览公开商品不需要登录。
+                                    .requestMatchers(HttpMethod.GET, "/api/products/**")
+                                    .permitAll()
+                                    // 支付平台回调不携带用户 JWT，但必须在业务层验签和去重。
+                                    .requestMatchers("/api/payments/webhooks/**")
+                                    .permitAll()
+                                    // 其他请求默认要求已经通过认证。
+                                    .anyRequest()
+                                    .authenticated();
+                        })
                 // 先解析 JWT，再让后续 Spring Security 逻辑知道当前用户是谁。
                 .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class)
                 // 限流过滤器放在 JWT 后，可以根据已解析用户或请求信息做更准确的限流。

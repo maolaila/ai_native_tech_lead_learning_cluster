@@ -46,21 +46,27 @@ public class OutboxJdbcRepository {
                 lease.toMillis());
     }
 
+    // worker + attempt 是本次领取的凭证。旧 Worker 恢复时不能覆盖已经重新领取的事件。
     @Transactional
-    public void published(UUID id) {
-        jdbc.update(
-                "update outbox_events set status='PUBLISHED',published_at=now(),locked_by=null,locked_until=null,last_error=null where event_id=?",
-                id);
+    public boolean published(UUID id, String worker, int attempt) {
+        return jdbc.update(
+                        "update outbox_events set status='PUBLISHED',published_at=now(),locked_by=null,locked_until=null,last_error=null where event_id=? and status='PUBLISHING' and locked_by=? and attempt_count=?",
+                        id,
+                        worker,
+                        attempt)
+                == 1;
     }
 
     @Transactional
-    public void failed(UUID id, int attempt, String error) {
+    public void failed(UUID id, String worker, int attempt, String error) {
         long delay = Math.min(300, 1L << Math.min(attempt, 8));
         jdbc.update(
-                "update outbox_events set status='FAILED',next_attempt_at=now()+(? * interval '1 second'),locked_by=null,locked_until=null,last_error=? where event_id=?",
+                "update outbox_events set status='FAILED',next_attempt_at=now()+(? * interval '1 second'),locked_by=null,locked_until=null,last_error=? where event_id=? and status='PUBLISHING' and locked_by=? and attempt_count=?",
                 delay,
                 error.substring(0, Math.min(900, error.length())),
-                id);
+                id,
+                worker,
+                attempt);
     }
 
     public record ClaimedEvent(UUID eventId, String eventType, String payload, int attemptCount) {}

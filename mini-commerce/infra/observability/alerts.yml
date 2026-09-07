@@ -7,7 +7,7 @@ groups:
         labels: {severity: page}
         annotations: {summary: "5xx 错误率超过 2%", runbook: "docs/runbooks/incident-response.md"}
       - alert: MiniCommerceOutboxBacklog
-        expr: commerce_outbox_failed_total > 0
+        expr: increase(commerce_outbox_failed_total[10m]) > 0
         for: 10m
         labels: {severity: ticket}
         annotations: {summary: "Outbox 持续发布失败", runbook: "docs/runbooks/rabbitmq-outbox.md"}

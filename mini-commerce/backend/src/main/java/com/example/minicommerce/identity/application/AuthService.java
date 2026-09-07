@@ -50,7 +50,12 @@ public class AuthService {
 
     @Transactional
     public TokenResponse register(RegisterRequest request) {
-        String email = request.email().trim().toLowerCase();
+        // BCrypt 的限制按 UTF-8 字节计算，不是 Java 字符数；中文可能占多个字节。
+        if (request.password() == null
+                || request.password().getBytes(StandardCharsets.UTF_8).length > 72) {
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR, "密码的 UTF-8 编码不能超过 72 字节");
+        }
+        String email = request.email().trim().toLowerCase(java.util.Locale.ROOT);
         if (users.existsByEmailIgnoreCase(email)) {
             throw new BusinessException(ErrorCode.USER_ALREADY_EXISTS, "该邮箱已注册");
         }

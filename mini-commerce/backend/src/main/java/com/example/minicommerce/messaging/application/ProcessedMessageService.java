@@ -18,6 +18,9 @@ public class ProcessedMessageService {
         jdbc = j;
     }
 
+    // 去重标记必须和消费者的数据库副作用同成同败。
+    @org.springframework.transaction.annotation.Transactional(
+            propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
     public boolean claim(String consumer, UUID eventId) {
         return jdbc.update(
                         "insert into processed_messages(consumer_name,event_id,processed_at) values (?,?,now()) on conflict do nothing",

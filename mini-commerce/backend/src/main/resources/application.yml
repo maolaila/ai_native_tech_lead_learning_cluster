@@ -8,8 +8,9 @@ spring:
     hikari:
       maximum-pool-size: ${DB_POOL_MAX:12}
       minimum-idle: ${DB_POOL_MIN:2}
-      connection-timeout: 1500ms
-      validation-timeout: 1000ms
+      # Hikari 的毫秒配置是 long 数字，不是 Duration 字符串。
+      connection-timeout: 1500
+      validation-timeout: 1000
   jpa:
     open-in-view: false
     hibernate:
