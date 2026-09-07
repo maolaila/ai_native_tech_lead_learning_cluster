@@ -9,7 +9,7 @@
 - Markdown 文件数：180
 - Markdown 总行数：40,887
 - Markdown 总字符数：955,922
-- 目录内容大小：3,388,174 bytes
+- 目录内容大小：3,388,921 bytes
 
 ## 模块统计
 
@@ -34,7 +34,7 @@
 | `14_capstone` | 10 | 436 | 8,111 | 13,311 |
 | `15_templates` | 15 | 727 | 10,199 | 13,939 |
 | `16_references` | 5 | 450 | 9,791 | 14,201 |
-| `mini-commerce` | 223 | 8,235 | 497,199 | 2,114,139 |
+| `mini-commerce` | 223 | 8,235 | 497,199 | 2,114,886 |
 | `practice` | 14 | 171 | 3,580 | 19,781 |
 | `tools` | 31 | 0 | 0 | 465,111 |
 
@@ -211,7 +211,7 @@
 - `dcc29294c490fa4f34f8a8b169730213a14a91ba1214671601813c8d76d674e4`  `mini-commerce/CI-FAILURE-v3.md`
 - `f8cffcc2139ae6c77b149c54609bc755973c53af1febc68ac245e0eb2ea06d1b`  `mini-commerce/CI-FAILURE-v4.md`
 - `77b29e4cb548e8cc6c61b6f15be067abe25bb5e0acc075e74ab69b98c3ebdfb4`  `mini-commerce/CI-FAILURE-v5.md`
-- `8b11b0a52d6aee9e49ac0ac9138a2223e716ec118923c450270273036fecfaea`  `mini-commerce/DELIVERY-MANIFEST.json`
+- `2583ccf7dd32cd1d298294a39bd5bdf2ceebd12933edce51841d88945eb0b2d7`  `mini-commerce/DELIVERY-MANIFEST.json`
 - `458de82a46b69b36a0df04c13eb59f11b39d9e8ae98d91b9f682c2ac973c2f9b`  `mini-commerce/Makefile`
 - `63985e18f554a6bb97628ff80895ecb9aad9203679d808a1e2841434b54fbaf3`  `mini-commerce/README.md`
 - `1e6d7f14df0c6f54d0c25a50263c69b63a3dec38e8264def4bf042bd87a3e406`  `mini-commerce/ai-engineering/eval/cases.jsonl`
@@ -419,7 +419,7 @@
 - `5b54c08cde70f983942371e56d29b0e62ae395fcd93a34741d5073a89f76aa50`  `mini-commerce/mcp-server/tests/test_tool_allowlist.py`
 - `a20765531991e7f494ef1475089337872c13ae2d0f1f98e8f89d6f63c2734274`  `mini-commerce/scripts/backup.sh`
 - `ef0629880e234ad701bcaa37e67730b50a8ae2d9d581196c2ac503c59ee0bfc8`  `mini-commerce/scripts/check_mcp_http.py`
-- `9e317ef6497713c5f3ed8b212e3e736c7d05836426a18a242a60e5ec8c09d81b`  `mini-commerce/scripts/check_mcp_runtime.py`
+- `b2b49c8b826ef000b09895990688fb94c247fb7f84dc4512c84a7b6197dd01e0`  `mini-commerce/scripts/check_mcp_runtime.py`
 - `121130648f8b346e81e5e0f9bb791be7ce69634e94ae94887f88a4491b190801`  `mini-commerce/scripts/restore-test.sh`
 - `8737743fac1d31a719a206e12fc4b868b7b9d47cc5c65c646623232555a5b274`  `mini-commerce/scripts/smoke.py`
 - `d022bb60561d0408feacb26599bcfa3ca8c939c23c717d199c613b05cc9066a1`  `mini-commerce/scripts/smoke.sh`

@@ -229,7 +229,7 @@
     "mcp-server/tests/test_tool_allowlist.py": "5b54c08cde70f983942371e56d29b0e62ae395fcd93a34741d5073a89f76aa50",
     "scripts/backup.sh": "a20765531991e7f494ef1475089337872c13ae2d0f1f98e8f89d6f63c2734274",
     "scripts/check_mcp_http.py": "ef0629880e234ad701bcaa37e67730b50a8ae2d9d581196c2ac503c59ee0bfc8",
-    "scripts/check_mcp_runtime.py": "9e317ef6497713c5f3ed8b212e3e736c7d05836426a18a242a60e5ec8c09d81b",
+    "scripts/check_mcp_runtime.py": "b2b49c8b826ef000b09895990688fb94c247fb7f84dc4512c84a7b6197dd01e0",
     "scripts/restore-test.sh": "121130648f8b346e81e5e0f9bb791be7ce69634e94ae94887f88a4491b190801",
     "scripts/smoke.py": "8737743fac1d31a719a206e12fc4b868b7b9d47cc5c65c646623232555a5b274",
     "scripts/smoke.sh": "d022bb60561d0408feacb26599bcfa3ca8c939c23c717d199c613b05cc9066a1",

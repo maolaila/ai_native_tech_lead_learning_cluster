@@ -25,7 +25,9 @@ def main() -> None:
     # 再调用实际工具，检查只读查询、在线表结构和非 root 进程写审计日志。
     assert tooling.explain_readonly("select id from orders limit 1")["status"] == "ok"
     assert tooling.database_schema()["data"]["mode"] == "live-readonly"
-    assert tooling.AUDIT.is_file(), "audit volume is not writable by non-root runtime user"
+    assert (
+        tooling.AUDIT.is_file()
+    ), "audit volume is not writable by non-root runtime user"
     assert not tooling.execution_enabled(), "HTTP mode must not execute test code"
     print("MCP least-privilege database, live schema, EXPLAIN and audit verified")
 
